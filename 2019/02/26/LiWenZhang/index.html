@@ -79,17 +79,14 @@
 
 
 
-<meta name="description" content="幂等微积分和一些计算机应用的对应法则第一章 简介 应用于多样优化问题，比如多重判据决策、图优化、大素数分解优化（渐进问题）、计算机系统和计算机媒体的设计优化、并行数据处理的优化组织、动态规划、离散事件体统、计算机科学、离散数学、数理逻辑等等。 本文利用对应原理，对等分微积分算法和科学计算算法进行了面向对象的软硬件设计。特别是，有一种构建后端处理器和技术设备的常规方法，用于实现等幂微积分的基本算">
 <meta property="og:type" content="article">
-<meta property="og:title" content="《Correspondence principle for idempotent calculus and some computer applications》笔记">
-<meta property="og:url" content="https://loyf.github.io/2019/02/23/《Correspondence-principle-for-idempotent-calculus-and-some-computer-applications》笔记/index.html">
+<meta property="og:title" content="LiWenZhang-">
+<meta property="og:url" content="https://loyf.github.io/2019/02/26/LiWenZhang/index.html">
 <meta property="og:site_name">
-<meta property="og:description" content="幂等微积分和一些计算机应用的对应法则第一章 简介 应用于多样优化问题，比如多重判据决策、图优化、大素数分解优化（渐进问题）、计算机系统和计算机媒体的设计优化、并行数据处理的优化组织、动态规划、离散事件体统、计算机科学、离散数学、数理逻辑等等。 本文利用对应原理，对等分微积分算法和科学计算算法进行了面向对象的软硬件设计。特别是，有一种构建后端处理器和技术设备的常规方法，用于实现等幂微积分的基本算">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-02-25T02:55:56.124Z">
+<meta property="og:updated_time" content="2019-02-26T02:10:47.085Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="《Correspondence principle for idempotent calculus and some computer applications》笔记">
-<meta name="twitter:description" content="幂等微积分和一些计算机应用的对应法则第一章 简介 应用于多样优化问题，比如多重判据决策、图优化、大素数分解优化（渐进问题）、计算机系统和计算机媒体的设计优化、并行数据处理的优化组织、动态规划、离散事件体统、计算机科学、离散数学、数理逻辑等等。 本文利用对应原理，对等分微积分算法和科学计算算法进行了面向对象的软硬件设计。特别是，有一种构建后端处理器和技术设备的常规方法，用于实现等幂微积分的基本算">
+<meta name="twitter:title" content="LiWenZhang-">
 
 
 
@@ -119,13 +116,13 @@
 
 
 
-  <link rel="canonical" href="https://loyf.github.io/2019/02/23/《Correspondence-principle-for-idempotent-calculus-and-some-computer-applications》笔记/">
+  <link rel="canonical" href="https://loyf.github.io/2019/02/26/LiWenZhang/">
 
 
 
 
 
-  <title>《Correspondence principle for idempotent calculus and some computer applications》笔记 | </title>
+  <title>LiWenZhang- | </title>
   
 
 
@@ -232,7 +229,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://loyf.github.io/2019/02/23/《Correspondence-principle-for-idempotent-calculus-and-some-computer-applications》笔记/">
+    <link itemprop="mainEntityOfPage" href="https://loyf.github.io/2019/02/26/LiWenZhang/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Loy Fan">
@@ -249,7 +246,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">《Correspondence principle for idempotent calculus and some computer applications》笔记</h1>
+          <h1 class="post-title" itemprop="name headline">LiWenZhang-</h1>
         
 
         <div class="post-meta">
@@ -261,8 +258,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-23T11:18:37+08:00">
-                2019-02-23
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-26T10:10:47+08:00">
+                2019-02-26
               </time>
             
 
@@ -299,14 +296,7 @@
       
 
       
-        <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-<h1 id="幂等微积分和一些计算机应用的对应法则"><a href="#幂等微积分和一些计算机应用的对应法则" class="headerlink" title="幂等微积分和一些计算机应用的对应法则"></a>幂等微积分和一些计算机应用的对应法则</h1><h3 id="第一章-简介"><a href="#第一章-简介" class="headerlink" title="第一章 简介"></a>第一章 简介</h3><ol>
-<li>应用于多样优化问题，比如多重判据决策、图优化、大素数分解优化（渐进问题）、计算机系统和计算机媒体的设计优化、并行数据处理的优化组织、动态规划、离散事件体统、计算机科学、离散数学、数理逻辑等等。</li>
-<li>本文利用对应原理，对等分微积分算法和科学计算算法进行了面向对象的软硬件设计。特别是，有一种构建后端处理器和技术设备的常规方法，用于实现等幂微积分的基本算法和半环的数学。这些硬件设施提高了数据处理的速度。此外，这种方法对于非“等幂”算法的一般情况下的软硬件设计是有用的。</li>
-</ol>
-<h3 id="第二章-幂等量化与去量化"><a href="#第二章-幂等量化与去量化" class="headerlink" title="第二章 幂等量化与去量化"></a>第二章 幂等量化与去量化</h3><p>$$w = hlnu$$<br>当\(u∈R_+\)，\(h&gt;0\)时，\(w∈R\)</p>
-<h3 id="第三章-半环"><a href="#第三章-半环" class="headerlink" title="第三章 半环"></a>第三章 半环</h3><h3 id="第四章-特殊性质半环"><a href="#第四章-特殊性质半环" class="headerlink" title="第四章 特殊性质半环"></a>第四章 特殊性质半环</h3><h3 id="第五章-对应法则"><a href="#第五章-对应法则" class="headerlink" title="第五章 对应法则"></a>第五章 对应法则</h3>
+        
       
     </div>
     
@@ -330,8 +320,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/02/22/Start-From-Now-On/" rel="next" title="Start From Now On">
-                <i class="fa fa-chevron-left"></i> Start From Now On
+              <a href="/2019/02/25/Tropical-Geometry/" rel="next" title="Tropical_Geometry">
+                <i class="fa fa-chevron-left"></i> Tropical_Geometry
               </a>
             
           </div>
@@ -340,8 +330,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/02/24/《Introduction-to-Tropical-Geometry》笔记/" rel="prev" title="《Introduction to Tropical Geometry》笔记">
-                《Introduction to Tropical Geometry》笔记 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/02/26/《Log-sum-exp-Neural-Networks-And-Posynomial》/" rel="prev" title="《Log-sum-exp-Neural-Networks-And-Posynomial》">
+                《Log-sum-exp-Neural-Networks-And-Posynomial》 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -394,17 +384,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -446,22 +427,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#幂等微积分和一些计算机应用的对应法则"><span class="nav-number">1.</span> <span class="nav-text">幂等微积分和一些计算机应用的对应法则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一章-简介"><span class="nav-number">1.0.1.</span> <span class="nav-text">第一章 简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二章-幂等量化与去量化"><span class="nav-number">1.0.2.</span> <span class="nav-text">第二章 幂等量化与去量化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第三章-半环"><span class="nav-number">1.0.3.</span> <span class="nav-text">第三章 半环</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第四章-特殊性质半环"><span class="nav-number">1.0.4.</span> <span class="nav-text">第四章 特殊性质半环</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第五章-对应法则"><span class="nav-number">1.0.5.</span> <span class="nav-text">第五章 对应法则</span></a></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
