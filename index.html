@@ -419,7 +419,45 @@
       
         
           
-            
+            <h1 id="TROPICAL-GEOMETRY-NEURAL-NETWORKS-AND-LOW-COHERENCE-FRAMES"><a href="#TROPICAL-GEOMETRY-NEURAL-NETWORKS-AND-LOW-COHERENCE-FRAMES" class="headerlink" title="TROPICAL GEOMETRY, NEURAL NETWORKS, AND LOW-COHERENCE FRAMES"></a>TROPICAL GEOMETRY, NEURAL NETWORKS, AND LOW-COHERENCE FRAMES</h1><h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>这篇文章的工作分为三个方面</p>
+<ol>
+<li>建立起前馈神经网络和Tropical几何的联系</li>
+</ol>
+<ul>
+<li>我们发现，激活函数设置为ReLu（修正线性单元）的前馈神经网络实际上是一个Tropical有理函数。</li>
+<li>本文展示了ReLu神经网络得到的决策边界是包含在一个和这个网络相关联的Tropical多项式的Tropical超平面内。</li>
+<li>我们把由前馈神经网络代表的函数和多面体联系起来。</li>
+<li>本文展示了两层网络可以完全以zonotopes为特征，zonotopes也可以作为更深层网络的建造块。</li>
+<li>多面体的顶点数量给出了这个网络对应的函数的线性区域的数量的上界。</li>
+<li>本文展示了这个上界在网络层数的影响下呈指数增长，但和每一层的隐藏节点数量只是多项式相关。</li>
+</ul>
+<ol start="2">
+<li>提出了一种基于内容的神经记忆访问的连续型向量空间中的attention模型。</li>
+</ol>
+<ul>
+<li>本模型将知识图谱实体表示为低维向量，而将上下文相关attention表示为向量空间中的高斯评分函数。</li>
+<li>我们应用这个模型来完成任务，比如知识图谱补全、复杂问题回答。</li>
+<li>这个提出的attention模型能用自然的方法解决“一系列的关系后的不确定性的传播”和“条件的结合”。</li>
+<li>使用参加2014FIFA世界杯的足球运动员的数据库，我们证明了我们的模型能够很好地解决路经查询和连接查询。</li>
+</ul>
+<ol start="3">
+<li>第三部分研究了非交换群作用下循环向量生成的有限复框架。</li>
+</ol>
+<ul>
+<li>我们检查了与群的冯-诺依曼代数有关的算子空间中的群框架。然后将寻找一个适当的循环向量转化为寻找一个凸集的交集，该凸集规定了相干性约束和Hermitian秩1算子的子集。采用交替投影算法搜索其交集，并采用启发式外推法加速计算。</li>
+<li>在实验中，我们将模型应用于海森堡群和有限仿射群。在海森堡群的情况下，我们的方法能够找到产生等角度紧帧的循环向量，达到数值精度。</li>
+</ul>
+<h2 id="chapter1-概览"><a href="#chapter1-概览" class="headerlink" title="chapter1 概览"></a>chapter1 概览</h2><p>深层神经网络的兴起在理论和应用上激发了很多新的研究方向。<br>本文的第一个工作建立了前馈神经网络和Tropical几何学的联系。Tropical几何学是一个新兴的、快速发展的代数几何学领域，但迄今为止它和AI的关联还不大，通过和神经网络的联系，可以从前者解决后者的问题，为研究提供了机会。</p>
+<p>第二章建立了神经网络的Tropical视角，证明了具有ReLu激活函数的前馈神经网络相当于Tropical有理函数的半场（semi-field）。另外发现具有一个隐藏层的神经网络可以用zonotopes来表示，同时zonotopes也是深层神经网络的建造基础块。还有，由神经网络导出的决策边界和Tropical超平面相关联。还发现深度神经网络的线性区域到多面体的顶点和Tropical有理函数相关联。</p>
+<p>利用Tropical几何的工具对深层神经网络的指数表示进行了概括，并表明了深层网络能够比浅层网络将域划分为更多的指数线性区域。</p>
+<p>第三章提出了一种知识图谱表示的embedding模型。</p>
+<p>在第四章中，我们研究了循环向量在非交换群作用下产生的框架。非交换群是许多著名的框架和正交系统构造的基础。</p>
+<h2 id="chapter2-以Tropical几何的角度分析深度神经网络"><a href="#chapter2-以Tropical几何的角度分析深度神经网络" class="headerlink" title="chapter2 以Tropical几何的角度分析深度神经网络"></a>chapter2 以Tropical几何的角度分析深度神经网络</h2><h3 id="2-1-介绍"><a href="#2-1-介绍" class="headerlink" title="2.1 介绍"></a>2.1 介绍</h3><h3 id="2-2-Tropical代数"><a href="#2-2-Tropical代数" class="headerlink" title="2.2 Tropical代数"></a>2.2 Tropical代数</h3><h3 id="2-3-Tropical超曲面"><a href="#2-3-Tropical超曲面" class="headerlink" title="2.3 Tropical超曲面"></a>2.3 Tropical超曲面</h3><h3 id="2-4-神经网络"><a href="#2-4-神经网络" class="headerlink" title="2.4 神经网络"></a>2.4 神经网络</h3><h3 id="2-5-神经网络的Tropical代数"><a href="#2-5-神经网络的Tropical代数" class="headerlink" title="2.5 神经网络的Tropical代数"></a>2.5 神经网络的Tropical代数</h3><h3 id="2-6-神经网路的Tropical几何"><a href="#2-6-神经网路的Tropical几何" class="headerlink" title="2.6 神经网路的Tropical几何"></a>2.6 神经网路的Tropical几何</h3><h3 id="2-7-结论"><a href="#2-7-结论" class="headerlink" title="2.7 结论"></a>2.7 结论</h3><h2 id="一些特殊定义、术语"><a href="#一些特殊定义、术语" class="headerlink" title="一些特殊定义、术语"></a>一些特殊定义、术语</h2><ul>
+<li><p>zonotope</p>
+<p>  是d维空间中的一组点，由向量构成</p>
+</li>
+</ul>
+
           
         
       
