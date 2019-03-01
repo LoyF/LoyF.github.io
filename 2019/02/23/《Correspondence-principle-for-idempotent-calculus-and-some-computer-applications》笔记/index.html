@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="幂等微积分和一些计算机应用的对应法则第一章 简介 应用于多样优化问题，比如多重判据决策、图优化、大素数分解优化（渐进问题）、计算机系统和计算机媒体的设计优化、并行数据处理的优化组织、动态规划、离散事件体统、计算机科学、离散数学、数理逻辑等等。 本文利用对应原理，对等分微积分算法和科学计算算法进行了面向对象的软硬件设计。特别是，有一种构建后端处理器和技术设备的常规方法，用于实现等幂微积分的基本算">
+<meta name="description" content="幂等微积分和一些计算机应用的对应法则第一章 简介应用于多样优化问题，比如多重判据决策、图优化、大素数分解优化（渐进问题）、计算机系统和计算机媒体的设计优化、并行数据处理的优化组织、动态规划、离散事件体统、计算机科学、离散数学、数理逻辑等等。 本文利用对应原理，对等分微积分算法和科学计算算法进行了面向对象的软硬件设计。特别是，有一种构建后端处理器和技术设备的常规方法，用于实现等幂微积分的基本算法">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《Correspondence principle for idempotent calculus and some computer applications》笔记">
 <meta property="og:url" content="https://loyf.github.io/2019/02/23/《Correspondence-principle-for-idempotent-calculus-and-some-computer-applications》笔记/index.html">
 <meta property="og:site_name">
-<meta property="og:description" content="幂等微积分和一些计算机应用的对应法则第一章 简介 应用于多样优化问题，比如多重判据决策、图优化、大素数分解优化（渐进问题）、计算机系统和计算机媒体的设计优化、并行数据处理的优化组织、动态规划、离散事件体统、计算机科学、离散数学、数理逻辑等等。 本文利用对应原理，对等分微积分算法和科学计算算法进行了面向对象的软硬件设计。特别是，有一种构建后端处理器和技术设备的常规方法，用于实现等幂微积分的基本算">
+<meta property="og:description" content="幂等微积分和一些计算机应用的对应法则第一章 简介应用于多样优化问题，比如多重判据决策、图优化、大素数分解优化（渐进问题）、计算机系统和计算机媒体的设计优化、并行数据处理的优化组织、动态规划、离散事件体统、计算机科学、离散数学、数理逻辑等等。 本文利用对应原理，对等分微积分算法和科学计算算法进行了面向对象的软硬件设计。特别是，有一种构建后端处理器和技术设备的常规方法，用于实现等幂微积分的基本算法">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-02-25T02:55:56.124Z">
+<meta property="og:updated_time" content="2019-02-26T07:36:36.862Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《Correspondence principle for idempotent calculus and some computer applications》笔记">
-<meta name="twitter:description" content="幂等微积分和一些计算机应用的对应法则第一章 简介 应用于多样优化问题，比如多重判据决策、图优化、大素数分解优化（渐进问题）、计算机系统和计算机媒体的设计优化、并行数据处理的优化组织、动态规划、离散事件体统、计算机科学、离散数学、数理逻辑等等。 本文利用对应原理，对等分微积分算法和科学计算算法进行了面向对象的软硬件设计。特别是，有一种构建后端处理器和技术设备的常规方法，用于实现等幂微积分的基本算">
+<meta name="twitter:description" content="幂等微积分和一些计算机应用的对应法则第一章 简介应用于多样优化问题，比如多重判据决策、图优化、大素数分解优化（渐进问题）、计算机系统和计算机媒体的设计优化、并行数据处理的优化组织、动态规划、离散事件体统、计算机科学、离散数学、数理逻辑等等。 本文利用对应原理，对等分微积分算法和科学计算算法进行了面向对象的软硬件设计。特别是，有一种构建后端处理器和技术设备的常规方法，用于实现等幂微积分的基本算法">
 
 
 
@@ -301,10 +301,8 @@
       
         <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
-<h1 id="幂等微积分和一些计算机应用的对应法则"><a href="#幂等微积分和一些计算机应用的对应法则" class="headerlink" title="幂等微积分和一些计算机应用的对应法则"></a>幂等微积分和一些计算机应用的对应法则</h1><h3 id="第一章-简介"><a href="#第一章-简介" class="headerlink" title="第一章 简介"></a>第一章 简介</h3><ol>
-<li>应用于多样优化问题，比如多重判据决策、图优化、大素数分解优化（渐进问题）、计算机系统和计算机媒体的设计优化、并行数据处理的优化组织、动态规划、离散事件体统、计算机科学、离散数学、数理逻辑等等。</li>
-<li>本文利用对应原理，对等分微积分算法和科学计算算法进行了面向对象的软硬件设计。特别是，有一种构建后端处理器和技术设备的常规方法，用于实现等幂微积分的基本算法和半环的数学。这些硬件设施提高了数据处理的速度。此外，这种方法对于非“等幂”算法的一般情况下的软硬件设计是有用的。</li>
-</ol>
+<h1 id="幂等微积分和一些计算机应用的对应法则"><a href="#幂等微积分和一些计算机应用的对应法则" class="headerlink" title="幂等微积分和一些计算机应用的对应法则"></a>幂等微积分和一些计算机应用的对应法则</h1><h3 id="第一章-简介"><a href="#第一章-简介" class="headerlink" title="第一章 简介"></a>第一章 简介</h3><p>应用于多样优化问题，比如多重判据决策、图优化、大素数分解优化（渐进问题）、计算机系统和计算机媒体的设计优化、并行数据处理的优化组织、动态规划、离散事件体统、计算机科学、离散数学、数理逻辑等等。</p>
+<p>本文利用对应原理，对等分微积分算法和科学计算算法进行了面向对象的软硬件设计。特别是，有一种构建后端处理器和技术设备的常规方法，用于实现等幂微积分的基本算法和半环的数学。这些硬件设施提高了数据处理的速度。此外，这种方法对于非“等幂”算法的一般情况下的软硬件设计是有用的。</p>
 <h3 id="第二章-幂等量化与去量化"><a href="#第二章-幂等量化与去量化" class="headerlink" title="第二章 幂等量化与去量化"></a>第二章 幂等量化与去量化</h3><p>$$w = hlnu$$<br>当\(u∈R_+\)，\(h&gt;0\)时，\(w∈R\)</p>
 <h3 id="第三章-半环"><a href="#第三章-半环" class="headerlink" title="第三章 半环"></a>第三章 半环</h3><h3 id="第四章-特殊性质半环"><a href="#第四章-特殊性质半环" class="headerlink" title="第四章 特殊性质半环"></a>第四章 特殊性质半环</h3><h3 id="第五章-对应法则"><a href="#第五章-对应法则" class="headerlink" title="第五章 对应法则"></a>第五章 对应法则</h3>
       
@@ -419,7 +417,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
