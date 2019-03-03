@@ -229,6 +229,193 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://loyf.github.io/2019/02/26/Chicago-LiWenZhang-GraduationProgram 笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Loy Fan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/02/26/Chicago-LiWenZhang-GraduationProgram 笔记/" itemprop="url">Chicago-LiWenZhang-GraduationProgram笔记</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-26T11:05:59+08:00">
+                2019-02-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<pre><code>TROPICAL GEOMETRY, NEURAL NETWORKS, AND LOW-COHERENCE FRAMES
+</code></pre><h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><p>这篇文章的工作分为三个方面</p>
+<blockquote>
+<p>建立起前馈神经网络和Tropical几何的联系</p>
+</blockquote>
+<ul>
+<li>我们发现，激活函数设置为ReLu（修正线性单元）的前馈神经网络实际上是一个Tropical有理函数。</li>
+<li>本文展示了ReLu神经网络得到的决策边界是包含在一个和这个网络相关联的Tropical多项式的Tropical超平面内。</li>
+<li>我们把由前馈神经网络代表的函数和多面体联系起来。</li>
+<li>本文展示了两层网络可以完全以zonotopes为特征，zonotopes也可以作为更深层网络的建造块。</li>
+<li>多面体的顶点数量给出了这个网络对应的函数的线性区域的数量的上界。</li>
+<li>本文展示了这个上界在网络层数的影响下呈指数增长，但和每一层的隐藏节点数量只是多项式相关。</li>
+</ul>
+<blockquote>
+<p>提出了一种基于内容的神经记忆访问的连续型向量空间中的attention模型。</p>
+</blockquote>
+<ul>
+<li>本模型将知识图谱实体表示为低维向量，而将上下文相关attention表示为向量空间中的高斯评分函数。</li>
+<li>我们应用这个模型来完成任务，比如知识图谱补全、复杂问题回答。</li>
+<li>这个提出的attention模型能用自然的方法解决“一系列的关系后的不确定性的传播”和“条件的结合”。</li>
+<li>使用参加2014FIFA世界杯的足球运动员的数据库，我们证明了我们的模型能够很好地解决路经查询和连接查询。</li>
+</ul>
+<blockquote>
+<p>第三部分研究了非交换群作用下循环向量生成的有限复框架。</p>
+</blockquote>
+<ul>
+<li>我们检查了与群的冯-诺依曼代数有关的算子空间中的群框架。然后将寻找一个适当的循环向量转化为寻找一个凸集的交集，该凸集规定了相干性约束和Hermitian秩1算子的子集。采用交替投影算法搜索其交集，并采用启发式外推法加速计算。</li>
+<li>在实验中，我们将模型应用于海森堡群和有限仿射群。在海森堡群的情况下，我们的方法能够找到产生等角度紧帧的循环向量，达到数值精度。</li>
+</ul>
+<h1 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h1><p>深层神经网络的兴起在理论和应用上激发了很多新的研究方向。本文的第一个工作建立了前馈神经网络和Tropical几何学的联系。Tropical几何学是一个新兴的、快速发展的代数几何学领域，但迄今为止它和AI的关联还不大，通过和神经网络的联系，可以从前者解决后者的问题，为研究提供了机会。</p>
+<p>第二章建立了神经网络的Tropical视角，证明了具有ReLu激活函数的前馈神经网络相当于Tropical有理函数的半场（semi-field）。另外发现具有一个隐藏层的神经网络可以用zonotopes来表示，同时zonotopes也是深层神经网络的建造基础块。还有，由神经网络导出的决策边界和Tropical超平面相关联。还发现深度神经网络的线性区域到多面体的顶点和Tropical有理函数相关联。</p>
+<p>利用Tropical几何的工具对深层神经网络的指数表示进行了概括，并表明了深层网络能够比浅层网络将域划分为更多的指数线性区域。</p>
+<p>第三章提出了一种知识图谱表示的embedding模型。</p>
+<p>在第四章中，我们研究了循环向量在非交换群作用下产生的框架。非交换群是许多著名的框架和正交系统构造的基础。</p>
+<h1 id="以Tropical几何的角度分析深度神经网络"><a href="#以Tropical几何的角度分析深度神经网络" class="headerlink" title="以Tropical几何的角度分析深度神经网络"></a>以Tropical几何的角度分析深度神经网络</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>深层神经网络最近在人工智能、计算机视觉、语音识别、自然语言处理等不同领域取得了巨大的成功，但在理论和数学理解上还有未完成的工作。早期的研究表明深层架构可以有效地用户表达复杂的函数群，同时仍然保持相对简单的结构。一个深层神经网络更有效地使用它的参数，并且因此需要指数更少的参数去表示确定的函数族。从经验上表明，当网络足够大时，几个成功的神经网络可以粉碎训练集。另外，这些模型虽然具有很高的表示能力，但同时也具有规则化和“简单”的特点，即它们概括为训练阶段看不到的数据。解释神经网络的这些特性，并找到正确的形式化复杂度度量方法来捕获它们的泛化能力，仍然是一个挑战。</p>
+<p>在本文中，我们关注点在具有ReLu激活函数的前馈神经网络，它是最基础的神经网络，并且也是深度学习中最广泛使用的（也许和递归或卷积神经网络一起使用）类型的神经网络之一。</p>
+<p>我们展示了在Tropical代数或者Tropical代数几何中，这样一个神经网络是一个有理函数的类似物，换言之，是两个多元多项式f,g的比值，f(x1,…,xd) / g(x1,…,xd)。</p>
+<p>这是一个代数几何中的新领域，在近十年来爆炸式成长，但是在纯数学之外还是相对模糊。事实上，深度学习和Tropical代数几何是相关的，对我们来说是一个惊喜的发现。</p>
+<p>我们讨论的多项式是“tropical多项式”。对于通常的三角多项式来说，我们知道要做有理逼近-用两个多项式的比值而不是一个多项式来近似函数-可以在不增加次数的情况下极大地提高逼近质量。这给了我们思路：一个神经网络是两个Tropical多项式的比值，换言之，一个Tropical有理函数。更严谨地说，如果我们把一个神经网络看做一个函数：</p>
+<script type="math/tex; mode=display">V:R^d → R^p</script><script type="math/tex; mode=display">x = (x_1,...,x_d)→(v_1(x),...,v_p(x))</script><p>其中每一个\(v_i\)是一个Tropical有理函数。从此以后，“一个神经网络是（某种实值函数）”类型的陈述要用协调的意义来解释——这个神经网络的每一个输出节点都是一个输入节点的一个函数。</p>
+<p>事实上，对于神经网络的分类问题中出现的特殊情况\(p = 1\)，我们表明：</p>
+<pre><code>激活函数为ReLu的前馈神经网络代表的函数族和Tropical有理函数族相同。
+</code></pre><p>我们的主要目标是演示新理论如何用于分析神经网络。除此之外，这使我们能够捕获神经网络所表示的函数的复杂性以及在分类问题中从它派生的决策边界的复杂性，或者更重要的是，随着层数的增加，这种复杂性是如何变化的。神经网络所代表的函数的复杂性可以通过神经网络所具有的线性区域的数量来捕获，该区域可以通过计算由与神经网络相关的Tropical多项式构造的多面体上的顶点数量来研究。在分类问题中，由神经网络导出的决策边界将输入空间划分为若干区域，它是Tropical超曲面的一个子集——一个分段线性多面体曲面。</p>
+<p>Tropical几何学允许我们在这些数字上得出一个上限，从而测量其几何学的复杂性。当神经网络的深度和输入维数固定时，我们发现这个上限是每层节点数的多项式，否则它是指数的。直观地说，一个复杂的分类问题——一个有许多“规则外的意外情况”的问题——需要一个复杂的决策边界来分离。</p>
+<h2 id="Tropical代数"><a href="#Tropical代数" class="headerlink" title="Tropical代数"></a>Tropical代数</h2><ul>
+<li><p>Tropical Semiring \((R∪\){\(-∞\)}\(,⊕,⊙)\)</p>
+</li>
+<li><p>Definition 2.2.1(Tropical加法，乘法，商)</p>
+<p>  加法：</p>
+<script type="math/tex; mode=display">x ⊕ y := max(x, y)</script><p>  乘法：</p>
+<script type="math/tex; mode=display">x ⊙ y := x + y</script><p>  商：</p>
+<script type="math/tex; mode=display">x ⊘ y := x − y</script><p>  对于所有的\(x∈ R\)：</p>
+<script type="math/tex; mode=display">−∞⊕x=x, −∞⊙x=−∞, 0⊙x=x.</script><p>因此−∞是加法恒等元素，0是乘法恒等元素，这些运算符还满足通用算数法则：</p>
+<script type="math/tex; mode=display">x ⊕ (y ⊕ z) = (x ⊕ y) ⊕ z,</script><script type="math/tex; mode=display">x ⊙ (y ⊙ z) = (x ⊙ y) ⊙ z.</script><script type="math/tex; mode=display">x ⊕ y = y ⊕ x,</script><script type="math/tex; mode=display">x ⊙ y = y ⊙ x.</script><script type="math/tex; mode=display">x ⊙ (y ⊕ z) = (x ⊙ y) ⊕ (x ⊙ z).</script><p>  \(R∪\){\(-∞\)}在运算符⊕和⊙下是半环，因为缺少加法逆元所以不是环，尽管如此，还是可以在Tropical半环中推广许多代数对象（矩阵、多项式、张量等）和概念（秩、行列式、次数等）。</p>
+</li>
+<li><p>Definition 2.2.2（Tropical monomial）</p>
+</li>
+</ul>
+<h2 id="Tropical超曲面"><a href="#Tropical超曲面" class="headerlink" title="Tropical超曲面"></a>Tropical超曲面</h2><h2 id="神经网络"><a href="#神经网络" class="headerlink" title="神经网络"></a>神经网络</h2><h2 id="神经网络的Tropical代数"><a href="#神经网络的Tropical代数" class="headerlink" title="神经网络的Tropical代数"></a>神经网络的Tropical代数</h2><h2 id="神经网路的Tropical几何"><a href="#神经网路的Tropical几何" class="headerlink" title="神经网路的Tropical几何"></a>神经网路的Tropical几何</h2><h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><h1 id="一些特殊定义、术语"><a href="#一些特殊定义、术语" class="headerlink" title="一些特殊定义、术语"></a>一些特殊定义、术语</h1><ul>
+<li><p>zonotope</p>
+<p>  是d维空间中的一组点，由向量构成</p>
+</li>
+<li><p>ReLu</p>
+<p>  是一个激活函数，直译为修正线性单元</p>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://loyf.github.io/2019/02/26/《Log-sum-exp-Neural-Networks-And-Posynomial》 笔记/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -997,7 +1184,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

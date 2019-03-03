@@ -86,7 +86,7 @@
 <meta property="og:site_name">
 <meta property="og:description" content="TROPICAL GEOMETRY, NEURAL NETWORKS, AND LOW-COHERENCE FRAMES 摘要这篇文章的工作分为三个方面  建立起前馈神经网络和Tropical几何的联系   我们发现，激活函数设置为ReLu（修正线性单元）的前馈神经网络实际上是一个Tropical有理函数。 本文展示了ReLu神经网络得到的决策边界是包含在一个和这个网络相关联的Tropical">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-03-01T13:19:24.809Z">
+<meta property="og:updated_time" content="2019-03-03T03:34:04.795Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Chicago-LiWenZhang-GraduationProgram笔记">
 <meta name="twitter:description" content="TROPICAL GEOMETRY, NEURAL NETWORKS, AND LOW-COHERENCE FRAMES 摘要这篇文章的工作分为三个方面  建立起前馈神经网络和Tropical几何的联系   我们发现，激活函数设置为ReLu（修正线性单元）的前馈神经网络实际上是一个Tropical有理函数。 本文展示了ReLu神经网络得到的决策边界是包含在一个和这个网络相关联的Tropical">
@@ -339,12 +339,27 @@
 <p>在本文中，我们关注点在具有ReLu激活函数的前馈神经网络，它是最基础的神经网络，并且也是深度学习中最广泛使用的（也许和递归或卷积神经网络一起使用）类型的神经网络之一。</p>
 <p>我们展示了在Tropical代数或者Tropical代数几何中，这样一个神经网络是一个有理函数的类似物，换言之，是两个多元多项式f,g的比值，f(x1,…,xd) / g(x1,…,xd)。</p>
 <p>这是一个代数几何中的新领域，在近十年来爆炸式成长，但是在纯数学之外还是相对模糊。事实上，深度学习和Tropical代数几何是相关的，对我们来说是一个惊喜的发现。</p>
-<p>我们讨论的多项式是“tropical多项式”。对于通常的三角多项式来说，我们知道要做有理逼近-用两个多项式的比值而不是一个多项式来近似函数-可以在不增加次数的情况下极大地提高逼近质量。这给了我们思路：一个神经网络是两个Tropical多项式的比值，换言之，一个Tropical有理函数。更严谨地说，如果我们把一个神经网络看做一个函数：<br>$$V:R^d → R^p$$<br>$$x = (x_1,…,x_d)→(v_1(x),…,v_p(x))$$<br>其中每一个\(v_i\)是一个Tropical有理函数。从此以后，“一个神经网络是（某种实值函数）”类型的陈述要用协调的意义来解释——这个神经网络的每一个输出节点都是一个输入节点的一个函数。</p>
+<p>我们讨论的多项式是“tropical多项式”。对于通常的三角多项式来说，我们知道要做有理逼近-用两个多项式的比值而不是一个多项式来近似函数-可以在不增加次数的情况下极大地提高逼近质量。这给了我们思路：一个神经网络是两个Tropical多项式的比值，换言之，一个Tropical有理函数。更严谨地说，如果我们把一个神经网络看做一个函数：</p>
+<script type="math/tex; mode=display">V:R^d → R^p</script><script type="math/tex; mode=display">x = (x_1,...,x_d)→(v_1(x),...,v_p(x))</script><p>其中每一个\(v_i\)是一个Tropical有理函数。从此以后，“一个神经网络是（某种实值函数）”类型的陈述要用协调的意义来解释——这个神经网络的每一个输出节点都是一个输入节点的一个函数。</p>
 <p>事实上，对于神经网络的分类问题中出现的特殊情况\(p = 1\)，我们表明：</p>
 <pre><code>激活函数为ReLu的前馈神经网络代表的函数族和Tropical有理函数族相同。
 </code></pre><p>我们的主要目标是演示新理论如何用于分析神经网络。除此之外，这使我们能够捕获神经网络所表示的函数的复杂性以及在分类问题中从它派生的决策边界的复杂性，或者更重要的是，随着层数的增加，这种复杂性是如何变化的。神经网络所代表的函数的复杂性可以通过神经网络所具有的线性区域的数量来捕获，该区域可以通过计算由与神经网络相关的Tropical多项式构造的多面体上的顶点数量来研究。在分类问题中，由神经网络导出的决策边界将输入空间划分为若干区域，它是Tropical超曲面的一个子集——一个分段线性多面体曲面。</p>
 <p>Tropical几何学允许我们在这些数字上得出一个上限，从而测量其几何学的复杂性。当神经网络的深度和输入维数固定时，我们发现这个上限是每层节点数的多项式，否则它是指数的。直观地说，一个复杂的分类问题——一个有许多“规则外的意外情况”的问题——需要一个复杂的决策边界来分离。</p>
-<h2 id="Tropical代数"><a href="#Tropical代数" class="headerlink" title="Tropical代数"></a>Tropical代数</h2><h2 id="Tropical超曲面"><a href="#Tropical超曲面" class="headerlink" title="Tropical超曲面"></a>Tropical超曲面</h2><h2 id="神经网络"><a href="#神经网络" class="headerlink" title="神经网络"></a>神经网络</h2><h2 id="神经网络的Tropical代数"><a href="#神经网络的Tropical代数" class="headerlink" title="神经网络的Tropical代数"></a>神经网络的Tropical代数</h2><h2 id="神经网路的Tropical几何"><a href="#神经网路的Tropical几何" class="headerlink" title="神经网路的Tropical几何"></a>神经网路的Tropical几何</h2><h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><h1 id="一些特殊定义、术语"><a href="#一些特殊定义、术语" class="headerlink" title="一些特殊定义、术语"></a>一些特殊定义、术语</h1><ul>
+<h2 id="Tropical代数"><a href="#Tropical代数" class="headerlink" title="Tropical代数"></a>Tropical代数</h2><ul>
+<li><p>Tropical Semiring \((R∪\){\(-∞\)}\(,⊕,⊙)\)</p>
+</li>
+<li><p>Definition 2.2.1(Tropical加法，乘法，商)</p>
+<p>  加法：</p>
+<script type="math/tex; mode=display">x ⊕ y := max(x, y)</script><p>  乘法：</p>
+<script type="math/tex; mode=display">x ⊙ y := x + y</script><p>  商：</p>
+<script type="math/tex; mode=display">x ⊘ y := x − y</script><p>  对于所有的\(x∈ R\)：</p>
+<script type="math/tex; mode=display">−∞⊕x=x, −∞⊙x=−∞, 0⊙x=x.</script><p>因此−∞是加法恒等元素，0是乘法恒等元素，这些运算符还满足通用算数法则：</p>
+<script type="math/tex; mode=display">x ⊕ (y ⊕ z) = (x ⊕ y) ⊕ z,</script><script type="math/tex; mode=display">x ⊙ (y ⊙ z) = (x ⊙ y) ⊙ z.</script><script type="math/tex; mode=display">x ⊕ y = y ⊕ x,</script><script type="math/tex; mode=display">x ⊙ y = y ⊙ x.</script><script type="math/tex; mode=display">x ⊙ (y ⊕ z) = (x ⊙ y) ⊕ (x ⊙ z).</script><p>  \(R∪\){\(-∞\)}在运算符⊕和⊙下是半环，因为缺少加法逆元所以不是环，尽管如此，还是可以在Tropical半环中推广许多代数对象（矩阵、多项式、张量等）和概念（秩、行列式、次数等）。</p>
+</li>
+<li><p>Definition 2.2.2（Tropical monomial）</p>
+</li>
+</ul>
+<h2 id="Tropical超曲面"><a href="#Tropical超曲面" class="headerlink" title="Tropical超曲面"></a>Tropical超曲面</h2><h2 id="神经网络"><a href="#神经网络" class="headerlink" title="神经网络"></a>神经网络</h2><h2 id="神经网络的Tropical代数"><a href="#神经网络的Tropical代数" class="headerlink" title="神经网络的Tropical代数"></a>神经网络的Tropical代数</h2><h2 id="神经网路的Tropical几何"><a href="#神经网路的Tropical几何" class="headerlink" title="神经网路的Tropical几何"></a>神经网路的Tropical几何</h2><h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><h1 id="一些特殊定义、术语"><a href="#一些特殊定义、术语" class="headerlink" title="一些特殊定义、术语"></a>一些特殊定义、术语</h1><ul>
 <li><p>zonotope</p>
 <p>  是d维空间中的一组点，由向量构成</p>
 </li>
@@ -385,10 +400,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/02/26/Neural-Network-Introduction/" rel="prev" title="Neural-Network-Introduction">
-                Neural-Network-Introduction <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -465,7 +476,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
