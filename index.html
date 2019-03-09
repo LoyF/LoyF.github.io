@@ -229,6 +229,132 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://loyf.github.io/2019/03/09/AndrewNg-MachineLearning/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Loy Fan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/09/AndrewNg-MachineLearning/" itemprop="url">AndrewNg-MachineLearning</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-09T19:35:55+08:00">
+                2019-03-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>Mar.9.2019</p>
+</blockquote>
+<h4 id="什么是机器学习？"><a href="#什么是机器学习？" class="headerlink" title="什么是机器学习？"></a>什么是机器学习？</h4><ul>
+<li>Arthur samuel 1959年创造了这个词 “Machine Learning”——Field of study that gives computers  the ability to learn without being explicitly programmed.<br>在没有明确设置的情况下，</li>
+<li>Tom Mitchell 1998 Well-posed Learning Problem:A computer program is said to learn from experience E with respect to some task T and some performance measure P,if its performance on T,as measured by P,improves with experience E.</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://loyf.github.io/2019/02/26/Neural-Network-Introduction/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -468,26 +594,60 @@
 <pre><code>激活函数为ReLu的前馈神经网络代表的函数族和Tropical有理函数族相同。
 </code></pre><p>我们的主要目标是演示新理论如何用于分析神经网络。除此之外，这使我们能够捕获神经网络所表示的函数的复杂性以及在分类问题中从它派生的决策边界的复杂性，或者更重要的是，随着层数的增加，这种复杂性是如何变化的。神经网络所代表的函数的复杂性可以通过神经网络所具有的线性区域的数量来捕获，该区域可以通过计算由与神经网络相关的Tropical多项式构造的多面体上的顶点数量来研究。在分类问题中，由神经网络导出的决策边界将输入空间划分为若干区域，它是Tropical超曲面的一个子集——一个分段线性多面体曲面。</p>
 <p>Tropical几何学允许我们在这些数字上得出一个上限，从而测量其几何学的复杂性。当神经网络的深度和输入维数固定时，我们发现这个上限是每层节点数的多项式，否则它是指数的。直观地说，一个复杂的分类问题——一个有许多“规则外的意外情况”的问题——需要一个复杂的决策边界来分离。</p>
-<h2 id="Tropical代数"><a href="#Tropical代数" class="headerlink" title="Tropical代数"></a>Tropical代数</h2><ul>
-<li><p>Tropical Semiring \((R∪\){\(-∞\)}\(,⊕,⊙)\)</p>
-</li>
+<h2 id="Tropical代数"><a href="#Tropical代数" class="headerlink" title="Tropical代数"></a>Tropical代数</h2><blockquote>
+<p>Tropical Semiring \((R∪\){\(-∞\)}\(,⊕,⊙)\)</p>
+</blockquote>
+<ul>
 <li><p>Definition 2.2.1(Tropical加法，乘法，商)</p>
-<p>  加法：</p>
+<p>  加法：  </p>
 <script type="math/tex; mode=display">x ⊕ y := max(x, y)</script><p>  乘法：</p>
 <script type="math/tex; mode=display">x ⊙ y := x + y</script><p>  商：</p>
 <script type="math/tex; mode=display">x ⊘ y := x − y</script><p>  对于所有的\(x∈ R\)：</p>
-<script type="math/tex; mode=display">−∞⊕x=x, −∞⊙x=−∞, 0⊙x=x.</script><p>因此−∞是加法恒等元素，0是乘法恒等元素，这些运算符还满足通用算数法则：</p>
+<script type="math/tex; mode=display">−∞⊕x=x, −∞⊙x=−∞, 0⊙x=x.</script><p>因此−∞是加法恒等元素，0是乘法恒等元素。</p>
+</li>
+<li><p>满足通用算数法则：</p>
 <script type="math/tex; mode=display">x ⊕ (y ⊕ z) = (x ⊕ y) ⊕ z,</script><script type="math/tex; mode=display">x ⊙ (y ⊙ z) = (x ⊙ y) ⊙ z.</script><script type="math/tex; mode=display">x ⊕ y = y ⊕ x,</script><script type="math/tex; mode=display">x ⊙ y = y ⊙ x.</script><script type="math/tex; mode=display">x ⊙ (y ⊕ z) = (x ⊙ y) ⊕ (x ⊙ z).</script><p>  \(R∪\){\(-∞\)}在运算符⊕和⊙下是半环，因为缺少加法逆元所以不是环，尽管如此，还是可以在Tropical半环中推广许多代数对象（矩阵、多项式、张量等）和概念（秩、行列式、次数等）。</p>
 </li>
-<li><p>Definition 2.2.2（Tropical monomial）</p>
+<li><p>Tropical 次幂：对于\(a ∈ N,x ∈ R\)</p>
+<script type="math/tex; mode=display">x^{⊙a} :=\underbrace{x⊙···⊙x}_ {a\ times}=a·x(·表示普通乘法)</script><p>  注：本文之后的内容全部以\(x^a\)代替\(x^{⊙a}\)。</p>
+<p>  扩展到\(R∪\{-∞\}\)：</p>
+<script type="math/tex; mode=display">−∞^{⊙a} := \lbrace_{0,if\ a\ =\ 0}^{−∞,if\ a\ >\ 0}</script></li>
+<li><p>Tropical乘法逆元：</p>
+<script type="math/tex; mode=display">x^{⊙(-1)} := -x</script><p>  对于负数a ∈ Z：</p>
+<script type="math/tex; mode=display">x^{⊙a} = (−x)^{⊙(−a)}</script><p>  另：−∞没有Tropical乘法逆元；当a &lt; 0时，\(−∞^{⊙a}\)没有意义。</p>
 </li>
+<li><p>满足的规则：</p>
+<ol>
+<li>For any x,y ∈ R and a ∈ N,<script type="math/tex; mode=display">(x ⊕ y)^a = x^a ⊕ y^a.</script></li>
+<li>For any x,y ∈ R and a ∈ N,<script type="math/tex; mode=display">(x ⊙ y)^a = x^a ⊙ y^a.</script></li>
+<li>For any x ∈ R,<script type="math/tex; mode=display">x^0 = 0.</script></li>
+<li>For any x ∈ R and a,a′ ∈ N,<script type="math/tex; mode=display">(x^a)^a′ = x^{a·a′}.</script></li>
+<li>For any x ∈ R and a,a′ ∈ Z,<script type="math/tex; mode=display">x^a ⊙ x^a′ = x^{a+a′}.</script></li>
+<li>For any x ∈ R and a,a′ ∈ Z,<script type="math/tex; mode=display">x^a⊕x^a′ = x^a⊙(x^{a−a′} ⊕ 0) = x^a ⊙ (0 ⊕ x^{a−a′}).</script></li>
+</ol>
+</li>
+<li><p>Definition 2.2.2（Tropical monomial单项式）</p>
+<script type="math/tex; mode=display">c⊙x_1^{a_1} ⊙ x_2^{a_2} ⊙···⊙ x_d^{a_d}</script><p>  where \(c ∈ R ∪ {−∞} and a_1,…,a_d ∈ N\).</p>
+<p>  也可以方便地写成：</p>
+<script type="math/tex; mode=display">cx^α</script><p>  where \(α = (a_1,…,a_d) ∈ N^d and x = (x_1, . . . , x_d)\). </p>
+<p>  当然，对于Tropical乘法恒等元素0，有：</p>
+<script type="math/tex; mode=display">x^α = 0 ⊙ x^α</script></li>
+<li><p>Definition 2.2.3（Tropical多项式）</p>
+<script type="math/tex; mode=display">f(x)=c_1x^{α_1}⊕ . . .⊕ c_rx^{α_r}</script><p>  where \(α<em>i = (a</em>{i1},…,a_{id}) ∈ N^d and c_i ∈ R ∪ {−∞}, i = 1,…,r\). </p>
+</li>
+<li><p>Definition 2.2.4（Tropical有理函数）</p>
+<p>  Tropical有理函数是两个Tropical多项式的差</p>
+<script type="math/tex; mode=display">f(x) - g(x) = f(x) ⊘ g(x).</script></li>
+</ul>
+<ul>
+<li>Definition 2.2.5（Tropical多项式地图和Tropical有理地图）</li>
 </ul>
 <h2 id="Tropical超曲面"><a href="#Tropical超曲面" class="headerlink" title="Tropical超曲面"></a>Tropical超曲面</h2><h2 id="神经网络"><a href="#神经网络" class="headerlink" title="神经网络"></a>神经网络</h2><h2 id="神经网络的Tropical代数"><a href="#神经网络的Tropical代数" class="headerlink" title="神经网络的Tropical代数"></a>神经网络的Tropical代数</h2><h2 id="神经网路的Tropical几何"><a href="#神经网路的Tropical几何" class="headerlink" title="神经网路的Tropical几何"></a>神经网路的Tropical几何</h2><h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><h1 id="一些特殊定义、术语"><a href="#一些特殊定义、术语" class="headerlink" title="一些特殊定义、术语"></a>一些特殊定义、术语</h1><ul>
 <li><p>zonotope</p>
 <p>  是d维空间中的一组点，由向量构成</p>
 </li>
 <li><p>ReLu</p>
-<p>  是一个激活函数，直译为修正线性单元</p>
+<p>  是一个神经网络的激活函数，直译为修正线性单元</p>
 </li>
 </ul>
 
@@ -1306,7 +1466,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
