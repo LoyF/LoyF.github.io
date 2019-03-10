@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="Mar.9.2019  什么是机器学习？ Arthur samuel 1959年创造了这个词 “Machine Learning”——Field of study that gives computers  the ability to learn without being explicitly programmed.在没有明确设置的情况下， Tom Mitchell 1998 Well-po">
+<meta name="description" content="Mar.9.2019  什么是机器学习？ Arthur samuel 1959年创造了这个词 “Machine Learning”——Field of study that gives computers  the ability to learn without being explicitly programmed.“在没有明确设置的情况下，使计算机具有学习能力的研究领域。”编写了跳棋程序，">
 <meta property="og:type" content="article">
 <meta property="og:title" content="AndrewNg-MachineLearning">
 <meta property="og:url" content="https://loyf.github.io/2019/03/09/AndrewNg-MachineLearning/index.html">
 <meta property="og:site_name">
-<meta property="og:description" content="Mar.9.2019  什么是机器学习？ Arthur samuel 1959年创造了这个词 “Machine Learning”——Field of study that gives computers  the ability to learn without being explicitly programmed.在没有明确设置的情况下， Tom Mitchell 1998 Well-po">
+<meta property="og:description" content="Mar.9.2019  什么是机器学习？ Arthur samuel 1959年创造了这个词 “Machine Learning”——Field of study that gives computers  the ability to learn without being explicitly programmed.“在没有明确设置的情况下，使计算机具有学习能力的研究领域。”编写了跳棋程序，">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-03-09T11:51:22.550Z">
+<meta property="og:updated_time" content="2019-03-10T11:48:57.119Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AndrewNg-MachineLearning">
-<meta name="twitter:description" content="Mar.9.2019  什么是机器学习？ Arthur samuel 1959年创造了这个词 “Machine Learning”——Field of study that gives computers  the ability to learn without being explicitly programmed.在没有明确设置的情况下， Tom Mitchell 1998 Well-po">
+<meta name="twitter:description" content="Mar.9.2019  什么是机器学习？ Arthur samuel 1959年创造了这个词 “Machine Learning”——Field of study that gives computers  the ability to learn without being explicitly programmed.“在没有明确设置的情况下，使计算机具有学习能力的研究领域。”编写了跳棋程序，">
 
 
 
@@ -303,9 +303,26 @@
 <p>Mar.9.2019</p>
 </blockquote>
 <h4 id="什么是机器学习？"><a href="#什么是机器学习？" class="headerlink" title="什么是机器学习？"></a>什么是机器学习？</h4><ul>
-<li>Arthur samuel 1959年创造了这个词 “Machine Learning”——Field of study that gives computers  the ability to learn without being explicitly programmed.<br>在没有明确设置的情况下，</li>
-<li>Tom Mitchell 1998 Well-posed Learning Problem:A computer program is said to learn from experience E with respect to some task T and some performance measure P,if its performance on T,as measured by P,improves with experience E.</li>
+<li>Arthur samuel 1959年创造了这个词 “Machine Learning”——Field of study that gives computers  the ability to learn without being explicitly programmed.<br>“在没有明确设置的情况下，使计算机具有学习能力的研究领域。”<br>编写了跳棋程序，使机器自己与自己对弈，学会下棋。</li>
+<li>Tom Mitchell 1998 Well-posed Learning Problem:A computer program is said to learn from experience E with respect to some task T and some performance measure P,if its performance on T,as measured by P,improves with experience E.<br>“一个适当的学习问题定义如下：计算机程序从经验E中学习，解决某一个任务T，进行某一性能度量P，通过P测定在T上的表现因经验E而提高。”</li>
 </ul>
+<blockquote>
+<p>Mar.10.2019</p>
+</blockquote>
+<h4 id="监督学习、无监督学习"><a href="#监督学习、无监督学习" class="headerlink" title="监督学习、无监督学习"></a>监督学习、无监督学习</h4><ul>
+<li>监督学习(Supervised Learning)：<br>我们给算法一个数据集，其中包含了数据对应的“正确答案”，算法的目的是找到更多正确答案。</li>
+</ul>
+<ol>
+<li>连续值：也被称为“回归问题”：我们想要预测连续的数值输出。（房价和面积的例子）</li>
+<li>离散值：分类问题、无穷多特征（肿瘤特征预测肿瘤良性恶性的例子）</li>
+</ol>
+<ul>
+<li>无监督学习(Unsupervised Learning)：<br>不提供“标准答案”，不给分类标准，要求找到数据集的结构，簇等。</li>
+</ul>
+<ol>
+<li>聚类算法（clustering algorithms）比如谷歌的新闻分类。</li>
+<li>鸡尾酒会算法：两个人同时说话，两个远近不同的麦克风同时记录，通过两个音频记录，无监督算法区分、分离出两个人的声音<br>算法代码：<br>[W,s,v] = svd((repmat(sum(x.<em>x,1),size(x,1),1).</em>x)*x’);</li>
+</ol>
 
       
     </div>
@@ -452,7 +469,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是机器学习？"><span class="nav-number">1.</span> <span class="nav-text">什么是机器学习？</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是机器学习？"><span class="nav-number">1.</span> <span class="nav-text">什么是机器学习？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#监督学习、无监督学习"><span class="nav-number">2.</span> <span class="nav-text">监督学习、无监督学习</span></a></li></ol></div>
             
 
           </div>
