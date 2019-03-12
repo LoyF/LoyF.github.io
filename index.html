@@ -300,7 +300,7 @@
       
         
           
-            <blockquote>
+            <h3 id="绪论"><a href="#绪论" class="headerlink" title="绪论"></a>绪论</h3><blockquote>
 <p>Mar.9.2019</p>
 </blockquote>
 <h4 id="什么是机器学习？"><a href="#什么是机器学习？" class="headerlink" title="什么是机器学习？"></a>什么是机器学习？</h4><ul>
@@ -324,6 +324,10 @@
 <li>聚类算法（clustering algorithms）比如谷歌的新闻分类。</li>
 <li>鸡尾酒会算法：两个人同时说话，两个远近不同的麦克风同时记录，通过两个音频记录，无监督算法区分、分离出两个人的声音<br>算法代码：<br>[W,s,v] = svd((repmat(sum(x.<em>x,1),size(x,1),1).</em>x)*x’);</li>
 </ol>
+<h3 id="单变量线性回归"><a href="#单变量线性回归" class="headerlink" title="单变量线性回归"></a>单变量线性回归</h3><blockquote>
+<p>Mar.11.2019</p>
+</blockquote>
+<h4 id="模型描述"><a href="#模型描述" class="headerlink" title="模型描述"></a>模型描述</h4><p><img src="img/2019-03-12-08-04-44.png" alt><br>学习算法：根据训练集得到假设函数。</p>
 
           
         
@@ -644,7 +648,7 @@
 </ol>
 </li>
 <li><p>Definition 2.2.2（Tropical monomial单项式）</p>
-<script type="math/tex; mode=display">c⊙x_1^{a_1} ⊙ x_2^{a_2} ⊙···⊙ x_d^{a_d}</script><p>  where \(c ∈ R ∪ {−∞} and a_1,…,a_d ∈ N\).</p>
+<script type="math/tex; mode=display">c⊙x_1^{a_1} ⊙ x_2^{a_2} ⊙···⊙ x_d^{a_d}</script><p>  where $c ∈ R ∪ {−∞} and a_1,…,a_d ∈ N$.</p>
 <p>  也可以方便地写成：</p>
 <script type="math/tex; mode=display">cx^α</script><p>  where \(α = (a_1,…,a_d) ∈ N^d and x = (x_1, . . . , x_d)\). </p>
 <p>  当然，对于Tropical乘法恒等元素0，有：</p>
@@ -652,14 +656,24 @@
 <li><p>Definition 2.2.3（Tropical多项式）</p>
 <script type="math/tex; mode=display">f(x)=c_1x^{α_1}⊕ . . .⊕ c_rx^{α_r}</script><p>  where \(α<em>i = (a</em>{i1},…,a_{id}) ∈ N^d and c_i ∈ R ∪ {−∞}, i = 1,…,r\). </p>
 </li>
-<li><p>Definition 2.2.4（Tropical有理函数）</p>
-<p>  Tropical有理函数是两个Tropical多项式的差</p>
-<script type="math/tex; mode=display">f(x) - g(x) = f(x) ⊘ g(x).</script></li>
+<li><p>Definition 2.2.4（Tropical有理函数）<br>Tropical有理函数是两个Tropical多项式的差</p>
+<script type="math/tex; mode=display">f(x) - g(x) = f(x) ⊘ g(x).</script><p>  Tropical多项式在⊕⊙运算下形成了一个半环，相似地，Tropical有理函数形成了一个半域。</p>
+</li>
+<li><p>Definition 2.2.5（Tropical多项式地图和Tropical有理地图）<br><img src="img/2019-03-10-20-37-10.png" alt></p>
+</li>
 </ul>
+<h2 id="Tropical-hypersurface"><a href="#Tropical-hypersurface" class="headerlink" title="Tropical hypersurface"></a>Tropical hypersurface</h2><blockquote>
+<p>Tropical多项式f的Tropical hypersurface是f在x上非线性的点x的集合。</p>
+</blockquote>
 <ul>
-<li>Definition 2.2.5（Tropical多项式地图和Tropical有理地图）</li>
+<li><p>Definition 2.3.1（Tropical hypersurface）<br>  有一个Tropical多项式：</p>
+<script type="math/tex; mode=display">f(x)=c_1x^{α_1}⊕ . . .⊕ c_rx^{α_r}</script><p>  Tropical hypersurface是集合：</p>
+<script type="math/tex; mode=display">T(f):=\ \{x∈R^d:c_ix^{α_i}=c_jx^{α_j} =f(x)\ for\ some\ α_i≠α_j\}.</script><p>  换句话说，Tropical hypersurface包括了那些x,在x上的f的值由两个或两个以上单项式决定。<br>  Tropical hypersurface把f分成线性的凸单元。</p>
+</li>
+<li><p>Definition 2.3.2（Newton polygon）牛顿多边形</p>
+<h2 id="神经网络"><a href="#神经网络" class="headerlink" title="神经网络"></a>神经网络</h2></li>
 </ul>
-<h2 id="Tropical超曲面"><a href="#Tropical超曲面" class="headerlink" title="Tropical超曲面"></a>Tropical超曲面</h2><h2 id="神经网络"><a href="#神经网络" class="headerlink" title="神经网络"></a>神经网络</h2><h2 id="神经网络的Tropical代数"><a href="#神经网络的Tropical代数" class="headerlink" title="神经网络的Tropical代数"></a>神经网络的Tropical代数</h2><h2 id="神经网路的Tropical几何"><a href="#神经网路的Tropical几何" class="headerlink" title="神经网路的Tropical几何"></a>神经网路的Tropical几何</h2><h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><h1 id="一些特殊定义、术语"><a href="#一些特殊定义、术语" class="headerlink" title="一些特殊定义、术语"></a>一些特殊定义、术语</h1><ul>
+<h2 id="神经网络的Tropical代数"><a href="#神经网络的Tropical代数" class="headerlink" title="神经网络的Tropical代数"></a>神经网络的Tropical代数</h2><h2 id="神经网路的Tropical几何"><a href="#神经网路的Tropical几何" class="headerlink" title="神经网路的Tropical几何"></a>神经网路的Tropical几何</h2><h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><h1 id="一些特殊定义、术语"><a href="#一些特殊定义、术语" class="headerlink" title="一些特殊定义、术语"></a>一些特殊定义、术语</h1><ul>
 <li><p>zonotope</p>
 <p>  是d维空间中的一组点，由向量构成</p>
 </li>

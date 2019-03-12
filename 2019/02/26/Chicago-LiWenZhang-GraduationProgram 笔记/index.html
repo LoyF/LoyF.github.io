@@ -86,10 +86,12 @@
 <meta property="og:site_name">
 <meta property="og:description" content="TROPICAL GEOMETRY, NEURAL NETWORKS, AND LOW-COHERENCE FRAMES 摘要这篇文章的工作分为三个方面  建立起前馈神经网络和Tropical几何的联系   我们发现，激活函数设置为ReLu（修正线性单元）的前馈神经网络实际上是一个Tropical有理函数。 本文展示了ReLu神经网络得到的决策边界是包含在一个和这个网络相关联的Tropical">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-03-06T09:00:14.268Z">
+<meta property="og:image" content="https://loyf.github.io/2019/02/26/Chicago-LiWenZhang-GraduationProgram%20笔记/img/2019-03-10-20-37-10.png">
+<meta property="og:updated_time" content="2019-03-11T15:00:19.489Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Chicago-LiWenZhang-GraduationProgram笔记">
 <meta name="twitter:description" content="TROPICAL GEOMETRY, NEURAL NETWORKS, AND LOW-COHERENCE FRAMES 摘要这篇文章的工作分为三个方面  建立起前馈神经网络和Tropical几何的联系   我们发现，激活函数设置为ReLu（修正线性单元）的前馈神经网络实际上是一个Tropical有理函数。 本文展示了ReLu神经网络得到的决策边界是包含在一个和这个网络相关联的Tropical">
+<meta name="twitter:image" content="https://loyf.github.io/2019/02/26/Chicago-LiWenZhang-GraduationProgram%20笔记/img/2019-03-10-20-37-10.png">
 
 
 
@@ -378,7 +380,7 @@
 </ol>
 </li>
 <li><p>Definition 2.2.2（Tropical monomial单项式）</p>
-<script type="math/tex; mode=display">c⊙x_1^{a_1} ⊙ x_2^{a_2} ⊙···⊙ x_d^{a_d}</script><p>  where \(c ∈ R ∪ {−∞} and a_1,…,a_d ∈ N\).</p>
+<script type="math/tex; mode=display">c⊙x_1^{a_1} ⊙ x_2^{a_2} ⊙···⊙ x_d^{a_d}</script><p>  where $c ∈ R ∪ {−∞} and a_1,…,a_d ∈ N$.</p>
 <p>  也可以方便地写成：</p>
 <script type="math/tex; mode=display">cx^α</script><p>  where \(α = (a_1,…,a_d) ∈ N^d and x = (x_1, . . . , x_d)\). </p>
 <p>  当然，对于Tropical乘法恒等元素0，有：</p>
@@ -386,14 +388,24 @@
 <li><p>Definition 2.2.3（Tropical多项式）</p>
 <script type="math/tex; mode=display">f(x)=c_1x^{α_1}⊕ . . .⊕ c_rx^{α_r}</script><p>  where \(α<em>i = (a</em>{i1},…,a_{id}) ∈ N^d and c_i ∈ R ∪ {−∞}, i = 1,…,r\). </p>
 </li>
-<li><p>Definition 2.2.4（Tropical有理函数）</p>
-<p>  Tropical有理函数是两个Tropical多项式的差</p>
-<script type="math/tex; mode=display">f(x) - g(x) = f(x) ⊘ g(x).</script></li>
+<li><p>Definition 2.2.4（Tropical有理函数）<br>Tropical有理函数是两个Tropical多项式的差</p>
+<script type="math/tex; mode=display">f(x) - g(x) = f(x) ⊘ g(x).</script><p>  Tropical多项式在⊕⊙运算下形成了一个半环，相似地，Tropical有理函数形成了一个半域。</p>
+</li>
+<li><p>Definition 2.2.5（Tropical多项式地图和Tropical有理地图）<br><img src="img/2019-03-10-20-37-10.png" alt></p>
+</li>
 </ul>
+<h2 id="Tropical-hypersurface"><a href="#Tropical-hypersurface" class="headerlink" title="Tropical hypersurface"></a>Tropical hypersurface</h2><blockquote>
+<p>Tropical多项式f的Tropical hypersurface是f在x上非线性的点x的集合。</p>
+</blockquote>
 <ul>
-<li>Definition 2.2.5（Tropical多项式地图和Tropical有理地图）</li>
+<li><p>Definition 2.3.1（Tropical hypersurface）<br>  有一个Tropical多项式：</p>
+<script type="math/tex; mode=display">f(x)=c_1x^{α_1}⊕ . . .⊕ c_rx^{α_r}</script><p>  Tropical hypersurface是集合：</p>
+<script type="math/tex; mode=display">T(f):=\ \{x∈R^d:c_ix^{α_i}=c_jx^{α_j} =f(x)\ for\ some\ α_i≠α_j\}.</script><p>  换句话说，Tropical hypersurface包括了那些x,在x上的f的值由两个或两个以上单项式决定。<br>  Tropical hypersurface把f分成线性的凸单元。</p>
+</li>
+<li><p>Definition 2.3.2（Newton polygon）牛顿多边形</p>
+<h2 id="神经网络"><a href="#神经网络" class="headerlink" title="神经网络"></a>神经网络</h2></li>
 </ul>
-<h2 id="Tropical超曲面"><a href="#Tropical超曲面" class="headerlink" title="Tropical超曲面"></a>Tropical超曲面</h2><h2 id="神经网络"><a href="#神经网络" class="headerlink" title="神经网络"></a>神经网络</h2><h2 id="神经网络的Tropical代数"><a href="#神经网络的Tropical代数" class="headerlink" title="神经网络的Tropical代数"></a>神经网络的Tropical代数</h2><h2 id="神经网路的Tropical几何"><a href="#神经网路的Tropical几何" class="headerlink" title="神经网路的Tropical几何"></a>神经网路的Tropical几何</h2><h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><h1 id="一些特殊定义、术语"><a href="#一些特殊定义、术语" class="headerlink" title="一些特殊定义、术语"></a>一些特殊定义、术语</h1><ul>
+<h2 id="神经网络的Tropical代数"><a href="#神经网络的Tropical代数" class="headerlink" title="神经网络的Tropical代数"></a>神经网络的Tropical代数</h2><h2 id="神经网路的Tropical几何"><a href="#神经网路的Tropical几何" class="headerlink" title="神经网路的Tropical几何"></a>神经网路的Tropical几何</h2><h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><h1 id="一些特殊定义、术语"><a href="#一些特殊定义、术语" class="headerlink" title="一些特殊定义、术语"></a>一些特殊定义、术语</h1><ul>
 <li><p>zonotope</p>
 <p>  是d维空间中的一组点，由向量构成</p>
 </li>
@@ -551,7 +563,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#摘要"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#概览"><span class="nav-number">2.</span> <span class="nav-text">概览</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#以Tropical几何的角度分析深度神经网络"><span class="nav-number">3.</span> <span class="nav-text">以Tropical几何的角度分析深度神经网络</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#介绍"><span class="nav-number">3.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tropical代数"><span class="nav-number">3.2.</span> <span class="nav-text">Tropical代数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tropical超曲面"><span class="nav-number">3.3.</span> <span class="nav-text">Tropical超曲面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#神经网络"><span class="nav-number">3.4.</span> <span class="nav-text">神经网络</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#神经网络的Tropical代数"><span class="nav-number">3.5.</span> <span class="nav-text">神经网络的Tropical代数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#神经网路的Tropical几何"><span class="nav-number">3.6.</span> <span class="nav-text">神经网路的Tropical几何</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结论"><span class="nav-number">3.7.</span> <span class="nav-text">结论</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一些特殊定义、术语"><span class="nav-number">4.</span> <span class="nav-text">一些特殊定义、术语</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#摘要"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#概览"><span class="nav-number">2.</span> <span class="nav-text">概览</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#以Tropical几何的角度分析深度神经网络"><span class="nav-number">3.</span> <span class="nav-text">以Tropical几何的角度分析深度神经网络</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#介绍"><span class="nav-number">3.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tropical代数"><span class="nav-number">3.2.</span> <span class="nav-text">Tropical代数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tropical-hypersurface"><span class="nav-number">3.3.</span> <span class="nav-text">Tropical hypersurface</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#神经网络"><span class="nav-number">3.4.</span> <span class="nav-text">神经网络</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#神经网络的Tropical代数"><span class="nav-number">3.5.</span> <span class="nav-text">神经网络的Tropical代数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#神经网路的Tropical几何"><span class="nav-number">3.6.</span> <span class="nav-text">神经网路的Tropical几何</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结论"><span class="nav-number">3.7.</span> <span class="nav-text">结论</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一些特殊定义、术语"><span class="nav-number">4.</span> <span class="nav-text">一些特殊定义、术语</span></a></li></ol></div>
             
 
           </div>
