@@ -87,7 +87,7 @@
 <meta property="og:description" content="TROPICAL GEOMETRY, NEURAL NETWORKS, AND LOW-COHERENCE FRAMES 摘要这篇文章的工作分为三个方面  建立起前馈神经网络和Tropical几何的联系   我们发现，激活函数设置为ReLu（修正线性单元）的前馈神经网络实际上是一个Tropical有理函数。 本文展示了ReLu神经网络得到的决策边界是包含在一个和这个网络相关联的Tropical">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://loyf.github.io/2019/02/26/Chicago-LiWenZhang-GraduationProgram%20笔记/img/2019-03-10-20-37-10.png">
-<meta property="og:updated_time" content="2019-03-11T15:00:19.489Z">
+<meta property="og:updated_time" content="2019-03-17T06:09:27.687Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Chicago-LiWenZhang-GraduationProgram笔记">
 <meta name="twitter:description" content="TROPICAL GEOMETRY, NEURAL NETWORKS, AND LOW-COHERENCE FRAMES 摘要这篇文章的工作分为三个方面  建立起前馈神经网络和Tropical几何的联系   我们发现，激活函数设置为ReLu（修正线性单元）的前馈神经网络实际上是一个Tropical有理函数。 本文展示了ReLu神经网络得到的决策边界是包含在一个和这个网络相关联的Tropical">
@@ -362,9 +362,11 @@
 <script type="math/tex; mode=display">x ⊕ (y ⊕ z) = (x ⊕ y) ⊕ z,</script><script type="math/tex; mode=display">x ⊙ (y ⊙ z) = (x ⊙ y) ⊙ z.</script><script type="math/tex; mode=display">x ⊕ y = y ⊕ x,</script><script type="math/tex; mode=display">x ⊙ y = y ⊙ x.</script><script type="math/tex; mode=display">x ⊙ (y ⊕ z) = (x ⊙ y) ⊕ (x ⊙ z).</script><p>  \(R∪\){\(-∞\)}在运算符⊕和⊙下是半环，因为缺少加法逆元所以不是环，尽管如此，还是可以在Tropical半环中推广许多代数对象（矩阵、多项式、张量等）和概念（秩、行列式、次数等）。</p>
 </li>
 <li><p>Tropical 次幂：对于\(a ∈ N,x ∈ R\)</p>
-<script type="math/tex; mode=display">x^{⊙a} :=\underbrace{x⊙···⊙x}_ {a\ times}=a·x(·表示普通乘法)</script><p>  注：本文之后的内容全部以\(x^a\)代替\(x^{⊙a}\)。</p>
-<p>  扩展到\(R∪\{-∞\}\)：</p>
-<script type="math/tex; mode=display">−∞^{⊙a} := \lbrace_{0,if\ a\ =\ 0}^{−∞,if\ a\ >\ 0}</script></li>
+<script type="math/tex; mode=display">x^{⊙a} :=\underbrace{x⊙···⊙x}_ {a\ times}=a·x(·表示普通乘法)</script></li>
+</ul>
+<p>注：本文之后的内容全部以\(x^a\)代替\(x^{⊙a}\)。</p>
+<pre><code>扩展到\\(R∪\{-∞\}\\)：
+</code></pre><script type="math/tex; mode=display">−∞^{⊙a} := \lbrace_{0,if\ a\ =\ 0}^{−∞,if\ a\ >\ 0}</script><ul>
 <li><p>Tropical乘法逆元：</p>
 <script type="math/tex; mode=display">x^{⊙(-1)} := -x</script><p>  对于负数a ∈ Z：</p>
 <script type="math/tex; mode=display">x^{⊙a} = (−x)^{⊙(−a)}</script><p>  另：−∞没有Tropical乘法逆元；当a &lt; 0时，\(−∞^{⊙a}\)没有意义。</p>
