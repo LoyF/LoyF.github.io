@@ -87,7 +87,7 @@
 <meta property="og:description" content="TROPICAL GEOMETRY, NEURAL NETWORKS, AND LOW-COHERENCE FRAMES 摘要这篇文章的工作分为三个方面  建立起前馈神经网络和Tropical几何的联系   我们发现，激活函数设置为ReLu（修正线性单元）的前馈神经网络实际上是一个Tropical有理函数。 本文展示了ReLu神经网络得到的决策边界是包含在一个和这个网络相关联的Tropical">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://loyf.github.io/2019/02/26/Chicago-LiWenZhang-GraduationProgram%20笔记/img/2019-03-10-20-37-10.png">
-<meta property="og:updated_time" content="2019-03-17T06:09:27.687Z">
+<meta property="og:updated_time" content="2019-03-20T02:35:33.658Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Chicago-LiWenZhang-GraduationProgram笔记">
 <meta name="twitter:description" content="TROPICAL GEOMETRY, NEURAL NETWORKS, AND LOW-COHERENCE FRAMES 摘要这篇文章的工作分为三个方面  建立起前馈神经网络和Tropical几何的联系   我们发现，激活函数设置为ReLu（修正线性单元）的前馈神经网络实际上是一个Tropical有理函数。 本文展示了ReLu神经网络得到的决策边界是包含在一个和这个网络相关联的Tropical">
@@ -365,8 +365,8 @@
 <script type="math/tex; mode=display">x^{⊙a} :=\underbrace{x⊙···⊙x}_ {a\ times}=a·x(·表示普通乘法)</script></li>
 </ul>
 <p>注：本文之后的内容全部以\(x^a\)代替\(x^{⊙a}\)。</p>
-<pre><code>扩展到\\(R∪\{-∞\}\\)：
-</code></pre><script type="math/tex; mode=display">−∞^{⊙a} := \lbrace_{0,if\ a\ =\ 0}^{−∞,if\ a\ >\ 0}</script><ul>
+<p>扩展到\(R∪\{-∞\}\)：</p>
+<script type="math/tex; mode=display">−∞^{⊙a} := \lbrace_{0,if\ a\ =\ 0}^{−∞,if\ a\ >\ 0}</script><ul>
 <li><p>Tropical乘法逆元：</p>
 <script type="math/tex; mode=display">x^{⊙(-1)} := -x</script><p>  对于负数a ∈ Z：</p>
 <script type="math/tex; mode=display">x^{⊙a} = (−x)^{⊙(−a)}</script><p>  另：−∞没有Tropical乘法逆元；当a &lt; 0时，\(−∞^{⊙a}\)没有意义。</p>
@@ -400,12 +400,14 @@
 <p>Tropical多项式f的Tropical hypersurface是f在x上非线性的点x的集合。</p>
 </blockquote>
 <ul>
-<li><p>Definition 2.3.1（Tropical hypersurface）<br>  有一个Tropical多项式：</p>
-<script type="math/tex; mode=display">f(x)=c_1x^{α_1}⊕ . . .⊕ c_rx^{α_r}</script><p>  Tropical hypersurface是集合：</p>
-<script type="math/tex; mode=display">T(f):=\ \{x∈R^d:c_ix^{α_i}=c_jx^{α_j} =f(x)\ for\ some\ α_i≠α_j\}.</script><p>  换句话说，Tropical hypersurface包括了那些x,在x上的f的值由两个或两个以上单项式决定。<br>  Tropical hypersurface把f分成线性的凸单元。</p>
-</li>
-<li><p>Definition 2.3.2（Newton polygon）牛顿多边形</p>
-<h2 id="神经网络"><a href="#神经网络" class="headerlink" title="神经网络"></a>神经网络</h2></li>
+<li>Definition 2.3.1（Tropical hypersurface）</li>
+</ul>
+<p>有一个Tropical多项式：</p>
+<script type="math/tex; mode=display">f(x)=c_1x^{α_1}⊕ . . .⊕ c_rx^{α_r}</script><pre><code>Tropical hypersurface是集合：
+</code></pre><script type="math/tex; mode=display">T(f):=\ \{x∈R^d:c_ix^{α_i}=c_jx^{α_j} =f(x)\ for\ some\ α_i≠α_j\}.</script><pre><code>换句话说，Tropical hypersurface包括了那些x,在x上的f的值由两个或两个以上单项式决定。
+Tropical hypersurface把f分成线性的凸单元。
+</code></pre><ul>
+<li>Definition 2.3.2（Newton polygon）牛顿多边形<h2 id="神经网络"><a href="#神经网络" class="headerlink" title="神经网络"></a>神经网络</h2></li>
 </ul>
 <h2 id="神经网络的Tropical代数"><a href="#神经网络的Tropical代数" class="headerlink" title="神经网络的Tropical代数"></a>神经网络的Tropical代数</h2><h2 id="神经网路的Tropical几何"><a href="#神经网路的Tropical几何" class="headerlink" title="神经网路的Tropical几何"></a>神经网路的Tropical几何</h2><h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><h1 id="一些特殊定义、术语"><a href="#一些特殊定义、术语" class="headerlink" title="一些特殊定义、术语"></a>一些特殊定义、术语</h1><ul>
 <li><p>zonotope</p>
