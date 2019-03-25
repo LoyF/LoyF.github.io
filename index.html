@@ -358,6 +358,9 @@
 <li>存在冗余特征——如两个人特征之间存在确定的线性关系</li>
 <li>特征数量多于训练样本数量</li>
 </ol>
+<blockquote>
+<p>Mar.17.2019</p>
+</blockquote>
 <h1 id="Octave-MATLAB教程"><a href="#Octave-MATLAB教程" class="headerlink" title="Octave/MATLAB教程"></a>Octave/MATLAB教程</h1><h2 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h2><pre><code>&gt;&gt; a = pi
 a  =  3.1416
 &gt;&gt; disp(sprintf(&#39;6 decimals: %0.6f&#39;,a))
@@ -400,9 +403,12 @@ ans =
 
 &gt;&gt; B = randn(1,1000)
 &gt;&gt; hist(B)  #绘制直方图
-</code></pre><p><img src="img/2019-03-17-09-42-52.png" alt></p>
-<pre><code>&gt;&gt; hist(B,100)  #100个柱
-</code></pre><p><img src="img/2019-03-17-09-45-23.png" alt></p>
+</code></pre><p><img src="img/![](img/2019-03-17-09-42-52.png" alt>.png)</p>
+<pre><code>&gt;&gt; hist(B,20)  #20个柱
+</code></pre><p><img src="img/![](img/2019-03-17-09-45-23.png" alt>.png)</p>
+<blockquote>
+<p>Mar.18.2019</p>
+</blockquote>
 <h2 id="移动数据"><a href="#移动数据" class="headerlink" title="移动数据"></a>移动数据</h2><pre><code>&gt;&gt; load(&#39;X.txt&#39;)    #载入X.txt文件
 &gt;&gt; size(X)
 ans =
@@ -439,6 +445,9 @@ Total is 3012 elements using 24096 bytes
 &gt;&gt; save v.mat v #将变量v保存为v.mat文件
 &gt;&gt; clear    #清除所有变量
 </code></pre><p>更多矩阵操作，略</p>
+<blockquote>
+<p>Mar.19.2019</p>
+</blockquote>
 <h2 id="计算数据"><a href="#计算数据" class="headerlink" title="计算数据"></a>计算数据</h2><ol>
 <li>矩阵相乘 A * B</li>
 <li>矩阵元素对应相乘 A .* B</li>
@@ -447,6 +456,9 @@ Total is 3012 elements using 24096 bytes
 <li>计算元素数量</li>
 <li>得到逆矩阵、转置矩阵、90度旋转矩阵等</li>
 </ol>
+<blockquote>
+<p>Mar.20.2019</p>
+</blockquote>
 <h2 id="数据绘制"><a href="#数据绘制" class="headerlink" title="数据绘制"></a>数据绘制</h2><h3 id="基本绘制、叠加、加入图例"><a href="#基本绘制、叠加、加入图例" class="headerlink" title="基本绘制、叠加、加入图例"></a>基本绘制、叠加、加入图例</h3><pre><code>octave:34&gt; x = [0:0.1:10];
 octave:35&gt; y = sin(x);
 octave:36&gt; plot(x,y)
@@ -488,7 +500,66 @@ A =
 10    12    94    96    78    35    37    44    46    53
 11    18   100    77    84    36    43    50    27    59
 </code></pre><p><img src="img/2019-03-20-17-06-57.png" alt></p>
-<h2 id="控制语句-for-while-if"><a href="#控制语句-for-while-if" class="headerlink" title="控制语句 for while if"></a>控制语句 for while if</h2>
+<blockquote>
+<p>Mar.23.2019</p>
+</blockquote>
+<h2 id="控制语句-for-while-if"><a href="#控制语句-for-while-if" class="headerlink" title="控制语句 for while if"></a>控制语句 for while if</h2><pre><code>octave:7&gt; v = zeros(1,10)
+v =
+
+0   0   0   0   0   0   0   0   0   0
+
+octave:8&gt; for i = 1:10, v(i) = 2^i; end; v
+v =
+
+    2      4      8     16     32     64    128    256    512   1024
+</code></pre><p>while\break\continue 略</p>
+<h3 id="函数定义："><a href="#函数定义：" class="headerlink" title="函数定义："></a>函数定义：</h3><ul>
+<li>新建文件： function.m<br>文件内容：</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function [y1,y2] squareAndCubeThisNumber(x)</span><br><span class="line">y1 = x^<span class="number">2</span>;</span><br><span class="line">y2 = x^<span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+<pre><code>在octave里添加这个函数文件查找路径，则在其他目录下也能直接访问该函数：
+&gt;&gt; addpath(&#39;dir&#39;)
+&gt;&gt; [a,b] = squareAndCubeThisNumber(5)
+a =  25
+b =  125
+</code></pre><ul>
+<li>新建文件：costFunctionJ(X, y, theta)<br>文件内容：</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function j = costFunctionJ(X, y, theta)</span><br><span class="line"></span><br><span class="line">% X <span class="keyword">is</span> the <span class="string">"design matrix"</span> containing our training example</span><br><span class="line">% y <span class="keyword">is</span> rhe <span class="class"><span class="keyword">class</span> <span class="title">labels</span></span></span><br><span class="line"><span class="class"></span></span><br><span class="line">m = size(X, 1);</span><br><span class="line">predictions = X * theta;</span><br><span class="line">sqrErrors = (predictions - y).^<span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">j = <span class="number">1</span> / (<span class="number">2</span> * m) * sum(sqrErrors);</span><br></pre></td></tr></table></figure>
+<pre><code>执行：
+&gt;&gt; X = [1 1; 2 2; 3 3]
+X =
+
+1   1
+2   2
+3   3
+
+&gt;&gt; y = [1; 2; 3]
+y =
+
+1
+2
+3
+
+&gt;&gt; theta = [0;1]
+theta =
+
+0
+1
+
+&gt;&gt; j = costFunctionJ(X, y, theta)
+j = 0
+
+&gt;&gt; theta = [0;0]
+theta =
+
+0
+0
+
+&gt;&gt; j = costFunctionJ(X, y, theta)
+j =  2.3333
+</code></pre><h2 id="矢量（向量化vectorization）"><a href="#矢量（向量化vectorization）" class="headerlink" title="矢量（向量化vectorization）"></a>矢量（向量化vectorization）</h2><p>梯度下降（costfunction为平方误差）的参数改变方程向量化：<br>x下标是参数编号，x上标是数据编号<br><img src="img/2019-03-23-17-26-45.png" alt></p>
+<h2 id="第六章编程作业"><a href="#第六章编程作业" class="headerlink" title="第六章编程作业"></a>第六章编程作业</h2>
           
         
       
@@ -834,10 +905,13 @@ A =
 <script type="math/tex; mode=display">f(x)=c_1x^{α_1}⊕ . . .⊕ c_rx^{α_r}</script><pre><code>Tropical hypersurface是集合：
 </code></pre><script type="math/tex; mode=display">T(f):=\ \{x∈R^d:c_ix^{α_i}=c_jx^{α_j} =f(x)\ for\ some\ α_i≠α_j\}.</script><pre><code>换句话说，Tropical hypersurface包括了那些x,在x上的f的值由两个或两个以上单项式决定。
 Tropical hypersurface把f分成线性的凸单元。
-</code></pre><ul>
-<li>Definition 2.3.2（Newton polygon）牛顿多边形<h2 id="神经网络"><a href="#神经网络" class="headerlink" title="神经网络"></a>神经网络</h2></li>
+</code></pre><p><img src="img/2019-03-25-08-54-02.png" alt></p>
+<ul>
+<li>Definition 2.3.2（Newton polygon）牛顿多边形</li>
 </ul>
-<h2 id="神经网络的Tropical代数"><a href="#神经网络的Tropical代数" class="headerlink" title="神经网络的Tropical代数"></a>神经网络的Tropical代数</h2><h2 id="神经网路的Tropical几何"><a href="#神经网路的Tropical几何" class="headerlink" title="神经网路的Tropical几何"></a>神经网路的Tropical几何</h2><h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><h1 id="一些特殊定义、术语"><a href="#一些特殊定义、术语" class="headerlink" title="一些特殊定义、术语"></a>一些特殊定义、术语</h1><ul>
+<p><img src="img/2019-03-25-08-52-07.png" alt><br><img src="img/2019-03-25-08-54-36.png" alt></p>
+<h3 id="Transformations-of-tropical-polynomials"><a href="#Transformations-of-tropical-polynomials" class="headerlink" title="Transformations of tropical polynomials"></a>Transformations of tropical polynomials</h3><p><img src="img/2019-03-25-08-59-10.png" alt><br>The <strong>Minkowski sum</strong> of the two sets:<br><img src="img/2019-03-25-09-00-09.png" alt><br><img src="img/2019-03-25-09-01-21.png" alt><br><img src="img/2019-03-25-09-01-58.png" alt><br><img src="img/2019-03-25-09-02-15.png" alt><br><img src="img/2019-03-25-09-02-25.png" alt><br><img src="img/2019-03-25-09-02-51.png" alt></p>
+<h2 id="神经网络"><a href="#神经网络" class="headerlink" title="神经网络"></a>神经网络</h2><h2 id="神经网络的Tropical代数"><a href="#神经网络的Tropical代数" class="headerlink" title="神经网络的Tropical代数"></a>神经网络的Tropical代数</h2><h2 id="神经网路的Tropical几何"><a href="#神经网路的Tropical几何" class="headerlink" title="神经网路的Tropical几何"></a>神经网路的Tropical几何</h2><h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><h1 id="一些特殊定义、术语"><a href="#一些特殊定义、术语" class="headerlink" title="一些特殊定义、术语"></a>一些特殊定义、术语</h1><ul>
 <li><p>zonotope</p>
 <p>  是d维空间中的一组点，由向量构成</p>
 </li>

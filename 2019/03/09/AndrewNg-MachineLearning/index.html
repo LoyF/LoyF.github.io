@@ -100,12 +100,13 @@
 <meta property="og:image" content="https://loyf.github.io/2019/03/09/AndrewNg-MachineLearning/img/2019-03-16-15-52-35.png">
 <meta property="og:image" content="https://loyf.github.io/2019/03/09/AndrewNg-MachineLearning/img/2019-03-16-16-12-14.png">
 <meta property="og:image" content="https://loyf.github.io/2019/03/09/AndrewNg-MachineLearning/img/2019-03-16-16-21-09.png">
-<meta property="og:image" content="https://loyf.github.io/2019/03/09/AndrewNg-MachineLearning/img/2019-03-17-09-42-52.png">
-<meta property="og:image" content="https://loyf.github.io/2019/03/09/AndrewNg-MachineLearning/img/2019-03-17-09-45-23.png">
+<meta property="og:image" content="https://loyf.github.io/2019/03/09/AndrewNg-MachineLearning/img/![](img/2019-03-17-09-42-52.png">
+<meta property="og:image" content="https://loyf.github.io/2019/03/09/AndrewNg-MachineLearning/img/![](img/2019-03-17-09-45-23.png">
 <meta property="og:image" content="https://loyf.github.io/2019/03/09/AndrewNg-MachineLearning/img/2019-03-20-16-45-04.png">
 <meta property="og:image" content="https://loyf.github.io/2019/03/09/AndrewNg-MachineLearning/img/2019-03-20-16-50-06.png">
 <meta property="og:image" content="https://loyf.github.io/2019/03/09/AndrewNg-MachineLearning/img/2019-03-20-17-06-57.png">
-<meta property="og:updated_time" content="2019-03-20T09:09:20.632Z">
+<meta property="og:image" content="https://loyf.github.io/2019/03/09/AndrewNg-MachineLearning/img/2019-03-23-17-26-45.png">
+<meta property="og:updated_time" content="2019-03-23T10:13:54.764Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AndrewNg-MachineLearning">
 <meta name="twitter:description" content="绪论 Mar.9.2019  什么是机器学习？ Arthur samuel 1959年创造了这个词 “Machine Learning”——Field of study that gives computers  the ability to learn without being explicitly programmed.“在没有明确设置的情况下，使计算机具有学习能力的研究领域。”编写了跳棋程">
@@ -377,6 +378,9 @@
 <li>存在冗余特征——如两个人特征之间存在确定的线性关系</li>
 <li>特征数量多于训练样本数量</li>
 </ol>
+<blockquote>
+<p>Mar.17.2019</p>
+</blockquote>
 <h1 id="Octave-MATLAB教程"><a href="#Octave-MATLAB教程" class="headerlink" title="Octave/MATLAB教程"></a>Octave/MATLAB教程</h1><h2 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h2><pre><code>&gt;&gt; a = pi
 a  =  3.1416
 &gt;&gt; disp(sprintf(&#39;6 decimals: %0.6f&#39;,a))
@@ -419,9 +423,12 @@ ans =
 
 &gt;&gt; B = randn(1,1000)
 &gt;&gt; hist(B)  #绘制直方图
-</code></pre><p><img src="img/2019-03-17-09-42-52.png" alt></p>
-<pre><code>&gt;&gt; hist(B,100)  #100个柱
-</code></pre><p><img src="img/2019-03-17-09-45-23.png" alt></p>
+</code></pre><p><img src="img/![](img/2019-03-17-09-42-52.png" alt>.png)</p>
+<pre><code>&gt;&gt; hist(B,20)  #20个柱
+</code></pre><p><img src="img/![](img/2019-03-17-09-45-23.png" alt>.png)</p>
+<blockquote>
+<p>Mar.18.2019</p>
+</blockquote>
 <h2 id="移动数据"><a href="#移动数据" class="headerlink" title="移动数据"></a>移动数据</h2><pre><code>&gt;&gt; load(&#39;X.txt&#39;)    #载入X.txt文件
 &gt;&gt; size(X)
 ans =
@@ -458,6 +465,9 @@ Total is 3012 elements using 24096 bytes
 &gt;&gt; save v.mat v #将变量v保存为v.mat文件
 &gt;&gt; clear    #清除所有变量
 </code></pre><p>更多矩阵操作，略</p>
+<blockquote>
+<p>Mar.19.2019</p>
+</blockquote>
 <h2 id="计算数据"><a href="#计算数据" class="headerlink" title="计算数据"></a>计算数据</h2><ol>
 <li>矩阵相乘 A * B</li>
 <li>矩阵元素对应相乘 A .* B</li>
@@ -466,6 +476,9 @@ Total is 3012 elements using 24096 bytes
 <li>计算元素数量</li>
 <li>得到逆矩阵、转置矩阵、90度旋转矩阵等</li>
 </ol>
+<blockquote>
+<p>Mar.20.2019</p>
+</blockquote>
 <h2 id="数据绘制"><a href="#数据绘制" class="headerlink" title="数据绘制"></a>数据绘制</h2><h3 id="基本绘制、叠加、加入图例"><a href="#基本绘制、叠加、加入图例" class="headerlink" title="基本绘制、叠加、加入图例"></a>基本绘制、叠加、加入图例</h3><pre><code>octave:34&gt; x = [0:0.1:10];
 octave:35&gt; y = sin(x);
 octave:36&gt; plot(x,y)
@@ -507,7 +520,66 @@ A =
 10    12    94    96    78    35    37    44    46    53
 11    18   100    77    84    36    43    50    27    59
 </code></pre><p><img src="img/2019-03-20-17-06-57.png" alt></p>
-<h2 id="控制语句-for-while-if"><a href="#控制语句-for-while-if" class="headerlink" title="控制语句 for while if"></a>控制语句 for while if</h2>
+<blockquote>
+<p>Mar.23.2019</p>
+</blockquote>
+<h2 id="控制语句-for-while-if"><a href="#控制语句-for-while-if" class="headerlink" title="控制语句 for while if"></a>控制语句 for while if</h2><pre><code>octave:7&gt; v = zeros(1,10)
+v =
+
+0   0   0   0   0   0   0   0   0   0
+
+octave:8&gt; for i = 1:10, v(i) = 2^i; end; v
+v =
+
+    2      4      8     16     32     64    128    256    512   1024
+</code></pre><p>while\break\continue 略</p>
+<h3 id="函数定义："><a href="#函数定义：" class="headerlink" title="函数定义："></a>函数定义：</h3><ul>
+<li>新建文件： function.m<br>文件内容：</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function [y1,y2] squareAndCubeThisNumber(x)</span><br><span class="line">y1 = x^<span class="number">2</span>;</span><br><span class="line">y2 = x^<span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+<pre><code>在octave里添加这个函数文件查找路径，则在其他目录下也能直接访问该函数：
+&gt;&gt; addpath(&#39;dir&#39;)
+&gt;&gt; [a,b] = squareAndCubeThisNumber(5)
+a =  25
+b =  125
+</code></pre><ul>
+<li>新建文件：costFunctionJ(X, y, theta)<br>文件内容：</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function j = costFunctionJ(X, y, theta)</span><br><span class="line"></span><br><span class="line">% X <span class="keyword">is</span> the <span class="string">"design matrix"</span> containing our training example</span><br><span class="line">% y <span class="keyword">is</span> rhe <span class="class"><span class="keyword">class</span> <span class="title">labels</span></span></span><br><span class="line"><span class="class"></span></span><br><span class="line">m = size(X, 1);</span><br><span class="line">predictions = X * theta;</span><br><span class="line">sqrErrors = (predictions - y).^<span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">j = <span class="number">1</span> / (<span class="number">2</span> * m) * sum(sqrErrors);</span><br></pre></td></tr></table></figure>
+<pre><code>执行：
+&gt;&gt; X = [1 1; 2 2; 3 3]
+X =
+
+1   1
+2   2
+3   3
+
+&gt;&gt; y = [1; 2; 3]
+y =
+
+1
+2
+3
+
+&gt;&gt; theta = [0;1]
+theta =
+
+0
+1
+
+&gt;&gt; j = costFunctionJ(X, y, theta)
+j = 0
+
+&gt;&gt; theta = [0;0]
+theta =
+
+0
+0
+
+&gt;&gt; j = costFunctionJ(X, y, theta)
+j =  2.3333
+</code></pre><h2 id="矢量（向量化vectorization）"><a href="#矢量（向量化vectorization）" class="headerlink" title="矢量（向量化vectorization）"></a>矢量（向量化vectorization）</h2><p>梯度下降（costfunction为平方误差）的参数改变方程向量化：<br>x下标是参数编号，x上标是数据编号<br><img src="img/2019-03-23-17-26-45.png" alt></p>
+<h2 id="第六章编程作业"><a href="#第六章编程作业" class="headerlink" title="第六章编程作业"></a>第六章编程作业</h2>
       
     </div>
     
@@ -653,7 +725,7 @@ A =
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#绪论"><span class="nav-number">1.</span> <span class="nav-text">绪论</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是机器学习？"><span class="nav-number">1.1.</span> <span class="nav-text">什么是机器学习？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#监督学习、无监督学习"><span class="nav-number">1.2.</span> <span class="nav-text">监督学习、无监督学习</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#单变量线性回归"><span class="nav-number">2.</span> <span class="nav-text">单变量线性回归</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#模型描述"><span class="nav-number">2.1.</span> <span class="nav-text">模型描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代价函数"><span class="nav-number">2.2.</span> <span class="nav-text">代价函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#梯度下降"><span class="nav-number">2.3.</span> <span class="nav-text">梯度下降</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线性回归的梯度下降"><span class="nav-number">2.4.</span> <span class="nav-text">线性回归的梯度下降</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#线性代数回顾"><span class="nav-number">3.</span> <span class="nav-text">线性代数回顾</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置"><span class="nav-number">4.</span> <span class="nav-text">配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#多变量线性回归"><span class="nav-number">5.</span> <span class="nav-text">多变量线性回归</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#多功能"><span class="nav-number">5.1.</span> <span class="nav-text">多功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多元梯度下降法"><span class="nav-number">5.2.</span> <span class="nav-text">多元梯度下降法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特征缩放"><span class="nav-number">5.3.</span> <span class="nav-text">特征缩放</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#学习率的选取"><span class="nav-number">5.4.</span> <span class="nav-text">学习率的选取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特征和多项式回归"><span class="nav-number">5.5.</span> <span class="nav-text">特征和多项式回归</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正规方程法（非迭代）"><span class="nav-number">5.6.</span> <span class="nav-text">正规方程法（非迭代）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#梯度下降达和正规方程法的比较"><span class="nav-number">5.7.</span> <span class="nav-text">梯度下降达和正规方程法的比较</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正规方程在矩阵不可逆情况下的解决办法"><span class="nav-number">5.8.</span> <span class="nav-text">正规方程在矩阵不可逆情况下的解决办法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Octave-MATLAB教程"><span class="nav-number">6.</span> <span class="nav-text">Octave/MATLAB教程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本操作"><span class="nav-number">6.1.</span> <span class="nav-text">基本操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#移动数据"><span class="nav-number">6.2.</span> <span class="nav-text">移动数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计算数据"><span class="nav-number">6.3.</span> <span class="nav-text">计算数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据绘制"><span class="nav-number">6.4.</span> <span class="nav-text">数据绘制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本绘制、叠加、加入图例"><span class="nav-number">6.4.1.</span> <span class="nav-text">基本绘制、叠加、加入图例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多图显示"><span class="nav-number">6.4.2.</span> <span class="nav-text">多图显示</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#控制语句-for-while-if"><span class="nav-number">6.5.</span> <span class="nav-text">控制语句 for while if</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#绪论"><span class="nav-number">1.</span> <span class="nav-text">绪论</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是机器学习？"><span class="nav-number">1.1.</span> <span class="nav-text">什么是机器学习？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#监督学习、无监督学习"><span class="nav-number">1.2.</span> <span class="nav-text">监督学习、无监督学习</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#单变量线性回归"><span class="nav-number">2.</span> <span class="nav-text">单变量线性回归</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#模型描述"><span class="nav-number">2.1.</span> <span class="nav-text">模型描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代价函数"><span class="nav-number">2.2.</span> <span class="nav-text">代价函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#梯度下降"><span class="nav-number">2.3.</span> <span class="nav-text">梯度下降</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线性回归的梯度下降"><span class="nav-number">2.4.</span> <span class="nav-text">线性回归的梯度下降</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#线性代数回顾"><span class="nav-number">3.</span> <span class="nav-text">线性代数回顾</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置"><span class="nav-number">4.</span> <span class="nav-text">配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#多变量线性回归"><span class="nav-number">5.</span> <span class="nav-text">多变量线性回归</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#多功能"><span class="nav-number">5.1.</span> <span class="nav-text">多功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多元梯度下降法"><span class="nav-number">5.2.</span> <span class="nav-text">多元梯度下降法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特征缩放"><span class="nav-number">5.3.</span> <span class="nav-text">特征缩放</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#学习率的选取"><span class="nav-number">5.4.</span> <span class="nav-text">学习率的选取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特征和多项式回归"><span class="nav-number">5.5.</span> <span class="nav-text">特征和多项式回归</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正规方程法（非迭代）"><span class="nav-number">5.6.</span> <span class="nav-text">正规方程法（非迭代）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#梯度下降达和正规方程法的比较"><span class="nav-number">5.7.</span> <span class="nav-text">梯度下降达和正规方程法的比较</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正规方程在矩阵不可逆情况下的解决办法"><span class="nav-number">5.8.</span> <span class="nav-text">正规方程在矩阵不可逆情况下的解决办法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Octave-MATLAB教程"><span class="nav-number">6.</span> <span class="nav-text">Octave/MATLAB教程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本操作"><span class="nav-number">6.1.</span> <span class="nav-text">基本操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#移动数据"><span class="nav-number">6.2.</span> <span class="nav-text">移动数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计算数据"><span class="nav-number">6.3.</span> <span class="nav-text">计算数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据绘制"><span class="nav-number">6.4.</span> <span class="nav-text">数据绘制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本绘制、叠加、加入图例"><span class="nav-number">6.4.1.</span> <span class="nav-text">基本绘制、叠加、加入图例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多图显示"><span class="nav-number">6.4.2.</span> <span class="nav-text">多图显示</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#控制语句-for-while-if"><span class="nav-number">6.5.</span> <span class="nav-text">控制语句 for while if</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#函数定义："><span class="nav-number">6.5.1.</span> <span class="nav-text">函数定义：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#矢量（向量化vectorization）"><span class="nav-number">6.6.</span> <span class="nav-text">矢量（向量化vectorization）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第六章编程作业"><span class="nav-number">6.7.</span> <span class="nav-text">第六章编程作业</span></a></li></ol></li></ol></div>
             
 
           </div>
