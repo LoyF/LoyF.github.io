@@ -301,7 +301,7 @@
         
           
             <blockquote>
-<p>NIPS 2012 《ImageNet Classification with Deep Convolutional Neural Networks》<br>Alex Krizhevsky | Ilya Sutskever | Geoffrey E. Hinton<br><a href="https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf" target="_blank" rel="noopener">https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf</a></p>
+<p>NIPS 2012 《ImageNet Classification with Deep Convolutional Neural Networks》<br>Alex Krizhevsky | Ilya Sutskever | Geoffrey E. Hinton<br><a href="https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf" target="_blank" rel="noopener">PaperLink</a></p>
 </blockquote>
 <p><img src="https://img-blog.csdnimg.cn/20190329141116436.png" width="100%" alt></p>
 <h1 id="基本参数"><a href="#基本参数" class="headerlink" title="基本参数"></a>基本参数</h1><p><strong>input：</strong> 224×224大小的图片，3通道<br><strong>conv1：</strong> 11×11大小的卷积核96个，每个GPU上48个。<br><strong>max-pooling：</strong> 2×2的核。<br><strong>conv2：</strong> 5×5卷积核256个，每个GPU上128个。<br><strong>max-pooling：</strong> 2×2的核。<br><strong>conv3：</strong> 与上一层是全连接，3<em>3的卷积核384个。分到两个GPU上个192个。<br><strong>conv4：</strong> 3×3的卷积核384个，两个GPU各192个。该层与上一层连接没有经过pooling层。<br><strong>conv5：</strong> 3×3的卷积核256个，两个GPU上个128个。<br><strong>max-pooling：</strong> 2×2的核。<br><strong>FullyConnected1：</strong> 4096维，将第五层max-pooling的输出连接成为一个一维向量，作为该层的输入。<br><strong>FullyConnected2：</strong> 4096维<br><em>*Softmax：</em></em> 输出为1000，输出的每一维都是图片属于该类别的概率。</p>
