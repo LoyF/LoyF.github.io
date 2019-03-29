@@ -831,8 +831,8 @@ j =  2.3333
 <p><strong>基本参数：</strong><br>输入：224×224大小的图片，3通道<br>第一层卷积：11×11大小的卷积核96个，每个GPU上48个。<br>第一层max-pooling：2×2的核。<br>第二层卷积：5×5卷积核256个，每个GPU上128个。<br>第二层max-pooling：2×2的核。<br>第三层卷积：与上一层是全连接，3*3的卷积核384个。分到两个GPU上个192个。<br>第四层卷积：3×3的卷积核384个，两个GPU各192个。该层与上一层连接没有经过pooling层。<br>第五层卷积：3×3的卷积核256个，两个GPU上个128个。<br>第五层max-pooling：2×2的核。<br>第一层全连接：4096维，将第五层max-pooling的输出连接成为一个一维向量，作为该层的输入。<br>第二层全连接：4096维<br>Softmax层：输出为1000，输出的每一维都是图片属于该类别的概率。</p>
 <h2 id="ZF-Net"><a href="#ZF-Net" class="headerlink" title="ZF-Net"></a>ZF-Net</h2><h2 id="VGG-2014"><a href="#VGG-2014" class="headerlink" title="VGG 2014"></a>VGG 2014</h2><h2 id="GoogleNet-2014"><a href="#GoogleNet-2014" class="headerlink" title="GoogleNet 2014"></a>GoogleNet 2014</h2><h2 id="ResNet-2015"><a href="#ResNet-2015" class="headerlink" title="ResNet 2015"></a>ResNet 2015</h2><blockquote>
 <p>CVPR2016 Best Paper <a href="https://arxiv.org/abs/1512.03385" target="_blank" rel="noopener">https://arxiv.org/abs/1512.03385</a></p>
-<p><strong>解决退化问题：</strong><br>随着网络层数的增加，模型的准确率下降了，这种退化并不是由过拟合造成的，在一个合理的深度模型中增加更多的层却导致了更高的错误。</p>
 </blockquote>
+<p><strong>解决退化问题：</strong><br>随着网络层数的增加，模型的准确率下降了，这种退化并不是由过拟合造成的，在一个合理的深度模型中增加更多的层却导致了更高的错误。</p>
 <p><img src="https://img-blog.csdnimg.cn/20190329141221770.png" width="80%" alt></p>
 <p><strong>残差学习：</strong></p>
 <p><img src="https://img-blog.csdnimg.cn/20190329141300192.png" width="60%" alt></p>
@@ -840,14 +840,17 @@ j =  2.3333
 <p><img src="https://img-blog.csdnimg.cn/20190329141515392.png" width="80%" alt></p>
 <h2 id="DenseNet"><a href="#DenseNet" class="headerlink" title="DenseNet"></a>DenseNet</h2><blockquote>
 <p>CVPR2017 Best Paper <a href="https://arxiv.org/pdf/1608.06993.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1608.06993.pdf</a></p>
-<h2 id="GAN-生成对抗"><a href="#GAN-生成对抗" class="headerlink" title="GAN 生成对抗"></a>GAN 生成对抗</h2><h2 id="R-CNN-Regions-with-CNN-features"><a href="#R-CNN-Regions-with-CNN-features" class="headerlink" title="R-CNN    Regions with CNN features"></a>R-CNN    Regions with CNN features</h2><p><strong>RCNN</strong><br>CVPR2014 <a href="https://arxiv.org/pdf/1311.2524v3.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1311.2524v3.pdf</a></p>
+</blockquote>
+<h2 id="GAN-生成对抗"><a href="#GAN-生成对抗" class="headerlink" title="GAN 生成对抗"></a>GAN 生成对抗</h2><h2 id="R-CNN-Regions-with-CNN-features"><a href="#R-CNN-Regions-with-CNN-features" class="headerlink" title="R-CNN    Regions with CNN features"></a>R-CNN    Regions with CNN features</h2><p><strong>RCNN</strong></p>
+<blockquote>
+<p>CVPR2014 <a href="https://arxiv.org/pdf/1311.2524v3.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1311.2524v3.pdf</a></p>
 </blockquote>
 <p><strong>fast-RCNN</strong></p>
 <p><strong>faster-RCNN</strong></p>
 <h2 id="NASNet"><a href="#NASNet" class="headerlink" title="NASNet"></a>NASNet</h2><blockquote>
 <p>CVPR2017 <a href="https://arxiv.org/pdf/1707.07012.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1707.07012.pdf</a><br><a href="https://github.com/tensorflow/models/tree/master/research/slim/nets/nasnet" target="_blank" rel="noopener">https://github.com/tensorflow/models/tree/master/research/slim/nets/nasnet</a></p>
-<h2 id="FCN全卷积网络"><a href="#FCN全卷积网络" class="headerlink" title="FCN全卷积网络"></a>FCN全卷积网络</h2></blockquote>
-
+</blockquote>
+<h2 id="FCN全卷积网络"><a href="#FCN全卷积网络" class="headerlink" title="FCN全卷积网络"></a>FCN全卷积网络</h2>
           
         
       
@@ -1004,16 +1007,16 @@ j =  2.3333
 <p>在第四章中，我们研究了循环向量在非交换群作用下产生的框架。非交换群是许多著名的框架和正交系统构造的基础。</p>
 <h1 id="以Tropical几何的角度分析深度神经网络"><a href="#以Tropical几何的角度分析深度神经网络" class="headerlink" title="以Tropical几何的角度分析深度神经网络"></a>以Tropical几何的角度分析深度神经网络</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>深层神经网络最近在人工智能、计算机视觉、语音识别、自然语言处理等不同领域取得了巨大的成功，但在理论和数学理解上还有未完成的工作。早期的研究表明深层架构可以有效地用户表达复杂的函数群，同时仍然保持相对简单的结构。一个深层神经网络更有效地使用它的参数，并且因此需要指数更少的参数去表示确定的函数族。从经验上表明，当网络足够大时，几个成功的神经网络可以粉碎训练集。另外，这些模型虽然具有很高的表示能力，但同时也具有规则化和“简单”的特点，即它们概括为训练阶段看不到的数据。解释神经网络的这些特性，并找到正确的形式化复杂度度量方法来捕获它们的泛化能力，仍然是一个挑战。</p>
 <p>在本文中，我们关注点在具有ReLu激活函数的前馈神经网络，它是最基础的神经网络，并且也是深度学习中最广泛使用的（也许和递归或卷积神经网络一起使用）类型的神经网络之一。</p>
-<p>我们展示了在Tropical代数或者Tropical代数几何中，这样一个神经网络是一个有理函数的类似物，换言之，是两个多元多项式f,g的比值，f(x1,…,xd) / g(x1,…,xd)。</p>
+<p>我们展示了在Tropical代数或者Tropical代数几何中，这样一个神经网络是一个有理函数的类似物，换言之，是两个多元多项式f,g的比值，$f(x_1,…,x_d) / g(x_1,…,x_d)$。</p>
 <p>这是一个代数几何中的新领域，在近十年来爆炸式成长，但是在纯数学之外还是相对模糊。事实上，深度学习和Tropical代数几何是相关的，对我们来说是一个惊喜的发现。</p>
 <p>我们讨论的多项式是“tropical多项式”。对于通常的三角多项式来说，我们知道要做有理逼近-用两个多项式的比值而不是一个多项式来近似函数-可以在不增加次数的情况下极大地提高逼近质量。这给了我们思路：一个神经网络是两个Tropical多项式的比值，换言之，一个Tropical有理函数。更严谨地说，如果我们把一个神经网络看做一个函数：</p>
-<script type="math/tex; mode=display">V:R^d → R^p</script><script type="math/tex; mode=display">x = (x_1,...,x_d)→(v_1(x),...,v_p(x))</script><p>其中每一个\(v_i\)是一个Tropical有理函数。从此以后，“一个神经网络是（某种实值函数）”类型的陈述要用协调的意义来解释——这个神经网络的每一个输出节点都是一个输入节点的一个函数。</p>
-<p>事实上，对于神经网络的分类问题中出现的特殊情况\(p = 1\)，我们表明：</p>
+<script type="math/tex; mode=display">V:R^d → R^p</script><script type="math/tex; mode=display">x = (x_1,...,x_d)→(v_1(x),...,v_p(x))</script><p>其中每一个$v_i$是一个Tropical有理函数。从此以后，“一个神经网络是（某种实值函数）”类型的陈述要用协调的意义来解释——这个神经网络的每一个输出节点都是一个输入节点的一个函数。</p>
+<p>事实上，对于神经网络的分类问题中出现的特殊情况$p = 1$，我们表明：</p>
 <pre><code>激活函数为ReLu的前馈神经网络代表的函数族和Tropical有理函数族相同。
 </code></pre><p>我们的主要目标是演示新理论如何用于分析神经网络。除此之外，这使我们能够捕获神经网络所表示的函数的复杂性以及在分类问题中从它派生的决策边界的复杂性，或者更重要的是，随着层数的增加，这种复杂性是如何变化的。神经网络所代表的函数的复杂性可以通过神经网络所具有的线性区域的数量来捕获，该区域可以通过计算由与神经网络相关的Tropical多项式构造的多面体上的顶点数量来研究。在分类问题中，由神经网络导出的决策边界将输入空间划分为若干区域，它是Tropical超曲面的一个子集——一个分段线性多面体曲面。</p>
 <p>Tropical几何学允许我们在这些数字上得出一个上限，从而测量其几何学的复杂性。当神经网络的深度和输入维数固定时，我们发现这个上限是每层节点数的多项式，否则它是指数的。直观地说，一个复杂的分类问题——一个有许多“规则外的意外情况”的问题——需要一个复杂的决策边界来分离。</p>
 <h2 id="Tropical代数"><a href="#Tropical代数" class="headerlink" title="Tropical代数"></a>Tropical代数</h2><blockquote>
-<p>Tropical Semiring \((R∪\){\(-∞\)}\(,⊕,⊙)\)</p>
+<p>Tropical Semiring $(R∪${$-∞$}$,⊕,⊙)$</p>
 </blockquote>
 <ul>
 <li><p>Definition 2.2.1(Tropical加法，乘法，商)</p>
@@ -1024,17 +1027,17 @@ j =  2.3333
 <script type="math/tex; mode=display">−∞⊕x=x, −∞⊙x=−∞, 0⊙x=x.</script><p>因此−∞是加法恒等元素，0是乘法恒等元素。</p>
 </li>
 <li><p>满足通用算数法则：</p>
-<script type="math/tex; mode=display">x ⊕ (y ⊕ z) = (x ⊕ y) ⊕ z,</script><script type="math/tex; mode=display">x ⊙ (y ⊙ z) = (x ⊙ y) ⊙ z.</script><script type="math/tex; mode=display">x ⊕ y = y ⊕ x,</script><script type="math/tex; mode=display">x ⊙ y = y ⊙ x.</script><script type="math/tex; mode=display">x ⊙ (y ⊕ z) = (x ⊙ y) ⊕ (x ⊙ z).</script><p>  \(R∪\){\(-∞\)}在运算符⊕和⊙下是半环，因为缺少加法逆元所以不是环，尽管如此，还是可以在Tropical半环中推广许多代数对象（矩阵、多项式、张量等）和概念（秩、行列式、次数等）。</p>
+<script type="math/tex; mode=display">x ⊕ (y ⊕ z) = (x ⊕ y) ⊕ z,</script><script type="math/tex; mode=display">x ⊙ (y ⊙ z) = (x ⊙ y) ⊙ z.</script><script type="math/tex; mode=display">x ⊕ y = y ⊕ x,</script><script type="math/tex; mode=display">x ⊙ y = y ⊙ x.</script><script type="math/tex; mode=display">x ⊙ (y ⊕ z) = (x ⊙ y) ⊕ (x ⊙ z).</script><p>  R∪{-∞}在运算符⊕和⊙下是半环，因为缺少加法逆元所以不是环，尽管如此，还是可以在Tropical半环中推广许多代数对象（矩阵、多项式、张量等）和概念（秩、行列式、次数等）。</p>
 </li>
-<li><p>Tropical 次幂：对于\(a ∈ N,x ∈ R\)</p>
+<li><p>Tropical 次幂：对于$a ∈ N,x ∈ R$</p>
 <script type="math/tex; mode=display">x^{⊙a} :=\underbrace{x⊙···⊙x}_ {a\ times}=a·x(·表示普通乘法)</script></li>
 </ul>
-<p>注：本文之后的内容全部以\(x^a\)代替\(x^{⊙a}\)。</p>
-<p>扩展到\(R∪\{-∞\}\)：</p>
+<p>注：本文之后的内容全部以$x^a$代替$x^{⊙a}$。</p>
+<p>扩展到$R∪\{-∞\}$：</p>
 <script type="math/tex; mode=display">−∞^{⊙a} := \lbrace_{0,if\ a\ =\ 0}^{−∞,if\ a\ >\ 0}</script><ul>
 <li><p>Tropical乘法逆元：</p>
 <script type="math/tex; mode=display">x^{⊙(-1)} := -x</script><p>  对于负数a ∈ Z：</p>
-<script type="math/tex; mode=display">x^{⊙a} = (−x)^{⊙(−a)}</script><p>  另：−∞没有Tropical乘法逆元；当a &lt; 0时，\(−∞^{⊙a}\)没有意义。</p>
+<script type="math/tex; mode=display">x^{⊙a} = (−x)^{⊙(−a)}</script><p>  另：−∞没有Tropical乘法逆元；当a &lt; 0时，$−∞^{⊙a}$没有意义。</p>
 </li>
 <li><p>满足的规则：</p>
 <ol>
@@ -1049,18 +1052,19 @@ j =  2.3333
 <li><p>Definition 2.2.2（Tropical monomial单项式）</p>
 <script type="math/tex; mode=display">c⊙x_1^{a_1} ⊙ x_2^{a_2} ⊙···⊙ x_d^{a_d}</script><p>  where $c ∈ R ∪ {−∞} and a_1,…,a_d ∈ N$.</p>
 <p>  也可以方便地写成：</p>
-<script type="math/tex; mode=display">cx^α</script><p>  where \(α = (a_1,…,a_d) ∈ N^d and x = (x_1, . . . , x_d)\). </p>
+<script type="math/tex; mode=display">cx^α</script><p>  where $α = (a_1,…,a_d) ∈ N^d and x = (x_1, . . . , x_d)$. </p>
 <p>  当然，对于Tropical乘法恒等元素0，有：</p>
 <script type="math/tex; mode=display">x^α = 0 ⊙ x^α</script></li>
 <li><p>Definition 2.2.3（Tropical多项式）</p>
-<script type="math/tex; mode=display">f(x)=c_1x^{α_1}⊕ . . .⊕ c_rx^{α_r}</script><p>  where \(α<em>i = (a</em>{i1},…,a_{id}) ∈ N^d and c_i ∈ R ∪ {−∞}, i = 1,…,r\). </p>
+<script type="math/tex; mode=display">f(x)=c_1x^{α_1}⊕ . . .⊕ c_rx^{α_r}</script><p>  where $α<em>i = (a</em>{i1},…,a_{id}) ∈ N^d and c_i ∈ R ∪ {−∞}, i = 1,…,r$. </p>
 </li>
 <li><p>Definition 2.2.4（Tropical有理函数）<br>Tropical有理函数是两个Tropical多项式的差</p>
 <script type="math/tex; mode=display">f(x) - g(x) = f(x) ⊘ g(x).</script><p>  Tropical多项式在⊕⊙运算下形成了一个半环，相似地，Tropical有理函数形成了一个半域。</p>
 </li>
-<li><p>Definition 2.2.5（Tropical多项式地图和Tropical有理地图）<br><img src="img/2019-03-10-20-37-10.png" alt></p>
+<li><p>Definition 2.2.5（Tropical多项式地图和Tropical有理地图）</p>
 </li>
 </ul>
+<p><img src="https://img-blog.csdnimg.cn/20190329140750439.png" width="80%" alt></p>
 <h2 id="Tropical-hypersurface"><a href="#Tropical-hypersurface" class="headerlink" title="Tropical hypersurface"></a>Tropical hypersurface</h2><blockquote>
 <p>Tropical多项式f的Tropical hypersurface是f在x上非线性的点x的集合。</p>
 </blockquote>
@@ -1071,12 +1075,20 @@ j =  2.3333
 <script type="math/tex; mode=display">f(x)=c_1x^{α_1}⊕ . . .⊕ c_rx^{α_r}</script><pre><code>Tropical hypersurface是集合：
 </code></pre><script type="math/tex; mode=display">T(f):=\ \{x∈R^d:c_ix^{α_i}=c_jx^{α_j} =f(x)\ for\ some\ α_i≠α_j\}.</script><pre><code>换句话说，Tropical hypersurface包括了那些x,在x上的f的值由两个或两个以上单项式决定。
 Tropical hypersurface把f分成线性的凸单元。
-</code></pre><p><img src="img/2019-03-25-08-54-02.png" alt></p>
+</code></pre><p><img src="https://img-blog.csdnimg.cn/20190328193614514.png" width="60%" alt></p>
 <ul>
 <li>Definition 2.3.2（Newton polygon）牛顿多边形</li>
 </ul>
-<p><img src="img/2019-03-25-08-52-07.png" alt><br><img src="img/2019-03-25-08-54-36.png" alt></p>
-<h3 id="Transformations-of-tropical-polynomials"><a href="#Transformations-of-tropical-polynomials" class="headerlink" title="Transformations of tropical polynomials"></a>Transformations of tropical polynomials</h3><p><img src="img/2019-03-25-08-59-10.png" alt><br>The <strong>Minkowski sum</strong> of the two sets:<br><img src="img/2019-03-25-09-00-09.png" alt><br><img src="img/2019-03-25-09-01-21.png" alt><br><img src="img/2019-03-25-09-01-58.png" alt><br><img src="img/2019-03-25-09-02-15.png" alt><br><img src="img/2019-03-25-09-02-25.png" alt><br><img src="img/2019-03-25-09-02-51.png" alt></p>
+<p><img src="https://img-blog.csdnimg.cn/20190328193835303.png" width="60%" alt></p>
+<p><img src="https://img-blog.csdnimg.cn/20190328193850668.png" width="60%" alt></p>
+<h3 id="Transformations-of-tropical-polynomials"><a href="#Transformations-of-tropical-polynomials" class="headerlink" title="Transformations of tropical polynomials"></a>Transformations of tropical polynomials</h3><p><img src="https://img-blog.csdnimg.cn/20190328194045176.png" width="60%" alt></p>
+<p>The <strong>Minkowski sum</strong> of the two sets:</p>
+<p><img src="https://img-blog.csdnimg.cn/20190328194213361.png" width="60%" alt></p>
+<p><img src="https://img-blog.csdnimg.cn/20190328194222221.png" width="60%" alt></p>
+<p><img src="https://img-blog.csdnimg.cn/20190328194227211.png" width="60%" alt></p>
+<p><img src="https://img-blog.csdnimg.cn/20190328194238273.png" width="60%" alt></p>
+<p><img src="https://img-blog.csdnimg.cn/20190328194242473.png" width="60%" alt></p>
+<p><img src="https://img-blog.csdnimg.cn/20190328194247270.png" width="60%" alt></p>
 <h2 id="神经网络"><a href="#神经网络" class="headerlink" title="神经网络"></a>神经网络</h2><h2 id="神经网络的Tropical代数"><a href="#神经网络的Tropical代数" class="headerlink" title="神经网络的Tropical代数"></a>神经网络的Tropical代数</h2><h2 id="神经网路的Tropical几何"><a href="#神经网路的Tropical几何" class="headerlink" title="神经网路的Tropical几何"></a>神经网路的Tropical几何</h2><h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><h1 id="一些特殊定义、术语"><a href="#一些特殊定义、术语" class="headerlink" title="一些特殊定义、术语"></a>一些特殊定义、术语</h1><ul>
 <li><p>zonotope</p>
 <p>  是d维空间中的一组点，由向量构成</p>

@@ -93,7 +93,7 @@
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20190329141221770.png">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20190329141300192.png">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20190329141515392.png">
-<meta property="og:updated_time" content="2019-03-29T08:37:41.941Z">
+<meta property="og:updated_time" content="2019-03-29T08:40:37.434Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Neural-Network-Introduction">
 <meta name="twitter:description" content="General Nounbatchsize 批尺寸iteration 迭代，使用一个batchsize训练一次epoch 迭代次数，使用全部样本训练一次batchsize * iteration = 1 epoch 卷积层Convolution我们选取一个给定大小宽度和高度的滤波器（filter），将图片分成多个小块patch（patch大小与filter大小相同），用这个filter对图片的">
@@ -334,8 +334,8 @@
 <p><strong>基本参数：</strong><br>输入：224×224大小的图片，3通道<br>第一层卷积：11×11大小的卷积核96个，每个GPU上48个。<br>第一层max-pooling：2×2的核。<br>第二层卷积：5×5卷积核256个，每个GPU上128个。<br>第二层max-pooling：2×2的核。<br>第三层卷积：与上一层是全连接，3*3的卷积核384个。分到两个GPU上个192个。<br>第四层卷积：3×3的卷积核384个，两个GPU各192个。该层与上一层连接没有经过pooling层。<br>第五层卷积：3×3的卷积核256个，两个GPU上个128个。<br>第五层max-pooling：2×2的核。<br>第一层全连接：4096维，将第五层max-pooling的输出连接成为一个一维向量，作为该层的输入。<br>第二层全连接：4096维<br>Softmax层：输出为1000，输出的每一维都是图片属于该类别的概率。</p>
 <h2 id="ZF-Net"><a href="#ZF-Net" class="headerlink" title="ZF-Net"></a>ZF-Net</h2><h2 id="VGG-2014"><a href="#VGG-2014" class="headerlink" title="VGG 2014"></a>VGG 2014</h2><h2 id="GoogleNet-2014"><a href="#GoogleNet-2014" class="headerlink" title="GoogleNet 2014"></a>GoogleNet 2014</h2><h2 id="ResNet-2015"><a href="#ResNet-2015" class="headerlink" title="ResNet 2015"></a>ResNet 2015</h2><blockquote>
 <p>CVPR2016 Best Paper <a href="https://arxiv.org/abs/1512.03385" target="_blank" rel="noopener">https://arxiv.org/abs/1512.03385</a></p>
-<p><strong>解决退化问题：</strong><br>随着网络层数的增加，模型的准确率下降了，这种退化并不是由过拟合造成的，在一个合理的深度模型中增加更多的层却导致了更高的错误。</p>
 </blockquote>
+<p><strong>解决退化问题：</strong><br>随着网络层数的增加，模型的准确率下降了，这种退化并不是由过拟合造成的，在一个合理的深度模型中增加更多的层却导致了更高的错误。</p>
 <p><img src="https://img-blog.csdnimg.cn/20190329141221770.png" width="80%" alt></p>
 <p><strong>残差学习：</strong></p>
 <p><img src="https://img-blog.csdnimg.cn/20190329141300192.png" width="60%" alt></p>
@@ -343,14 +343,17 @@
 <p><img src="https://img-blog.csdnimg.cn/20190329141515392.png" width="80%" alt></p>
 <h2 id="DenseNet"><a href="#DenseNet" class="headerlink" title="DenseNet"></a>DenseNet</h2><blockquote>
 <p>CVPR2017 Best Paper <a href="https://arxiv.org/pdf/1608.06993.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1608.06993.pdf</a></p>
-<h2 id="GAN-生成对抗"><a href="#GAN-生成对抗" class="headerlink" title="GAN 生成对抗"></a>GAN 生成对抗</h2><h2 id="R-CNN-Regions-with-CNN-features"><a href="#R-CNN-Regions-with-CNN-features" class="headerlink" title="R-CNN    Regions with CNN features"></a>R-CNN    Regions with CNN features</h2><p><strong>RCNN</strong><br>CVPR2014 <a href="https://arxiv.org/pdf/1311.2524v3.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1311.2524v3.pdf</a></p>
+</blockquote>
+<h2 id="GAN-生成对抗"><a href="#GAN-生成对抗" class="headerlink" title="GAN 生成对抗"></a>GAN 生成对抗</h2><h2 id="R-CNN-Regions-with-CNN-features"><a href="#R-CNN-Regions-with-CNN-features" class="headerlink" title="R-CNN    Regions with CNN features"></a>R-CNN    Regions with CNN features</h2><p><strong>RCNN</strong></p>
+<blockquote>
+<p>CVPR2014 <a href="https://arxiv.org/pdf/1311.2524v3.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1311.2524v3.pdf</a></p>
 </blockquote>
 <p><strong>fast-RCNN</strong></p>
 <p><strong>faster-RCNN</strong></p>
 <h2 id="NASNet"><a href="#NASNet" class="headerlink" title="NASNet"></a>NASNet</h2><blockquote>
 <p>CVPR2017 <a href="https://arxiv.org/pdf/1707.07012.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1707.07012.pdf</a><br><a href="https://github.com/tensorflow/models/tree/master/research/slim/nets/nasnet" target="_blank" rel="noopener">https://github.com/tensorflow/models/tree/master/research/slim/nets/nasnet</a></p>
-<h2 id="FCN全卷积网络"><a href="#FCN全卷积网络" class="headerlink" title="FCN全卷积网络"></a>FCN全卷积网络</h2></blockquote>
-
+</blockquote>
+<h2 id="FCN全卷积网络"><a href="#FCN全卷积网络" class="headerlink" title="FCN全卷积网络"></a>FCN全卷积网络</h2>
       
     </div>
     
