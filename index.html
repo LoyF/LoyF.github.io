@@ -304,7 +304,7 @@
 <p>NIPS 2012 《ImageNet Classification with Deep Convolutional Neural Networks》<br>Alex Krizhevsky | Ilya Sutskever | Geoffrey E. Hinton<br><a href="https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf" target="_blank" rel="noopener">PaperLink</a></p>
 </blockquote>
 <p><img src="https://img-blog.csdnimg.cn/20190329141116436.png" width="100%" alt></p>
-<h1 id="基本参数"><a href="#基本参数" class="headerlink" title="基本参数"></a>基本参数</h1><p><strong>input：</strong> 224×224大小的图片，3通道<br><strong>conv1：</strong> 11×11大小的卷积核96个，每个GPU上48个。<br><strong>max-pooling：</strong> 2×2的核。<br><strong>conv2：</strong> 5×5卷积核256个，每个GPU上128个。<br><strong>max-pooling：</strong> 2×2的核。<br><strong>conv3：</strong> 与上一层是全连接，3<em>3的卷积核384个。分到两个GPU上个192个。<br><strong>conv4：</strong> 3×3的卷积核384个，两个GPU各192个。该层与上一层连接没有经过pooling层。<br><strong>conv5：</strong> 3×3的卷积核256个，两个GPU上个128个。<br><strong>max-pooling：</strong> 2×2的核。<br><strong>FullyConnected1：</strong> 4096维，将第五层max-pooling的输出连接成为一个一维向量，作为该层的输入。<br><strong>FullyConnected2：</strong> 4096维<br><em>*Softmax：</em></em> 输出为1000，输出的每一维都是图片属于该类别的概率。</p>
+<h1 id="基本参数"><a href="#基本参数" class="headerlink" title="基本参数"></a>基本参数</h1><p><strong>input：</strong> 224×224大小的图片，3通道<br><strong>conv1：</strong> 11×11大小的卷积核96个，每个GPU上48个。<br><strong>max-pooling：</strong> 2×2的核。<br><strong>conv2：</strong> 5×5卷积核256个，每个GPU上128个。<br><strong>max-pooling：</strong> 2×2的核。<br><strong>conv3：</strong> 与上一层是全连接，3x3的卷积核384个。分到两个GPU上个192个。<br><strong>conv4：</strong> 3×3的卷积核384个，两个GPU各192个。该层与上一层连接没有经过pooling层。<br><strong>conv5：</strong> 3×3的卷积核256个，两个GPU上个128个。<br><strong>max-pooling：</strong> 2×2的核。<br><strong>FullyConnected1：</strong> 4096维，将第五层max-pooling的输出连接成为一个一维向量，作为该层的输入。<br><strong>FullyConnected2：</strong> 4096维<br><strong>Softmax：</strong> 输出为1000，输出的每一维都是图片属于该类别的概率。</p>
 <h1 id="一些操作"><a href="#一些操作" class="headerlink" title="一些操作"></a>一些操作</h1><p><strong>ReLU</strong><br>使用非线性饱和函数ReLU作为神经元激活函数$f(x)=max(0,x)$</p>
 <p><strong>数据增强</strong></p>
 <ul>
@@ -965,17 +965,17 @@ j =  2.3333
 <p><strong>xception</strong></p>
 <h1 id="Neural-Network-Models"><a href="#Neural-Network-Models" class="headerlink" title="Neural Network Models"></a>Neural Network Models</h1><p><img src="https://img-blog.csdnimg.cn/20190329143132703.png" width="80%" alt></p>
 <h2 id="LeNet-1989"><a href="#LeNet-1989" class="headerlink" title="LeNet 1989"></a>LeNet 1989</h2><blockquote>
-<p><a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&amp;arnumber=726791" target="_blank" rel="noopener">https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&amp;arnumber=726791</a></p>
+<p><a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&amp;arnumber=726791" target="_blank" rel="noopener">PaperLink</a></p>
 </blockquote>
 <p>A layered model composed of convolution and subsampling operations followed by a holistic representation and ultimately a classifier for handwritten digits.</p>
 <p><img src="https://img-blog.csdnimg.cn/2019032914052295.png" width="100%" alt></p>
 <h2 id="AlexNet-2012"><a href="#AlexNet-2012" class="headerlink" title="AlexNet 2012"></a>AlexNet 2012</h2><blockquote>
-<p>NIPS2012 <a href="https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf" target="_blank" rel="noopener">https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf</a></p>
+<p>NIPS2012 <a href="https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf" target="_blank" rel="noopener">PaperLink</a></p>
 </blockquote>
 <p><img src="https://img-blog.csdnimg.cn/20190329141116436.png" width="100%" alt></p>
 <p><strong>基本参数：</strong><br>输入：224×224大小的图片，3通道<br>第一层卷积：11×11大小的卷积核96个，每个GPU上48个。<br>第一层max-pooling：2×2的核。<br>第二层卷积：5×5卷积核256个，每个GPU上128个。<br>第二层max-pooling：2×2的核。<br>第三层卷积：与上一层是全连接，3*3的卷积核384个。分到两个GPU上个192个。<br>第四层卷积：3×3的卷积核384个，两个GPU各192个。该层与上一层连接没有经过pooling层。<br>第五层卷积：3×3的卷积核256个，两个GPU上个128个。<br>第五层max-pooling：2×2的核。<br>第一层全连接：4096维，将第五层max-pooling的输出连接成为一个一维向量，作为该层的输入。<br>第二层全连接：4096维<br>Softmax层：输出为1000，输出的每一维都是图片属于该类别的概率。</p>
 <h2 id="ZF-Net"><a href="#ZF-Net" class="headerlink" title="ZF-Net"></a>ZF-Net</h2><h2 id="VGG-2014"><a href="#VGG-2014" class="headerlink" title="VGG 2014"></a>VGG 2014</h2><h2 id="GoogleNet-2014"><a href="#GoogleNet-2014" class="headerlink" title="GoogleNet 2014"></a>GoogleNet 2014</h2><h2 id="ResNet-2015"><a href="#ResNet-2015" class="headerlink" title="ResNet 2015"></a>ResNet 2015</h2><blockquote>
-<p>CVPR2016 Best Paper <a href="https://arxiv.org/abs/1512.03385" target="_blank" rel="noopener">https://arxiv.org/abs/1512.03385</a></p>
+<p>CVPR2016 Best Paper <a href="https://arxiv.org/abs/1512.03385" target="_blank" rel="noopener">PaperLink</a></p>
 </blockquote>
 <p><strong>解决退化问题：</strong><br>随着网络层数的增加，模型的准确率下降了，这种退化并不是由过拟合造成的，在一个合理的深度模型中增加更多的层却导致了更高的错误。</p>
 <p><img src="https://img-blog.csdnimg.cn/20190329141221770.png" width="80%" alt></p>
@@ -984,16 +984,16 @@ j =  2.3333
 <p><strong>网络结构：</strong></p>
 <p><img src="https://img-blog.csdnimg.cn/20190329141515392.png" width="80%" alt></p>
 <h2 id="DenseNet"><a href="#DenseNet" class="headerlink" title="DenseNet"></a>DenseNet</h2><blockquote>
-<p>CVPR2017 Best Paper <a href="https://arxiv.org/pdf/1608.06993.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1608.06993.pdf</a></p>
+<p>CVPR2017 Best Paper <a href="https://arxiv.org/pdf/1608.06993.pdf" target="_blank" rel="noopener">PaperLink</a></p>
 </blockquote>
 <h2 id="GAN-生成对抗"><a href="#GAN-生成对抗" class="headerlink" title="GAN 生成对抗"></a>GAN 生成对抗</h2><h2 id="R-CNN-Regions-with-CNN-features"><a href="#R-CNN-Regions-with-CNN-features" class="headerlink" title="R-CNN    Regions with CNN features"></a>R-CNN    Regions with CNN features</h2><p><strong>RCNN</strong></p>
 <blockquote>
-<p>CVPR2014 <a href="https://arxiv.org/pdf/1311.2524v3.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1311.2524v3.pdf</a></p>
+<p>CVPR2014 <a href="https://arxiv.org/pdf/1311.2524v3.pdf" target="_blank" rel="noopener">PaperLink</a></p>
 </blockquote>
 <p><strong>fast-RCNN</strong></p>
 <p><strong>faster-RCNN</strong></p>
 <h2 id="NASNet"><a href="#NASNet" class="headerlink" title="NASNet"></a>NASNet</h2><blockquote>
-<p>CVPR2017 <a href="https://arxiv.org/pdf/1707.07012.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1707.07012.pdf</a><br><a href="https://github.com/tensorflow/models/tree/master/research/slim/nets/nasnet" target="_blank" rel="noopener">https://github.com/tensorflow/models/tree/master/research/slim/nets/nasnet</a></p>
+<p>CVPR2017 <a href="https://arxiv.org/pdf/1707.07012.pdf" target="_blank" rel="noopener">PaperLink</a><br><a href="https://github.com/tensorflow/models/tree/master/research/slim/nets/nasnet" target="_blank" rel="noopener">CodeLink</a></p>
 </blockquote>
 <h2 id="FCN全卷积网络"><a href="#FCN全卷积网络" class="headerlink" title="FCN全卷积网络"></a>FCN全卷积网络</h2>
           
