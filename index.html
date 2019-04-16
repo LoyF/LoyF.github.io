@@ -229,6 +229,545 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://loyf.github.io/2019/04/16/吴恩达机器学习实验三完整代码/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Loy Fan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/16/吴恩达机器学习实验三完整代码/" itemprop="url">吴恩达机器学习实验三完整代码</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-16T20:54:04+08:00">
+                2019-04-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>@<a href="https://loyf.github.io/">LoyFan</a></p>
+<blockquote>
+<p><a href="https://study.163.com/course/courseMain.htm?courseId=1004570029&amp;_trace_c_p_k2_=ea0c7bf2c97246f08030b6c79f38e69a" target="_blank" rel="noopener">&gt;吴恩达机器学习课程链接</a><br><a href="https://blog.csdn.net/weixin_43318626/article/details/88896788" target="_blank" rel="noopener">&gt;课程总结和笔记链接</a><br>实验三的原始代码和使用数据可至课程链接-课时67-章节9编程作业中下载</p>
+</blockquote>
+<p>@<a href="Machine Learning Online Class - Exercise 3: One-vs-all and Neural Networks">TOC</a></p>
+<blockquote>
+<p>包括了实验二中的使用了正则化项后的逻辑回归的最优化参数求解，重点是应用于多分类，采用一对多形式，对每一种分类进行“是/否”预测，得到分类。<br>环境——Matlab R2018b/Octave</p>
+<h1 id="One-vs-all"><a href="#One-vs-all" class="headerlink" title="One-vs-all"></a>One-vs-all</h1><h2 id="Part-1-Loading-and-Visualizing-Data"><a href="#Part-1-Loading-and-Visualizing-Data" class="headerlink" title="Part 1: Loading and Visualizing Data"></a>Part 1: Loading and Visualizing Data</h2><p>这个训练集一共有5000条数据，每条数据包含400维特征。一共10个分类。<br><strong>运行结果</strong><br><img src="https://img-blog.csdnimg.cn/20190411211940132.png" width="40%" alt></p>
+</blockquote>
+<h2 id="Part-2a-Vectorize-Logistic-Regression"><a href="#Part-2a-Vectorize-Logistic-Regression" class="headerlink" title="Part 2a: Vectorize Logistic Regression"></a>Part 2a: Vectorize Logistic Regression</h2><p><strong>lrCostFunction.m</strong><br>加入正则化项的逻辑回归的损失函数计算，和实验二中的相同。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">function [J, grad] = lrCostFunction(theta, X, y, lambda)</span><br><span class="line">%LRCOSTFUNCTION Compute cost and gradient <span class="keyword">for</span> logistic regression <span class="keyword">with</span> </span><br><span class="line">%regularization</span><br><span class="line">%   J = LRCOSTFUNCTION(theta, X, y, lambda) computes the cost <span class="keyword">of</span> using</span><br><span class="line">%   theta <span class="keyword">as</span> the parameter <span class="keyword">for</span> regularized logistic regression and the</span><br><span class="line">%   gradient <span class="keyword">of</span> the cost w.r.t. to the parameters. </span><br><span class="line"></span><br><span class="line">% Initialize some useful values</span><br><span class="line">m = length(y); % number <span class="keyword">of</span> training examples</span><br><span class="line"></span><br><span class="line">% You need to <span class="keyword">return</span> the following variables correctly </span><br><span class="line">J = <span class="number">0</span>;</span><br><span class="line">grad = zeros(size(theta));</span><br><span class="line"></span><br><span class="line">% ====================== YOUR CODE HERE ======================</span><br><span class="line">% Instructions: Compute the cost <span class="keyword">of</span> a particular choice <span class="keyword">of</span> theta.</span><br><span class="line">%               You should <span class="keyword">set</span> J to the cost.</span><br><span class="line">%               Compute the partial derivatives and <span class="keyword">set</span> grad to the partial</span><br><span class="line">%               derivatives of the cost w.r.t. each parameter in theta</span><br><span class="line">%</span><br><span class="line">% Hint: The computation of the cost function and gradients can be</span><br><span class="line">%       efficiently vectorized. For example, consider the computation</span><br><span class="line">%</span><br><span class="line">%           sigmoid(X * theta)</span><br><span class="line">%</span><br><span class="line">%       Each row of the resulting matrix will contain the value of the</span><br><span class="line">%       prediction for that example. You can make use of this to vectorize</span><br><span class="line">%       the cost function and gradient computations. </span><br><span class="line">%</span><br><span class="line">% Hint: When computing the gradient of the regularized cost function, </span><br><span class="line">%       there're many possible vectorized solutions, but one solution</span><br><span class="line">%       looks like:</span><br><span class="line">%           grad = (unregularized gradient for logistic regression)</span><br><span class="line">%           temp = theta; </span><br><span class="line">%           temp(1) = 0;   % because we don't add anything for j = 0  </span><br><span class="line">%           grad = grad + YOUR_CODE_HERE (using the temp variable)</span><br><span class="line">%</span><br><span class="line"></span><br><span class="line">pos = y == 1;</span><br><span class="line">neg = y == 0;</span><br><span class="line"></span><br><span class="line">h_pos = sigmoid(X(pos, :) * theta);</span><br><span class="line">J_pos = sum(-log(h_pos));</span><br><span class="line"></span><br><span class="line">h_neg = sigmoid(X(neg, :) * theta);</span><br><span class="line">J_neg = sum(-log(1 - h_neg));</span><br><span class="line"></span><br><span class="line">J_reg = lambda/2 * sum(theta(2:end, :) .^ 2);</span><br><span class="line">J = (J_pos + J_neg + J_reg)/m;</span><br><span class="line"></span><br><span class="line">grad = (sum(X .* (sigmoid(X * theta) - y)))' / m;</span><br><span class="line">grad_reg = ((lambda * theta(2:end, :)) / m);</span><br><span class="line">grad(2:end, :) = grad(2:end, :) + grad_reg;</span><br><span class="line"></span><br><span class="line">% =============================================================</span><br><span class="line"></span><br><span class="line">grad = grad(:);</span><br><span class="line"></span><br><span class="line">end</span><br></pre></td></tr></table></figure></p>
+<p><strong>运行结果</strong></p>
+<pre><code>Testing lrCostFunction() with regularization
+Cost: 2.534819
+Expected cost: 2.534819
+Gradients:
+ 0.146561 
+ -0.548558 
+ 0.724722 
+ 1.398003 
+Expected gradients:
+ 0.146561
+ -0.548558
+ 0.724722
+ 1.398003
+Program paused. Press enter to continue.
+</code></pre><h2 id="Part-2b-One-vs-All-Training"><a href="#Part-2b-One-vs-All-Training" class="headerlink" title="Part 2b: One-vs-All Training"></a>Part 2b: One-vs-All Training</h2><p><strong>oneVsAll.m</strong><br>通过最小化损失函数计算所有十个类别的最优参数。<br>参数为10行400列矩阵。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"> function [all_theta] = oneVsAll(X, y, num_labels, lambda)</span><br><span class="line">%ONEVSALL trains multiple logistic regression classifiers and returns all</span><br><span class="line">%the classifiers <span class="keyword">in</span> a matrix all_theta, where the i-th row <span class="keyword">of</span> all_theta </span><br><span class="line">%corresponds to the classifier <span class="keyword">for</span> label i</span><br><span class="line">%   [all_theta] = ONEVSALL(X, y, num_labels, lambda) trains num_labels</span><br><span class="line">%   logistic regression classifiers and returns each <span class="keyword">of</span> these classifiers</span><br><span class="line">%   <span class="keyword">in</span> a matrix all_theta, where the i-th row <span class="keyword">of</span> all_theta corresponds </span><br><span class="line">%   to the classifier <span class="keyword">for</span> label i</span><br><span class="line"></span><br><span class="line">% Some useful variables</span><br><span class="line">m = size(X, <span class="number">1</span>);%<span class="number">5000</span></span><br><span class="line">n = size(X, <span class="number">2</span>);%<span class="number">400</span></span><br><span class="line"></span><br><span class="line">% You need to <span class="keyword">return</span> the following variables correctly </span><br><span class="line">all_theta = zeros(num_labels, n + <span class="number">1</span>);%<span class="number">10</span>*<span class="number">401</span></span><br><span class="line"></span><br><span class="line">% Add ones to the X data matrix</span><br><span class="line">X = [ones(m, <span class="number">1</span>) X];</span><br><span class="line"></span><br><span class="line">% ====================== YOUR CODE HERE ======================</span><br><span class="line">% Instructions: You should complete the following code to train num_labels</span><br><span class="line">%               logistic regression classifiers <span class="keyword">with</span> regularization</span><br><span class="line">%               parameter lambda. </span><br><span class="line">%</span><br><span class="line">% Hint: theta(:) will <span class="keyword">return</span> a column vector.</span><br><span class="line">%</span><br><span class="line">% Hint: You can use y == c to obtain a vector <span class="keyword">of</span> <span class="number">1</span><span class="string">'s and 0'</span>s that tell you</span><br><span class="line">%       whether the ground truth is <span class="literal">true</span>/<span class="literal">false</span> <span class="keyword">for</span> <span class="keyword">this</span> <span class="class"><span class="keyword">class</span>.</span></span><br><span class="line"><span class="class">%</span></span><br><span class="line">% Note: For this assignment, we recommend using fmincg to optimize the cost</span><br><span class="line">%       <span class="function"><span class="keyword">function</span>. <span class="title">It</span> <span class="title">is</span> <span class="title">okay</span> <span class="title">to</span> <span class="title">use</span> <span class="title">a</span> <span class="title">for</span>-<span class="title">loop</span> (<span class="params">for c = <span class="number">1</span>:num_labels</span>) <span class="title">to</span></span></span><br><span class="line">%       loop over the different classes.</span><br><span class="line">%</span><br><span class="line">%       fmincg works similarly to fminunc, but is more efficient when we</span><br><span class="line">%       are dealing <span class="keyword">with</span> large number <span class="keyword">of</span> parameters.</span><br><span class="line">%</span><br><span class="line">% Example Code <span class="keyword">for</span> fmincg:</span><br><span class="line">%</span><br><span class="line">%     % <span class="built_in">Set</span> Initial theta</span><br><span class="line">%     initial_theta = zeros(n + <span class="number">1</span>, <span class="number">1</span>);</span><br><span class="line">%     </span><br><span class="line">%     % <span class="built_in">Set</span> options <span class="keyword">for</span> fminunc</span><br><span class="line">%     options = optimset(<span class="string">'GradObj'</span>, <span class="string">'on'</span>, <span class="string">'MaxIter'</span>, <span class="number">50</span>);</span><br><span class="line">% </span><br><span class="line">%     % Run fmincg to obtain the optimal theta</span><br><span class="line">%     % This <span class="function"><span class="keyword">function</span> <span class="title">will</span> <span class="title">return</span> <span class="title">theta</span> <span class="title">and</span> <span class="title">the</span> <span class="title">cost</span> </span></span><br><span class="line">%     [theta] = ...</span><br><span class="line">%         fmincg (@(t)(lrCostFunction(t, X, (y == c), lambda)), ...</span><br><span class="line">%                 initial_theta, options);</span><br><span class="line">%</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> c = <span class="number">1</span>:num_labels</span><br><span class="line"></span><br><span class="line">    % Initialize fitting parameters</span><br><span class="line">    initial_theta = zeros(n + <span class="number">1</span>, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    % <span class="built_in">Set</span> Options</span><br><span class="line">    options = optimset(<span class="string">'GradObj'</span>, <span class="string">'on'</span>, <span class="string">'MaxIter'</span>, <span class="number">50</span>);</span><br><span class="line"></span><br><span class="line">    % Optimize</span><br><span class="line">    [all_theta(c, :), J, exit_flag] = ...</span><br><span class="line">        fmincg (@(t)(lrCostFunction(t, X, (y == c), lambda)), initial_theta, options);</span><br><span class="line"></span><br><span class="line">% =========================================================================</span><br><span class="line"></span><br><span class="line">end</span><br></pre></td></tr></table></figure></p>
+<h2 id="Part-3-Predict-for-One-Vs-All"><a href="#Part-3-Predict-for-One-Vs-All" class="headerlink" title="Part 3: Predict for One-Vs-All"></a>Part 3: Predict for One-Vs-All</h2><p><strong>predictOneVsAll.m</strong><br>使用得到的10<em>400参数对数据进行预测（用训练集预测哈哈哈）<br>首先得到all_p为5000</em>10的矩阵，包含0、1，得到5000个数据的预测分类<br>找到每一行的1值序号，得到p为5000*1的向量，是每一个数据的预测分类。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">p</span> = <span class="title">predictOneVsAll</span>(<span class="params">all_theta, X</span>)</span></span><br><span class="line">%PREDICT Predict the label for a trained one-vs-all classifier. The labels </span><br><span class="line">%are <span class="keyword">in</span> the range <span class="number">1.</span>.K, where K = size(all_theta, <span class="number">1</span>). </span><br><span class="line">%  p = PREDICTONEVSALL(all_theta, X) will <span class="keyword">return</span> a vector <span class="keyword">of</span> predictions</span><br><span class="line">%  <span class="keyword">for</span> each example <span class="keyword">in</span> the matrix X. Note that X contains the examples <span class="keyword">in</span></span><br><span class="line">%  rows. all_theta is a matrix where the i-th row is a trained logistic</span><br><span class="line">%  regression theta vector <span class="keyword">for</span> the i-th <span class="class"><span class="keyword">class</span>. <span class="title">You</span> <span class="title">should</span> <span class="title">set</span> <span class="title">p</span> <span class="title">to</span> <span class="title">a</span> <span class="title">vector</span></span></span><br><span class="line"><span class="class">%  <span class="title">of</span> <span class="title">values</span> <span class="title">from</span> 1..<span class="title">K</span> (<span class="title">e</span>.<span class="title">g</span>., <span class="title">p</span> </span>= [<span class="number">1</span>; <span class="number">3</span>; <span class="number">1</span>; <span class="number">2</span>] predicts classes <span class="number">1</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">2</span></span><br><span class="line">%  <span class="keyword">for</span> <span class="number">4</span> examples) </span><br><span class="line"></span><br><span class="line">m = size(X, <span class="number">1</span>);%<span class="number">5000</span></span><br><span class="line">num_labels = size(all_theta, <span class="number">1</span>);%<span class="number">10</span></span><br><span class="line"></span><br><span class="line">% You need to <span class="keyword">return</span> the following variables correctly </span><br><span class="line">p = zeros(size(X, <span class="number">1</span>), <span class="number">1</span>);%<span class="number">5000</span>*<span class="number">1</span></span><br><span class="line"></span><br><span class="line">% Add ones to the X data matrix</span><br><span class="line">X = [ones(m, <span class="number">1</span>) X];</span><br><span class="line"></span><br><span class="line">% ====================== YOUR CODE HERE ======================</span><br><span class="line">% Instructions: Complete the following code to make predictions using</span><br><span class="line">%               your learned logistic regression parameters (one-vs-all).</span><br><span class="line">%               You should <span class="keyword">set</span> p to a vector of predictions (from 1 to</span><br><span class="line">%               num_labels).</span><br><span class="line">%</span><br><span class="line">% Hint: This code can be done all vectorized using the max function.</span><br><span class="line">%       In particular, the max function can also return the index of the </span><br><span class="line">%       max element, for more information see 'help max'. If your examples </span><br><span class="line">%       are in rows, then, you can use max(A, [], 2) to obtain the max </span><br><span class="line">%       for each row.</span><br><span class="line">%       </span><br><span class="line"></span><br><span class="line">all_p = floor(sigmoid(X * (all_theta)') / 0.5);</span><br><span class="line">[val, p] = max(all_p, [], 2);</span><br><span class="line"></span><br><span class="line">% =========================================================================</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">end</span><br></pre></td></tr></table></figure></p>
+<p><strong>运行结果</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Training <span class="built_in">Set</span> Accuracy: <span class="number">89.160000</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="主函数"><a href="#主函数" class="headerlink" title="主函数"></a>主函数</h2><p><strong>ex3.m</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line">%% Machine Learning Online Class - Exercise <span class="number">3</span> | Part <span class="number">1</span>: One-vs-all</span><br><span class="line"></span><br><span class="line">%  Instructions</span><br><span class="line">%  ------------</span><br><span class="line">%</span><br><span class="line">%  This file contains code that helps you <span class="keyword">get</span> started on the</span><br><span class="line">%  linear exercise. You will need to complete the following functions</span><br><span class="line">%  in this exericse:</span><br><span class="line">%</span><br><span class="line">%     lrCostFunction.m (logistic regression cost function)</span><br><span class="line">%     oneVsAll.m</span><br><span class="line">%     predictOneVsAll.m</span><br><span class="line">%     predict.m</span><br><span class="line">%</span><br><span class="line">%  For this exercise, you will not need to change any code in this file,</span><br><span class="line">%  or any other files other than those mentioned above.</span><br><span class="line">%</span><br><span class="line"></span><br><span class="line">%% Initialization</span><br><span class="line">clear ; close all; clc</span><br><span class="line"></span><br><span class="line">%% Setup the parameters you will use for this part of the exercise</span><br><span class="line">input_layer_size  = 400;  % 20x20 Input Images of Digits</span><br><span class="line">num_labels = 10;          % 10 labels, from 1 to 10</span><br><span class="line">                          % (note that we have mapped "0" to label 10)</span><br><span class="line"></span><br><span class="line">%% =========== Part 1: Loading and Visualizing Data =============</span><br><span class="line">%  We start the exercise by first loading and visualizing the dataset.</span><br><span class="line">%  You will be working with a dataset that contains handwritten digits.</span><br><span class="line">%</span><br><span class="line"></span><br><span class="line">% Load Training Data</span><br><span class="line">fprintf('Loading and Visualizing Data ...\n')</span><br><span class="line"></span><br><span class="line">load('ex3data1.mat'); % training data stored in arrays X, y</span><br><span class="line">m = size(X, 1);</span><br><span class="line"></span><br><span class="line">% Randomly select 100 data points to display</span><br><span class="line">rand_indices = randperm(m);</span><br><span class="line">sel = X(rand_indices(1:100), :);</span><br><span class="line"></span><br><span class="line">displayData(sel);</span><br><span class="line"></span><br><span class="line">fprintf('Program paused. Press enter to continue.\n');</span><br><span class="line">pause;</span><br><span class="line"></span><br><span class="line">%% ============ Part 2a: Vectorize Logistic Regression ============</span><br><span class="line">%  In this part of the exercise, you will reuse your logistic regression</span><br><span class="line">%  code from the last exercise. You task here is to make sure that your</span><br><span class="line">%  regularized logistic regression implementation is vectorized. After</span><br><span class="line">%  that, you will implement one-vs-all classification for the handwritten</span><br><span class="line">%  digit dataset.</span><br><span class="line">%</span><br><span class="line"></span><br><span class="line">% Test case for lrCostFunction</span><br><span class="line">fprintf('\nTesting lrCostFunction() with regularization');</span><br><span class="line"></span><br><span class="line">theta_t = [-2; -1; 1; 2];</span><br><span class="line">X_t = [ones(5,1) reshape(1:15,5,3)/10];</span><br><span class="line">y_t = ([1;0;1;0;1] &gt;= 0.5);</span><br><span class="line">lambda_t = 3;</span><br><span class="line">[J grad] = lrCostFunction(theta_t, X_t, y_t, lambda_t);</span><br><span class="line"></span><br><span class="line">fprintf('\nCost: %f\n', J);</span><br><span class="line">fprintf('Expected cost: 2.534819\n');</span><br><span class="line">fprintf('Gradients:\n');</span><br><span class="line">fprintf(' %f \n', grad);</span><br><span class="line">fprintf('Expected gradients:\n');</span><br><span class="line">fprintf(' 0.146561\n -0.548558\n 0.724722\n 1.398003\n');</span><br><span class="line"></span><br><span class="line">fprintf('Program paused. Press enter to continue.\n');</span><br><span class="line">pause;</span><br><span class="line">%% ============ Part 2b: One-vs-All Training ============</span><br><span class="line">fprintf('\nTraining One-vs-All Logistic Regression...\n')</span><br><span class="line"></span><br><span class="line">lambda = 0.1;</span><br><span class="line">[all_theta] = oneVsAll(X, y, num_labels, lambda);</span><br><span class="line"></span><br><span class="line">fprintf('Program paused. Press enter to continue.\n');</span><br><span class="line">pause;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">%% ================ Part 3: Predict for One-Vs-All ================</span><br><span class="line"></span><br><span class="line">pred = predictOneVsAll(all_theta, X);</span><br><span class="line"></span><br><span class="line">fprintf('\nTraining Set Accuracy: %f\n', mean(double(pred == y)) * 100);</span><br></pre></td></tr></table></figure></p>
+<h1 id="Neural-Networks"><a href="#Neural-Networks" class="headerlink" title="Neural Networks"></a>Neural Networks</h1><h2 id="Part-1-Loading-and-Visualizing-Data-1"><a href="#Part-1-Loading-and-Visualizing-Data-1" class="headerlink" title="Part 1: Loading and Visualizing Data"></a>Part 1: Loading and Visualizing Data</h2><p><img src="https://img-blog.csdnimg.cn/20190414143413118.png" width="40%" alt></p>
+<h2 id="Part-2-Loading-Pameters"><a href="#Part-2-Loading-Pameters" class="headerlink" title="Part 2: Loading Pameters"></a>Part 2: Loading Pameters</h2><h2 id="Part-3-Implement-Predict"><a href="#Part-3-Implement-Predict" class="headerlink" title="Part 3: Implement Predict"></a>Part 3: Implement Predict</h2><p><strong>predict.m</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">p</span> = <span class="title">predict</span>(<span class="params">Theta1, Theta2, X</span>)</span></span><br><span class="line">%PREDICT Predict the label of an input given a trained neural network</span><br><span class="line">%   p = PREDICT(Theta1, Theta2, X) outputs the predicted label <span class="keyword">of</span> X given the</span><br><span class="line">%   trained weights <span class="keyword">of</span> a neural network (Theta1, Theta2)</span><br><span class="line"></span><br><span class="line">% Useful values</span><br><span class="line">m = size(X, <span class="number">1</span>);</span><br><span class="line">num_labels = size(Theta2, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">% You need to <span class="keyword">return</span> the following variables correctly </span><br><span class="line">p = zeros(size(X, <span class="number">1</span>), <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">% ====================== YOUR CODE HERE ======================</span><br><span class="line">% Instructions: Complete the following code to make predictions using</span><br><span class="line">%               your learned neural network. You should <span class="keyword">set</span> p to a </span><br><span class="line">%               vector containing labels between 1 to num_labels.</span><br><span class="line">%</span><br><span class="line">% Hint: The max function might come in useful. In particular, the max</span><br><span class="line">%       function can also return the index of the max element, for more</span><br><span class="line">%       information see 'help max'. If your examples are in rows, then, you</span><br><span class="line">%       can use max(A, [], 2) to obtain the max for each row.</span><br><span class="line">%</span><br><span class="line">X = [ones(m, 1) X];</span><br><span class="line">all_p = floor(sigmoid(X * (Theta1)') / 0.5);</span><br><span class="line">all_p = [ones(m, 1) all_p];</span><br><span class="line">all_p = floor(sigmoid(all_p * (Theta2)') / 0.5);</span><br><span class="line">[val, p] = max(all_p, [], 2);</span><br><span class="line"></span><br><span class="line">% =========================================================================</span><br><span class="line"></span><br><span class="line">end</span><br></pre></td></tr></table></figure></p>
+<p><strong>实验结果</strong></p>
+<pre><code>Loading and Visualizing Data ...
+Program paused. Press enter to continue.
+
+Loading Saved Neural Network Parameters ...
+
+Training Set Accuracy: 95.400000
+Program paused. Press enter to continue.
+
+Displaying Example Image
+
+Neural Network Prediction: 8 (digit 8)
+Paused - press enter to continue, q to exit:
+
+Displaying Example Image
+
+Neural Network Prediction: 2 (digit 2)
+Paused - press enter to continue, q to exit:
+</code></pre><p><img src="https://img-blog.csdnimg.cn/20190414143447894.png" width="40%" alt><br><img src="https://img-blog.csdnimg.cn/20190414143509662.png" width="40%" alt></p>
+<h2 id="主函数-1"><a href="#主函数-1" class="headerlink" title="主函数"></a>主函数</h2><p><strong>ex3_nn.m</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line">%% Machine Learning Online Class - Exercise <span class="number">3</span> | Part <span class="number">2</span>: Neural Networks</span><br><span class="line"></span><br><span class="line">%  Instructions</span><br><span class="line">%  ------------</span><br><span class="line">% </span><br><span class="line">%  This file contains code that helps you <span class="keyword">get</span> started on the</span><br><span class="line">%  linear exercise. You will need to complete the following functions </span><br><span class="line">%  in this exericse:</span><br><span class="line">%</span><br><span class="line">%     lrCostFunction.m (logistic regression cost function)</span><br><span class="line">%     oneVsAll.m</span><br><span class="line">%     predictOneVsAll.m</span><br><span class="line">%     predict.m</span><br><span class="line">%</span><br><span class="line">%  For this exercise, you will not need to change any code in this file,</span><br><span class="line">%  or any other files other than those mentioned above.</span><br><span class="line">%</span><br><span class="line"></span><br><span class="line">%% Initialization</span><br><span class="line">clear ; close all; clc</span><br><span class="line"></span><br><span class="line">%% Setup the parameters you will use for this exercise</span><br><span class="line">input_layer_size  = 400;  % 20x20 Input Images of Digits</span><br><span class="line">hidden_layer_size = 25;   % 25 hidden units</span><br><span class="line">num_labels = 10;          % 10 labels, from 1 to 10   </span><br><span class="line">                          % (note that we have mapped "0" to label 10)</span><br><span class="line"></span><br><span class="line">%% =========== Part 1: Loading and Visualizing Data =============</span><br><span class="line">%  We start the exercise by first loading and visualizing the dataset. </span><br><span class="line">%  You will be working with a dataset that contains handwritten digits.</span><br><span class="line">%</span><br><span class="line"></span><br><span class="line">% Load Training Data</span><br><span class="line">fprintf('Loading and Visualizing Data ...\n')</span><br><span class="line"></span><br><span class="line">load('ex3data1.mat');</span><br><span class="line">m = size(X, 1);%5000</span><br><span class="line"></span><br><span class="line">% Randomly select 100 data points to display</span><br><span class="line">sel = randperm(size(X, 1));</span><br><span class="line">sel = sel(1:100);</span><br><span class="line"></span><br><span class="line">displayData(X(sel, :));</span><br><span class="line"></span><br><span class="line">fprintf('Program paused. Press enter to continue.\n');</span><br><span class="line">pause;</span><br><span class="line"></span><br><span class="line">%% ================ Part 2: Loading Pameters ================</span><br><span class="line">% In this part of the exercise, we load some pre-initialized </span><br><span class="line">% neural network parameters.</span><br><span class="line"></span><br><span class="line">fprintf('\nLoading Saved Neural Network Parameters ...\n')</span><br><span class="line"></span><br><span class="line">% Load the weights into variables Theta1 and Theta2</span><br><span class="line">load('ex3weights.mat');%Theta1 25*401,Theta2 10*26</span><br><span class="line"></span><br><span class="line">%% ================= Part 3: Implement Predict =================</span><br><span class="line">%  After training the neural network, we would like to use it to predict</span><br><span class="line">%  the labels. You will now implement the "predict" function to use the</span><br><span class="line">%  neural network to predict the labels of the training <span class="keyword">set</span>. This lets</span><br><span class="line">%  you compute the training <span class="keyword">set</span> accuracy.</span><br><span class="line"></span><br><span class="line">pred = predict(Theta1, Theta2, X);</span><br><span class="line"></span><br><span class="line">fprintf('\nTraining Set Accuracy: %f\n', mean(double(pred == y)) * 100);</span><br><span class="line"></span><br><span class="line">fprintf('Program paused. Press enter to continue.\n');</span><br><span class="line">pause;</span><br><span class="line"></span><br><span class="line">%  To give you an idea of the network's output, you can also run</span><br><span class="line">%  through the examples one at the a time to see what it is predicting.</span><br><span class="line"></span><br><span class="line">%  Randomly permute examples</span><br><span class="line">rp = randperm(m);</span><br><span class="line"></span><br><span class="line">for i = 1:m</span><br><span class="line">    % Display </span><br><span class="line">    fprintf('\nDisplaying Example Image\n');</span><br><span class="line">    displayData(X(rp(i), :));</span><br><span class="line"></span><br><span class="line">    pred = predict(Theta1, Theta2, X(rp(i),:));</span><br><span class="line">    fprintf('\nNeural Network Prediction: %d (digit %d)\n', pred, mod(pred, 10));</span><br><span class="line">    </span><br><span class="line">    % Pause with quit option</span><br><span class="line">    s = input('Paused - press enter to continue, q to exit:','s');</span><br><span class="line">    if s == 'q'</span><br><span class="line">      break</span><br><span class="line">    end</span><br><span class="line">end</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>实验三完成</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://loyf.github.io/2019/04/16/吴恩达机器学习实验二完整代码/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Loy Fan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/16/吴恩达机器学习实验二完整代码/" itemprop="url">吴恩达机器学习实验二完整代码</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-16T20:54:00+08:00">
+                2019-04-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>@<a href="https://loyf.github.io/">LoyFan</a></p>
+<blockquote>
+<p><a href="https://study.163.com/course/courseMain.htm?courseId=1004570029&amp;_trace_c_p_k2_=ea0c7bf2c97246f08030b6c79f38e69a" target="_blank" rel="noopener">&gt;吴恩达机器学习课程链接</a><br><a href="https://blog.csdn.net/weixin_43318626/article/details/88896788" target="_blank" rel="noopener">&gt;课程总结和笔记链接</a><br>实验二的原始代码和使用数据可至课程链接-课时60-章节8编程作业中下载</p>
+<p>包括逻辑回归的损失函数、梯度、自动优化、预测以及正则化后的损失函数、梯度等<br>环境——Matlab R2018b/Octave</p>
+<h1 id="一般Logistic-Regression"><a href="#一般Logistic-Regression" class="headerlink" title="一般Logistic Regression"></a>一般Logistic Regression</h1><h2 id="Part-1-Plotting"><a href="#Part-1-Plotting" class="headerlink" title="Part 1: Plotting"></a>Part 1: Plotting</h2><p><strong>plotData.m</strong><br>二分类，在图上用不同的标记表示两类数据<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">plotData</span>(<span class="params">X, y</span>)</span></span><br><span class="line">%PLOTDATA Plots the data points X and y into a new figure </span><br><span class="line">%   PLOTDATA(x,y) plots the data points <span class="keyword">with</span> + <span class="keyword">for</span> the positive examples</span><br><span class="line">%   and o <span class="keyword">for</span> the negative examples. X is assumed to be a Mx2 matrix.</span><br><span class="line"></span><br><span class="line">% Create New Figure</span><br><span class="line">figure; hold on;</span><br><span class="line"></span><br><span class="line">% ====================== YOUR CODE HERE ======================</span><br><span class="line">% Instructions: Plot the positive and negative examples on a</span><br><span class="line">%               <span class="number">2</span>D plot, using the option <span class="string">'k+'</span> <span class="keyword">for</span> the positive</span><br><span class="line">%               examples and <span class="string">'ko'</span> <span class="keyword">for</span> the negative examples.</span><br><span class="line">%</span><br><span class="line"></span><br><span class="line">positive = find(y == <span class="number">1</span>);</span><br><span class="line">negative = find(y == <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">plot(X(positive, <span class="number">1</span>), X(positive, <span class="number">2</span>), <span class="string">'k+'</span>)</span><br><span class="line">plot(X(negative, <span class="number">1</span>), X(negative, <span class="number">2</span>), <span class="string">'ko'</span>, <span class="string">'MarkerFaceColor'</span>, <span class="string">'b'</span>)</span><br><span class="line"></span><br><span class="line">% =========================================================================</span><br><span class="line"></span><br><span class="line">hold off;</span><br><span class="line"></span><br><span class="line">end</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<p><strong>运行结果</strong><br><img src="https://img-blog.csdnimg.cn/20190405115002961.png" width="60%" alt></p>
+<h2 id="Part-2-Compute-Cost-and-Gradient"><a href="#Part-2-Compute-Cost-and-Gradient" class="headerlink" title="Part 2: Compute Cost and Gradient"></a>Part 2: Compute Cost and Gradient</h2><p><strong>sigmoid.m</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">g</span> = <span class="title">sigmoid</span>(<span class="params">z</span>)</span></span><br><span class="line">%SIGMOID Compute sigmoid function</span><br><span class="line">%   g = SIGMOID(z) computes the sigmoid <span class="keyword">of</span> z.</span><br><span class="line"></span><br><span class="line">% You need to <span class="keyword">return</span> the following variables correctly </span><br><span class="line">g = zeros(size(z));</span><br><span class="line"></span><br><span class="line">% ====================== YOUR CODE HERE ======================</span><br><span class="line">% Instructions: Compute the sigmoid <span class="keyword">of</span> each value <span class="keyword">of</span> z (z can be a matrix,</span><br><span class="line">%               vector or scalar).</span><br><span class="line"></span><br><span class="line">g = <span class="number">1</span> ./ (exp(-z)+<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">% =============================================================</span><br><span class="line"></span><br><span class="line">end</span><br></pre></td></tr></table></figure></p>
+<p><strong>costFunction.m</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">function [J, grad] = costFunction(theta, X, y)</span><br><span class="line">%COSTFUNCTION Compute cost and gradient <span class="keyword">for</span> logistic regression</span><br><span class="line">%   J = COSTFUNCTION(theta, X, y) computes the cost <span class="keyword">of</span> using theta <span class="keyword">as</span> the</span><br><span class="line">%   parameter <span class="keyword">for</span> logistic regression and the gradient <span class="keyword">of</span> the cost</span><br><span class="line">%   w.r.t. to the parameters.</span><br><span class="line"></span><br><span class="line">% Initialize some useful values</span><br><span class="line">m = length(y); % number <span class="keyword">of</span> training examples</span><br><span class="line"></span><br><span class="line">% You need to <span class="keyword">return</span> the following variables correctly </span><br><span class="line">J = <span class="number">0</span>;</span><br><span class="line">grad = zeros(size(theta));</span><br><span class="line">alpha = <span class="number">0.01</span>;</span><br><span class="line"></span><br><span class="line">% ====================== YOUR CODE HERE ======================</span><br><span class="line">% Instructions: Compute the cost <span class="keyword">of</span> a particular choice <span class="keyword">of</span> theta.</span><br><span class="line">%               You should <span class="keyword">set</span> J to the cost.</span><br><span class="line">%               Compute the partial derivatives and <span class="keyword">set</span> grad to the partial</span><br><span class="line">%               derivatives of the cost w.r.t. each parameter in theta</span><br><span class="line">%</span><br><span class="line">% Note: grad should have the same dimensions as theta</span><br><span class="line">%</span><br><span class="line"></span><br><span class="line">pos = y == 1;</span><br><span class="line">neg = y == 0;</span><br><span class="line"></span><br><span class="line">h_pos = sigmoid(X(pos, :) * theta);</span><br><span class="line">J_pos = sum(-log(h_pos));</span><br><span class="line"></span><br><span class="line">h_neg = sigmoid(X(neg, :) * theta);</span><br><span class="line">J_neg = sum(-log(1 - h_neg));</span><br><span class="line"></span><br><span class="line">J = (J_pos + J_neg)/m;</span><br><span class="line"></span><br><span class="line">grad = (sum(X .* (sigmoid(X * theta) - y)))' * alpha;</span><br><span class="line"></span><br><span class="line">% =============================================================</span><br><span class="line"></span><br><span class="line">end</span><br></pre></td></tr></table></figure></p>
+<p><strong>运行结果</strong></p>
+<pre><code>Cost at initial theta (zeros): 0.693147
+Expected cost (approx): 0.693
+Gradient at initial theta (zeros): 
+ -0.100000 
+ -12.009217 
+ -11.262842 
+Expected gradients (approx):
+ -0.1000
+ -12.0092
+ -11.2628
+
+Cost at test theta: 0.218330
+Expected cost (approx): 0.218
+Gradient at test theta: 
+ 0.042903 
+ 2.566234 
+ 2.646797 
+Expected gradients (approx):
+ 0.043
+ 2.566
+ 2.647
+
+Program paused. Press enter to continue.
+</code></pre><h2 id="Part-3-Optimizing-using-fminunc"><a href="#Part-3-Optimizing-using-fminunc" class="headerlink" title="Part 3: Optimizing using fminunc"></a>Part 3: Optimizing using fminunc</h2><p><strong>plotDecisionBoundary.m</strong><br>画出决策边界<br><img src="https://img-blog.csdnimg.cn/20190406133741605.png" width="60%" alt><br>使用自动寻找最优参数函数（代码在主函数中）<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[theta, cost] = ...</span><br><span class="line">	fminunc(@(t)(costFunction(t, X, y)), initial_theta, options);</span><br></pre></td></tr></table></figure></p>
+<p><strong>运行结果</strong></p>
+<pre><code>Cost at theta found by fminunc: 0.203498
+Expected cost (approx): 0.203
+theta: 
+ -25.161343 
+ 0.206232 
+ 0.201472 
+Expected theta (approx):
+ -25.161
+ 0.206
+ 0.201
+</code></pre><h2 id="Part-4-Predict-and-Accuracies"><a href="#Part-4-Predict-and-Accuracies" class="headerlink" title="Part 4: Predict and Accuracies"></a>Part 4: Predict and Accuracies</h2><p>预测一个实例&amp;&amp;查看模型在训练集上的准确率<br><strong>predict.m</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">p</span> = <span class="title">predict</span>(<span class="params">theta, X</span>)</span></span><br><span class="line">%PREDICT Predict whether the label is 0 or 1 using learned logistic </span><br><span class="line">%regression parameters theta</span><br><span class="line">%   p = PREDICT(theta, X) computes the predictions <span class="keyword">for</span> X using a </span><br><span class="line">%   threshold at <span class="number">0.5</span> (i.e., <span class="keyword">if</span> sigmoid(theta<span class="string">'*x) &gt;= 0.5, predict 1)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">m = size(X, 1); % Number of training examples</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">% You need to return the following variables correctly</span></span><br><span class="line"><span class="string">p = zeros(m, 1);</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">% ====================== YOUR CODE HERE ======================</span></span><br><span class="line"><span class="string">% Instructions: Complete the following code to make predictions using</span></span><br><span class="line"><span class="string">%               your learned logistic regression parameters. </span></span><br><span class="line"><span class="string">%               You should set p to a vector of 0'</span>s and <span class="number">1</span><span class="string">'s</span></span><br><span class="line"><span class="string">%</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">p = floor(sigmoid(X * theta) / 0.5);</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">% =========================================================================</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">end</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>运行结果</strong></p>
+<pre><code>For a student with scores 45 and 85, we predict an admission probability of 0.776291
+Expected value: 0.775 +/- 0.002
+
+Train Accuracy: 89.000000
+Expected accuracy (approx): 89.0
+</code></pre><h2 id="主函数代码"><a href="#主函数代码" class="headerlink" title="主函数代码"></a>主函数代码</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br></pre></td><td class="code"><pre><span class="line">%% Machine Learning Online Class - Exercise <span class="number">2</span>: Logistic Regression</span><br><span class="line">%</span><br><span class="line">%  Instructions</span><br><span class="line">%  ------------</span><br><span class="line">% </span><br><span class="line">%  This file contains code that helps you <span class="keyword">get</span> started on the logistic</span><br><span class="line">%  regression exercise. You will need to complete the following functions </span><br><span class="line">%  in this exericse:</span><br><span class="line">%5</span><br><span class="line">%     plotData.m</span><br><span class="line">%     sigmoid.m</span><br><span class="line">%     costFunction.m</span><br><span class="line">%     predict.m</span><br><span class="line">%     costFunctionReg.m</span><br><span class="line">%</span><br><span class="line">%  For this exercise, you will not need to change any code in this file,</span><br><span class="line">%  or any other files other than those mentioned above.</span><br><span class="line">%</span><br><span class="line"></span><br><span class="line">%% Initialization</span><br><span class="line">clear ; close all; clc</span><br><span class="line"></span><br><span class="line">%% Load Data</span><br><span class="line">%  The first two columns contains the exam scores and the third column</span><br><span class="line">%  contains the label.</span><br><span class="line"></span><br><span class="line">data = load('ex2data1.txt');</span><br><span class="line">X = data(:, [1, 2]); y = data(:, 3);</span><br><span class="line"></span><br><span class="line">%% ==================== Part 1: Plotting ====================</span><br><span class="line">%  We start the exercise by first plotting the data to understand the </span><br><span class="line">%  the problem we are working with.</span><br><span class="line"></span><br><span class="line">fprintf(['Plotting data with + indicating (y = 1) examples and o ' ...</span><br><span class="line">         'indicating (y = 0) examples.\n']);</span><br><span class="line"></span><br><span class="line">plotData(X, y);</span><br><span class="line"></span><br><span class="line">% Put some labels </span><br><span class="line">hold on;</span><br><span class="line">% Labels and Legend</span><br><span class="line">xlabel('Exam 1 score')</span><br><span class="line">ylabel('Exam 2 score')</span><br><span class="line"></span><br><span class="line">% Specified in plot order</span><br><span class="line">legend('Admitted', 'Not admitted')</span><br><span class="line">hold off;</span><br><span class="line"></span><br><span class="line">fprintf('\nProgram paused. Press enter to continue.\n');</span><br><span class="line">pause;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">%% ============ Part 2: Compute Cost and Gradient ============</span><br><span class="line">%  In this part of the exercise, you will implement the cost and gradient</span><br><span class="line">%  for logistic regression. You neeed to complete the code in </span><br><span class="line">%  costFunction.m</span><br><span class="line"></span><br><span class="line">%  Setup the data matrix appropriately, and add ones for the intercept term</span><br><span class="line">[m, n] = size(X);</span><br><span class="line"></span><br><span class="line">% Add intercept term to x and X_test</span><br><span class="line">X = [ones(m, 1) X];</span><br><span class="line"></span><br><span class="line">% Initialize fitting parameters</span><br><span class="line">initial_theta = zeros(n + 1, 1);</span><br><span class="line"></span><br><span class="line">% Compute and display initial cost and gradient</span><br><span class="line">[cost, grad] = costFunction(initial_theta, X, y);</span><br><span class="line"></span><br><span class="line">fprintf('Cost at initial theta (zeros): %f\n', cost);</span><br><span class="line">fprintf('Expected cost (approx): 0.693\n');</span><br><span class="line">fprintf('Gradient at initial theta (zeros): \n');</span><br><span class="line">fprintf(' %f \n', grad);</span><br><span class="line">fprintf('Expected gradients (approx):\n -0.1000\n -12.0092\n -11.2628\n');</span><br><span class="line"></span><br><span class="line">% Compute and display cost and gradient with non-zero theta</span><br><span class="line">test_theta = [-24; 0.2; 0.2];</span><br><span class="line">[cost, grad] = costFunction(test_theta, X, y);</span><br><span class="line"></span><br><span class="line">fprintf('\nCost at test theta: %f\n', cost);</span><br><span class="line">fprintf('Expected cost (approx): 0.218\n');</span><br><span class="line">fprintf('Gradient at test theta: \n');</span><br><span class="line">fprintf(' %f \n', grad);</span><br><span class="line">fprintf('Expected gradients (approx):\n 0.043\n 2.566\n 2.647\n');</span><br><span class="line"></span><br><span class="line">fprintf('\nProgram paused. Press enter to continue.\n');</span><br><span class="line">pause;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">%% ============= Part 3: Optimizing using fminunc  =============</span><br><span class="line">%  In this exercise, you will use a built-in function (fminunc) to find the</span><br><span class="line">%  optimal parameters theta.</span><br><span class="line"></span><br><span class="line">%  Set options for fminunc</span><br><span class="line">options = optimset('GradObj', 'on', 'MaxIter', 400);</span><br><span class="line"></span><br><span class="line">%  Run fminunc to obtain the optimal theta</span><br><span class="line">%  This function will return theta and the cost </span><br><span class="line">[theta, cost] = ...</span><br><span class="line">	fminunc(@(t)(costFunction(t, X, y)), initial_theta, options);</span><br><span class="line"></span><br><span class="line">% Print theta to screen</span><br><span class="line">fprintf('Cost at theta found by fminunc: %f\n', cost);</span><br><span class="line">fprintf('Expected cost (approx): 0.203\n');</span><br><span class="line">fprintf('theta: \n');</span><br><span class="line">fprintf(' %f \n', theta);</span><br><span class="line">fprintf('Expected theta (approx):\n');</span><br><span class="line">fprintf(' -25.161\n 0.206\n 0.201\n');</span><br><span class="line"></span><br><span class="line">% Plot Boundary</span><br><span class="line">plotDecisionBoundary(theta, X, y);</span><br><span class="line"></span><br><span class="line">% Put some labels </span><br><span class="line">hold on;</span><br><span class="line">% Labels and Legend</span><br><span class="line">xlabel('Exam 1 score')</span><br><span class="line">ylabel('Exam 2 score')</span><br><span class="line"></span><br><span class="line">% Specified in plot order</span><br><span class="line">legend('Admitted', 'Not admitted')</span><br><span class="line">hold off;</span><br><span class="line"></span><br><span class="line">fprintf('\nProgram paused. Press enter to continue.\n');</span><br><span class="line">pause;</span><br><span class="line"></span><br><span class="line">%% ============== Part 4: Predict and Accuracies ==============</span><br><span class="line">%  After learning the parameters, you'll like to use it to predict the outcomes</span><br><span class="line">%  on unseen data. In this part, you will use the logistic regression model</span><br><span class="line">%  to predict the probability that a student with score 45 on exam 1 and </span><br><span class="line">%  score 85 on exam 2 will be admitted.</span><br><span class="line">%</span><br><span class="line">%  Furthermore, you will compute the training and test <span class="keyword">set</span> accuracies of </span><br><span class="line">%  our model.</span><br><span class="line">%</span><br><span class="line">%  Your task is to complete the code in predict.m</span><br><span class="line"></span><br><span class="line">%  Predict probability for a student with score 45 on exam 1 </span><br><span class="line">%  and score 85 on exam 2 </span><br><span class="line"></span><br><span class="line">prob = sigmoid([1 45 85] * theta);</span><br><span class="line">fprintf(['For a student with scores 45 and 85, we predict an admission ' ...</span><br><span class="line">         'probability of %f\n'], prob);</span><br><span class="line">fprintf('Expected value: 0.775 +/- 0.002\n\n');</span><br><span class="line"></span><br><span class="line">% Compute accuracy on our training <span class="keyword">set</span></span><br><span class="line">p = predict(theta, X);</span><br><span class="line"></span><br><span class="line">fprintf('Train Accuracy: %f\n', mean(double(p == y)) * 100);</span><br><span class="line">fprintf('Expected accuracy (approx): 89.0\n');</span><br><span class="line">fprintf('\n');</span><br></pre></td></tr></table></figure>
+<h1 id="正则化"><a href="#正则化" class="headerlink" title="正则化"></a>正则化</h1><h2 id="Part-1-Regularized-Logistic-Regression"><a href="#Part-1-Regularized-Logistic-Regression" class="headerlink" title="Part 1: Regularized Logistic Regression"></a>Part 1: Regularized Logistic Regression</h2><p><strong>costFunctionReg.m</strong><br>加入正则化项的代价函数和梯度<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">function [J, grad] = costFunctionReg(theta, X, y, lambda)</span><br><span class="line">%COSTFUNCTIONREG Compute cost and gradient <span class="keyword">for</span> logistic regression <span class="keyword">with</span> regularization</span><br><span class="line">%   J = COSTFUNCTIONREG(theta, X, y, lambda) computes the cost <span class="keyword">of</span> using</span><br><span class="line">%   theta <span class="keyword">as</span> the parameter <span class="keyword">for</span> regularized logistic regression and the</span><br><span class="line">%   gradient <span class="keyword">of</span> the cost w.r.t. to the parameters. </span><br><span class="line"></span><br><span class="line">% Initialize some useful values</span><br><span class="line">m = length(y); % number <span class="keyword">of</span> training examples</span><br><span class="line"></span><br><span class="line">% You need to <span class="keyword">return</span> the following variables correctly </span><br><span class="line">J = <span class="number">0</span>;</span><br><span class="line">grad = zeros(size(theta));</span><br><span class="line"></span><br><span class="line">% ====================== YOUR CODE HERE ======================</span><br><span class="line">% Instructions: Compute the cost <span class="keyword">of</span> a particular choice <span class="keyword">of</span> theta.</span><br><span class="line">%               You should <span class="keyword">set</span> J to the cost.</span><br><span class="line">%               Compute the partial derivatives and <span class="keyword">set</span> grad to the partial</span><br><span class="line">%               derivatives of the cost w.r.t. each parameter in theta</span><br><span class="line"></span><br><span class="line">pos = y == 1;</span><br><span class="line">neg = y == 0;</span><br><span class="line"></span><br><span class="line">h_pos = sigmoid(X(pos, :) * theta);</span><br><span class="line">J_pos = sum(-log(h_pos));</span><br><span class="line"></span><br><span class="line">h_neg = sigmoid(X(neg, :) * theta);</span><br><span class="line">J_neg = sum(-log(1 - h_neg));</span><br><span class="line"></span><br><span class="line">J_reg = lambda/2 * sum(theta(2:end, :) .^ 2);</span><br><span class="line">J = (J_pos + J_neg + J_reg)/m;</span><br><span class="line"></span><br><span class="line">grad = (sum(X .* (sigmoid(X * theta) - y)))' / m;</span><br><span class="line">grad_reg = ((lambda * theta(2:end, :)) / m);</span><br><span class="line">grad(2:end, :) = grad(2:end, :) + grad_reg;</span><br><span class="line">% =============================================================</span><br><span class="line"></span><br><span class="line">end</span><br></pre></td></tr></table></figure></p>
+<p><strong>运行结果</strong><br><img src="https://img-blog.csdnimg.cn/20190406153631739.png" width="60%" alt></p>
+<pre><code>Cost at initial theta (zeros): 0.693147
+Expected cost (approx): 0.693
+Gradient at initial theta (zeros) - first five values only:
+ 0.008475 
+ 0.018788 
+ 0.000078 
+ 0.050345 
+ 0.011501 
+Expected gradients (approx) - first five values only:
+ 0.0085
+ 0.0188
+ 0.0001
+ 0.0503
+ 0.0115
+
+Program paused. Press enter to continue.
+
+Cost at test theta (with lambda = 10): 3.164509
+Expected cost (approx): 3.16
+Gradient at test theta - first five values only:
+ 0.346045 
+ 0.161352 
+ 0.194796 
+ 0.226863 
+ 0.092186 
+Expected gradients (approx) - first five values only:
+ 0.3460
+ 0.1614
+ 0.1948
+ 0.2269
+ 0.0922
+
+Program paused. Press enter to continue.
+</code></pre><h2 id="Part-2-Regularization-and-Accuracies"><a href="#Part-2-Regularization-and-Accuracies" class="headerlink" title="Part 2: Regularization and Accuracies"></a>Part 2: Regularization and Accuracies</h2><p><strong>运行结果</strong></p>
+<pre><code>Train Accuracy: 83.050847
+Expected accuracy (with lambda = 1): 83.1 (approx)
+</code></pre><p><img src="https://img-blog.csdnimg.cn/20190406161056600.png" width="60%" alt></p>
+<h2 id="主函数代码-1"><a href="#主函数代码-1" class="headerlink" title="主函数代码"></a>主函数代码</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br></pre></td><td class="code"><pre><span class="line"> %% Machine Learning Online Class - Exercise <span class="number">2</span>: Logistic Regression</span><br><span class="line">%</span><br><span class="line">%  Instructions</span><br><span class="line">%  ------------</span><br><span class="line">%</span><br><span class="line">%  This file contains code that helps you <span class="keyword">get</span> started on the second part</span><br><span class="line">%  of the exercise which covers regularization with logistic regression.</span><br><span class="line">%</span><br><span class="line">%  You will need to complete the following functions in this exericse:</span><br><span class="line">%</span><br><span class="line">%     sigmoid.m</span><br><span class="line">%     costFunction.m</span><br><span class="line">%     predict.m</span><br><span class="line">%     costFunctionReg.m</span><br><span class="line">%</span><br><span class="line">%  For this exercise, you will not need to change any code in this file,</span><br><span class="line">%  or any other files other than those mentioned above.</span><br><span class="line">%</span><br><span class="line"></span><br><span class="line">%% Initialization</span><br><span class="line">clear ; close all; clc</span><br><span class="line"></span><br><span class="line">%% Load Data</span><br><span class="line">%  The first two columns contains the X values and the third column</span><br><span class="line">%  contains the label (y).</span><br><span class="line"></span><br><span class="line">data = load('ex2data2.txt');</span><br><span class="line">X = data(:, [1, 2]); y = data(:, 3);</span><br><span class="line"></span><br><span class="line">plotData(X, y);</span><br><span class="line"></span><br><span class="line">% Put some labels</span><br><span class="line">hold on;</span><br><span class="line"></span><br><span class="line">% Labels and Legend</span><br><span class="line">xlabel('Microchip Test 1')</span><br><span class="line">ylabel('Microchip Test 2')</span><br><span class="line"></span><br><span class="line">% Specified in plot order</span><br><span class="line">legend('y = 1', 'y = 0')</span><br><span class="line">hold off;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">%% =========== Part 1: Regularized Logistic Regression ============</span><br><span class="line">%  In this part, you are given a dataset with data points that are not</span><br><span class="line">%  linearly separable. However, you would still like to use logistic</span><br><span class="line">%  regression to classify the data points.</span><br><span class="line">%</span><br><span class="line">%  To do so, you introduce more features to use -- in particular, you add</span><br><span class="line">%  polynomial features to our data matrix (similar to polynomial</span><br><span class="line">%  regression).</span><br><span class="line">%</span><br><span class="line"></span><br><span class="line">% Add Polynomial Features</span><br><span class="line"></span><br><span class="line">% Note that mapFeature also adds a column of ones for us, so the intercept</span><br><span class="line">% term is handled</span><br><span class="line">X = mapFeature(X(:,1), X(:,2));</span><br><span class="line"></span><br><span class="line">% Initialize fitting parameters</span><br><span class="line">initial_theta = zeros(size(X, 2), 1);</span><br><span class="line"></span><br><span class="line">% Set regularization parameter lambda to 1</span><br><span class="line">lambda = 1;</span><br><span class="line"></span><br><span class="line">% Compute and display initial cost and gradient for regularized logistic</span><br><span class="line">% regression</span><br><span class="line">[cost, grad] = costFunctionReg(initial_theta, X, y, lambda);</span><br><span class="line"></span><br><span class="line">fprintf('Cost at initial theta (zeros): %f\n', cost);</span><br><span class="line">fprintf('Expected cost (approx): 0.693\n');</span><br><span class="line">fprintf('Gradient at initial theta (zeros) - first five values only:\n');</span><br><span class="line">fprintf(' %f \n', grad(1:5));</span><br><span class="line">fprintf('Expected gradients (approx) - first five values only:\n');</span><br><span class="line">fprintf(' 0.0085\n 0.0188\n 0.0001\n 0.0503\n 0.0115\n');</span><br><span class="line"></span><br><span class="line">fprintf('\nProgram paused. Press enter to continue.\n');</span><br><span class="line">pause;</span><br><span class="line"></span><br><span class="line">% Compute and display cost and gradient</span><br><span class="line">% with all-ones theta and lambda = 10</span><br><span class="line">test_theta = ones(size(X,2),1);</span><br><span class="line">[cost, grad] = costFunctionReg(test_theta, X, y, 10);</span><br><span class="line"></span><br><span class="line">fprintf('\nCost at test theta (with lambda = 10): %f\n', cost);</span><br><span class="line">fprintf('Expected cost (approx): 3.16\n');</span><br><span class="line">fprintf('Gradient at test theta - first five values only:\n');</span><br><span class="line">fprintf(' %f \n', grad(1:5));</span><br><span class="line">fprintf('Expected gradients (approx) - first five values only:\n');</span><br><span class="line">fprintf(' 0.3460\n 0.1614\n 0.1948\n 0.2269\n 0.0922\n');</span><br><span class="line"></span><br><span class="line">fprintf('\nProgram paused. Press enter to continue.\n');</span><br><span class="line">pause;</span><br><span class="line"></span><br><span class="line">%% ============= Part 2: Regularization and Accuracies =============</span><br><span class="line">%  Optional Exercise:</span><br><span class="line">%  In this part, you will <span class="keyword">get</span> to try different values of lambda and</span><br><span class="line">%  see how regularization affects the decision coundart</span><br><span class="line">%</span><br><span class="line">%  Try the following values of lambda (0, 1, 10, 100).</span><br><span class="line">%</span><br><span class="line">%  How does the decision boundary change when you vary lambda? How does</span><br><span class="line">%  the training <span class="keyword">set</span> accuracy vary?</span><br><span class="line">%</span><br><span class="line"></span><br><span class="line">% Initialize fitting parameters</span><br><span class="line">initial_theta = zeros(size(X, 2), 1);</span><br><span class="line"></span><br><span class="line">% Set regularization parameter lambda to 1 (you should vary this)</span><br><span class="line">lambda = 1;</span><br><span class="line"></span><br><span class="line">% Set Options</span><br><span class="line">options = optimset('GradObj', 'on', 'MaxIter', 400);</span><br><span class="line"></span><br><span class="line">% Optimize</span><br><span class="line">[theta, J, exit_flag] = ...</span><br><span class="line">	fminunc(@(t)(costFunctionReg(t, X, y, lambda)), initial_theta, options);</span><br><span class="line"></span><br><span class="line">% Plot Boundary</span><br><span class="line">plotDecisionBoundary(theta, X, y);</span><br><span class="line">hold on;</span><br><span class="line">title(sprintf('lambda = %g', lambda))</span><br><span class="line"></span><br><span class="line">% Labels and Legend</span><br><span class="line">xlabel('Microchip Test 1')</span><br><span class="line">ylabel('Microchip Test 2')</span><br><span class="line"></span><br><span class="line">legend('y = 1', 'y = 0', 'Decision boundary')</span><br><span class="line">hold off;</span><br><span class="line"></span><br><span class="line">% Compute accuracy on our training <span class="keyword">set</span></span><br><span class="line">p = predict(theta, X);</span><br><span class="line"></span><br><span class="line">fprintf('Train Accuracy: %f\n', mean(double(p == y)) * 100);</span><br><span class="line">fprintf('Expected accuracy (with lambda = 1): 83.1 (approx)\n');</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>实验二完成</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://loyf.github.io/2019/04/16/吴恩达机器学习实验一完整代码/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Loy Fan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/16/吴恩达机器学习实验一完整代码/" itemprop="url">吴恩达机器学习实验一完整代码</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-16T20:53:53+08:00">
+                2019-04-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>@<a href="https://loyf.github.io/">LoyFan</a></p>
+<blockquote>
+<p><a href="https://study.163.com/course/courseMain.htm?courseId=1004570029&amp;_trace_c_p_k2_=ea0c7bf2c97246f08030b6c79f38e69a" target="_blank" rel="noopener">&gt;吴恩达机器学习课程链接</a><br><a href="https://blog.csdn.net/weixin_43318626/article/details/88896788" target="_blank" rel="noopener">&gt;课程总结和笔记链接</a><br>实验一的原始代码和使用数据可至课程链接-课时45-章节6编程作业中下载</p>
+<p>包括热身练习、单变量/多变量的损失函数计算、梯度下降的参数更新、特征归一化、正规方程等<br>环境——Matlab R2018b/Octave</p>
+</blockquote>
+<h1 id="单特征"><a href="#单特征" class="headerlink" title="单特征"></a>单特征</h1><h2 id="Part-1-Basic-Function"><a href="#Part-1-Basic-Function" class="headerlink" title="Part 1: Basic Function"></a>Part 1: Basic Function</h2><p>输出一个5X5单位矩阵</p>
+<p><strong>warmUpExercise.m</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">A</span> = <span class="title">warmUpExercise</span>(<span class="params"></span>)</span></span><br><span class="line">%WARMUPEXERCISE Example function in octave</span><br><span class="line">%   A = WARMUPEXERCISE() is an example <span class="function"><span class="keyword">function</span> <span class="title">that</span> <span class="title">returns</span> <span class="title">the</span> 5<span class="title">x5</span> <span class="title">identity</span> <span class="title">matrix</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line">A = [];</span><br><span class="line">% ============= YOUR CODE HERE ==============</span><br><span class="line">% Instructions: Return the <span class="number">5</span>x5 identity matrix </span><br><span class="line">%               In octave, we <span class="keyword">return</span> values by defining which variables</span><br><span class="line">%               represent the <span class="keyword">return</span> values (at the top <span class="keyword">of</span> the file)</span><br><span class="line">%               and then <span class="keyword">set</span> them accordingly. </span><br><span class="line"></span><br><span class="line">A = eye(5);</span><br><span class="line"></span><br><span class="line">% ===========================================</span><br><span class="line">end</span><br></pre></td></tr></table></figure></p>
+<p><strong>运行结果</strong><br><img src="https://img-blog.csdnimg.cn/20190401142455241.png" width="40%" alt></p>
+<h2 id="Part-2-Plotting"><a href="#Part-2-Plotting" class="headerlink" title="Part 2: Plotting"></a>Part 2: Plotting</h2><p>显示数据集ex1data1.txt</p>
+<p><strong>plotData.m</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">plotData</span>(<span class="params">x, y</span>)</span></span><br><span class="line">%PLOTDATA Plots the data points x and y into a new figure </span><br><span class="line">%   PLOTDATA(x,y) plots the data points and gives the figure axes labels <span class="keyword">of</span></span><br><span class="line">%   population and profit.</span><br><span class="line"></span><br><span class="line">figure; % open a <span class="keyword">new</span> figure <span class="built_in">window</span></span><br><span class="line"></span><br><span class="line">% ====================== YOUR CODE HERE ======================</span><br><span class="line">% Instructions: Plot the training data into a figure using the </span><br><span class="line">%               <span class="string">"figure"</span> and <span class="string">"plot"</span> commands. Set the axes labels using</span><br><span class="line">%               the <span class="string">"xlabel"</span> and <span class="string">"ylabel"</span> commands. Assume the </span><br><span class="line">%               population and revenue data have been passed <span class="keyword">in</span></span><br><span class="line">%               <span class="keyword">as</span> the x and y <span class="built_in">arguments</span> <span class="keyword">of</span> <span class="keyword">this</span> <span class="function"><span class="keyword">function</span>.</span></span><br><span class="line">%</span><br><span class="line">% Hint: You can use the <span class="string">'rx'</span> option <span class="keyword">with</span> plot to have the markers</span><br><span class="line">%       appear <span class="keyword">as</span> red crosses. Furthermore, you can make the</span><br><span class="line">%       markers larger by using plot(..., <span class="string">'rx'</span>, <span class="string">'MarkerSize'</span>, <span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">plot(x, y, <span class="string">'rx'</span>, <span class="string">'MarkerSize'</span>, <span class="number">10</span>);</span><br><span class="line">xlabel(<span class="string">'population'</span>);</span><br><span class="line">ylabel(<span class="string">'revenue'</span>);</span><br><span class="line">% ============================================================</span><br><span class="line">end</span><br></pre></td></tr></table></figure></p>
+<p><strong>运行结果</strong><br><img src="https://img-blog.csdnimg.cn/20190401142839796.png" width="60%" alt></p>
+<h2 id="Part-3-Cost-and-Gradient-descent"><a href="#Part-3-Cost-and-Gradient-descent" class="headerlink" title="Part 3: Cost and Gradient descent"></a>Part 3: Cost and Gradient descent</h2><p>损失函数和梯度下降</p>
+<p><strong>computeCost.m</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">J</span> = <span class="title">computeCost</span>(<span class="params">X, y, theta</span>)</span></span><br><span class="line">%COMPUTECOST Compute cost for linear regression</span><br><span class="line">%   J = COMPUTECOST(X, y, theta) computes the cost <span class="keyword">of</span> using theta <span class="keyword">as</span> the</span><br><span class="line">%   parameter <span class="keyword">for</span> linear regression to fit the data points <span class="keyword">in</span> X and y</span><br><span class="line"></span><br><span class="line">% Initialize some useful values</span><br><span class="line">m = length(y); % number <span class="keyword">of</span> training examples</span><br><span class="line"></span><br><span class="line">% You need to <span class="keyword">return</span> the following variables correctly </span><br><span class="line">J = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">% ====================== YOUR CODE HERE ======================</span><br><span class="line">% Instructions: Compute the cost <span class="keyword">of</span> a particular choice <span class="keyword">of</span> theta</span><br><span class="line">%               You should <span class="keyword">set</span> J to the cost.</span><br><span class="line"></span><br><span class="line">predictions = X * theta;</span><br><span class="line">sqrErrors = (predictions - y).^2;</span><br><span class="line">J = 1 / (2 * m) * sum(sqrErrors);</span><br><span class="line"></span><br><span class="line">% =========================================================================</span><br><span class="line">end</span><br></pre></td></tr></table></figure></p>
+<p><strong>gradientDescent.m</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">function [theta, J_history] = gradientDescent(X, y, theta, alpha, num_iters)</span><br><span class="line">%GRADIENTDESCENT Performs gradient descent to learn theta</span><br><span class="line">%   theta = GRADIENTDESCENT(X, y, theta, alpha, num_iters) updates theta by </span><br><span class="line">%   taking num_iters gradient steps <span class="keyword">with</span> learning rate alpha</span><br><span class="line"></span><br><span class="line">% Initialize some useful values</span><br><span class="line">m = length(y); % number <span class="keyword">of</span> training examples</span><br><span class="line">J_history = zeros(num_iters, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> iter = <span class="number">1</span>:num_iters</span><br><span class="line"></span><br><span class="line">    % ====================== YOUR CODE HERE ======================</span><br><span class="line">    % Instructions: Perform a single gradient step on the parameter vector</span><br><span class="line">    %               theta. </span><br><span class="line">    %</span><br><span class="line">    % Hint: While debugging, it can be useful to print out the values</span><br><span class="line">    %       <span class="keyword">of</span> the cost <span class="function"><span class="keyword">function</span> (<span class="params">computeCost</span>) <span class="title">and</span> <span class="title">gradient</span> <span class="title">here</span>.</span></span><br><span class="line">    %</span><br><span class="line">    predictions0 = <span class="number">1</span> / m * sum(X * theta - y);</span><br><span class="line">    theta(<span class="number">1</span>) = theta(<span class="number">1</span>) - alpha * predictions0;</span><br><span class="line">    predictions1 = <span class="number">1</span> / m * sum((X * theta - y) .* X(:,<span class="number">2</span>));</span><br><span class="line">    theta(<span class="number">2</span>) = theta(<span class="number">2</span>) - alpha * predictions1;</span><br><span class="line"></span><br><span class="line">    % ============================================================</span><br><span class="line"></span><br><span class="line">    % Save the cost J <span class="keyword">in</span> every iteration    </span><br><span class="line">    J_history(iter) = computeCost(X, y, theta);</span><br><span class="line"></span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">end</span><br></pre></td></tr></table></figure></p>
+<p><strong>运行结果</strong><br><img src="https://img-blog.csdnimg.cn/20190401143937749.png" width="80%" alt><br><img src="https://img-blog.csdnimg.cn/20190401143951120.png" width="60%" alt></p>
+<h2 id="Part-4-Visualizing-J-theta-0-theta-1"><a href="#Part-4-Visualizing-J-theta-0-theta-1" class="headerlink" title="Part 4: Visualizing J(theta_0, theta_1)"></a>Part 4: Visualizing J(theta_0, theta_1)</h2><p>参数更新视图<br><img src="https://img-blog.csdnimg.cn/20190401144134784.png" width="55%" alt><br><img src="https://img-blog.csdnimg.cn/20190401144143359.png" width="60%" alt></p>
+<h2 id="主函数代码"><a href="#主函数代码" class="headerlink" title="主函数代码"></a>主函数代码</h2><p><strong>ex1.m</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br></pre></td><td class="code"><pre><span class="line">%% Machine Learning Online Class - Exercise <span class="number">1</span>: Linear Regression</span><br><span class="line"></span><br><span class="line">%  Instructions</span><br><span class="line">%  ------------</span><br><span class="line">%</span><br><span class="line">%  This file contains code that helps you <span class="keyword">get</span> started on the</span><br><span class="line">%  linear exercise. You will need to complete the following functions</span><br><span class="line">%  in this exericse:</span><br><span class="line">%</span><br><span class="line">%     warmUpExercise.m</span><br><span class="line">%     plotData.m</span><br><span class="line">%     gradientDescent.m</span><br><span class="line">%     computeCost.m</span><br><span class="line">%     gradientDescentMulti.m</span><br><span class="line">%     computeCostMulti.m</span><br><span class="line">%     featureNormalize.m</span><br><span class="line">%     normalEqn.m</span><br><span class="line">%</span><br><span class="line">%  For this exercise, you will not need to change any code in this file,</span><br><span class="line">%  or any other files other than those mentioned above.</span><br><span class="line">%</span><br><span class="line">% x refers to the population size in 10,000s</span><br><span class="line">% y refers to the profit in $10,000s</span><br><span class="line">%</span><br><span class="line"></span><br><span class="line">%% Initialization</span><br><span class="line">clear ; close all; clc</span><br><span class="line"></span><br><span class="line">%% ==================== Part 1: Basic Function ====================</span><br><span class="line">% Complete warmUpExercise.m</span><br><span class="line">fprintf('Running warmUpExercise ... \n');</span><br><span class="line">fprintf('5x5 Identity Matrix: \n');</span><br><span class="line">warmUpExercise()</span><br><span class="line"></span><br><span class="line">fprintf('Program paused. Press enter to continue.\n');</span><br><span class="line">pause;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">%% ======================= Part 2: Plotting =======================</span><br><span class="line">fprintf('Plotting Data ...\n')</span><br><span class="line">data = load('ex1data1.txt');</span><br><span class="line">X = data(:, 1); y = data(:, 2);</span><br><span class="line">m = length(y); % number of training examples</span><br><span class="line"></span><br><span class="line">% Plot Data</span><br><span class="line">% Note: You have to complete the code in plotData.m</span><br><span class="line">plotData(X, y);</span><br><span class="line"></span><br><span class="line">fprintf('Program paused. Press enter to continue.\n');</span><br><span class="line">pause;</span><br><span class="line"></span><br><span class="line">%% =================== Part 3: Cost and Gradient descent ===================</span><br><span class="line"></span><br><span class="line">X = [ones(m, 1), data(:,1)]; % Add a column of ones to x</span><br><span class="line">theta = zeros(2, 1); % initialize fitting parameters</span><br><span class="line"></span><br><span class="line">% Some gradient descent settings</span><br><span class="line">iterations = 1500;</span><br><span class="line">alpha = 0.01;</span><br><span class="line"></span><br><span class="line">fprintf('\nTesting the cost function ...\n')</span><br><span class="line">% compute and display initial cost</span><br><span class="line">J = computeCost(X, y, theta);</span><br><span class="line">fprintf('With theta = [0 ; 0]\nCost computed = %f\n', J);</span><br><span class="line">fprintf('Expected cost value (approx) 32.07\n');</span><br><span class="line"></span><br><span class="line">% further testing of the cost function</span><br><span class="line">J = computeCost(X, y, [-1 ; 2]);</span><br><span class="line">fprintf('\nWith theta = [-1 ; 2]\nCost computed = %f\n', J);</span><br><span class="line">fprintf('Expected cost value (approx) 54.24\n');</span><br><span class="line"></span><br><span class="line">fprintf('Program paused. Press enter to continue.\n');</span><br><span class="line">pause;</span><br><span class="line"></span><br><span class="line">fprintf('\nRunning Gradient Descent ...\n')</span><br><span class="line">% run gradient descent</span><br><span class="line">theta = gradientDescent(X, y, theta, alpha, iterations);</span><br><span class="line"></span><br><span class="line">% print theta to screen</span><br><span class="line">fprintf('Theta found by gradient descent:\n');</span><br><span class="line">fprintf('%f\n', theta);</span><br><span class="line">fprintf('Expected theta values (approx)\n');</span><br><span class="line">fprintf(' -3.6303\n  1.1664\n\n');</span><br><span class="line"></span><br><span class="line">% Plot the linear fit</span><br><span class="line">hold on; % keep previous plot visible</span><br><span class="line">plot(X(:,2), X*theta, '-')</span><br><span class="line">legend('Training data', 'Linear regression')</span><br><span class="line">hold off % don't overlay any more plots on this figure</span><br><span class="line"></span><br><span class="line">% Predict values for population sizes of 35,000 and 70,000</span><br><span class="line">predict1 = [1, 3.5] *theta;</span><br><span class="line">fprintf('For population = 35,000, we predict a profit of %f\n',...</span><br><span class="line">    predict1*10000);</span><br><span class="line">predict2 = [1, 7] * theta;</span><br><span class="line">fprintf('For population = 70,000, we predict a profit of %f\n',...</span><br><span class="line">    predict2*10000);</span><br><span class="line"></span><br><span class="line">fprintf('Program paused. Press enter to continue.\n');</span><br><span class="line">pause;</span><br><span class="line"></span><br><span class="line">%% ============= Part 4: Visualizing J(theta_0, theta_1) =============</span><br><span class="line">fprintf('Visualizing J(theta_0, theta_1) ...\n')</span><br><span class="line"></span><br><span class="line">% Grid over which we will calculate J</span><br><span class="line">theta0_vals = linspace(-10, 10, 100);</span><br><span class="line">theta1_vals = linspace(-1, 4, 100);</span><br><span class="line"></span><br><span class="line">% initialize J_vals to a matrix of 0's</span><br><span class="line">J_vals = zeros(length(theta0_vals), length(theta1_vals));</span><br><span class="line"></span><br><span class="line">% Fill out J_vals</span><br><span class="line">for i = 1:length(theta0_vals)</span><br><span class="line">    for j = 1:length(theta1_vals)</span><br><span class="line">	  t = [theta0_vals(i); theta1_vals(j)];</span><br><span class="line">	  J_vals(i,j) = computeCost(X, y, t);</span><br><span class="line">    end</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">% Because of the way meshgrids work in the surf command, we need to</span><br><span class="line">% transpose J_vals before calling surf, or else the axes will be flipped</span><br><span class="line">J_vals = J_vals';</span><br><span class="line">% Surface plot</span><br><span class="line">figure;</span><br><span class="line">surf(theta0_vals, theta1_vals, J_vals)</span><br><span class="line">xlabel('\theta_0'); ylabel('\theta_1');</span><br><span class="line"></span><br><span class="line">% Contour plot</span><br><span class="line">figure;</span><br><span class="line">% Plot J_vals as 15 contours spaced logarithmically between 0.01 and 100</span><br><span class="line">contour(theta0_vals, theta1_vals, J_vals, logspace(-2, 3, 20))</span><br><span class="line">xlabel('\theta_0'); ylabel('\theta_1');</span><br><span class="line">hold on;</span><br><span class="line">plot(theta(1), theta(2), 'rx', 'MarkerSize', 10, 'LineWidth', 2);</span><br></pre></td></tr></table></figure></p>
+<h1 id="多特征"><a href="#多特征" class="headerlink" title="多特征"></a>多特征</h1><h2 id="Part-1-Feature-Normalization"><a href="#Part-1-Feature-Normalization" class="headerlink" title="Part 1: Feature Normalization"></a>Part 1: Feature Normalization</h2><p>多元特征归一化</p>
+<p><strong>featureNormalize.m</strong><br>使得特征均值为0，标准差为1</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">function [X_norm, mu, sigma] = featureNormalize(X)</span><br><span class="line">%FEATURENORMALIZE Normalizes the features <span class="keyword">in</span> X </span><br><span class="line">%   FEATURENORMALIZE(X) returns a normalized version <span class="keyword">of</span> X where</span><br><span class="line">%   the mean value <span class="keyword">of</span> each feature is <span class="number">0</span> and the standard deviation</span><br><span class="line">%   is <span class="number">1.</span> This is often a good preprocessing step to <span class="keyword">do</span> when</span><br><span class="line">%   working <span class="keyword">with</span> learning algorithms.</span><br><span class="line"></span><br><span class="line">% You need to <span class="keyword">set</span> these values correctly</span><br><span class="line"></span><br><span class="line">X_norm = X;</span><br><span class="line">mu = zeros(1, size(X, 2));</span><br><span class="line">sigma = zeros(1, size(X, 2));</span><br><span class="line"></span><br><span class="line">% ====================== YOUR CODE HERE ======================</span><br><span class="line">% Instructions: First, for each feature dimension, compute the mean</span><br><span class="line">%               of the feature and subtract it from the dataset,</span><br><span class="line">%               storing the mean value in mu. Next, compute the </span><br><span class="line">%               standard deviation of each feature and divide</span><br><span class="line">%               each feature by it's standard deviation, storing</span><br><span class="line">%               the standard deviation in sigma. </span><br><span class="line">%</span><br><span class="line">%               Note that X is a matrix where each column is a </span><br><span class="line">%               feature and each row is an example. You need </span><br><span class="line">%               to perform the normalization separately for </span><br><span class="line">%               each feature. </span><br><span class="line">%</span><br><span class="line">% Hint: You might find the 'mean' and 'std' functions useful.</span><br><span class="line">%       </span><br><span class="line"></span><br><span class="line">mu = mean(X_norm, 1);</span><br><span class="line">sigma = std(X_norm, 0, 1);   %std(X, OPT, dim) X待计算矩阵，normalization OPT must be 0 or 1，dim以哪个维度计算（行/列）</span><br><span class="line">X_norm = (X_norm - mu) ./ sigma;</span><br><span class="line"></span><br><span class="line">%standard_deviation = std(X_norm, 0, 1);</span><br><span class="line">%Mean = mean(X_norm, 1);</span><br><span class="line">%fprintf('mean value: \n');</span><br><span class="line">%fprintf(' %.2f\n', [Mean(1:1,:)]);</span><br><span class="line">%fprintf('standard deviation: \n');</span><br><span class="line">%fprintf(' %.2f\n', [standard_deviation(1:1,:)]);</span><br><span class="line"></span><br><span class="line">% ============================================================</span><br><span class="line"></span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<h2 id="Part-2-Gradient-Descent"><a href="#Part-2-Gradient-Descent" class="headerlink" title="Part 2: Gradient Descent"></a>Part 2: Gradient Descent</h2><p>多元损失函数和梯度下降</p>
+<p><strong>computeCostMulti.m</strong><br>和上述的损失函数相同</p>
+<p><strong>gradientDescentMulti.m</strong><br>和上述的单一变量梯度下降几乎相同<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">function [theta, J_history] = gradientDescentMulti(X, y, theta, alpha, num_iters)</span><br><span class="line">%GRADIENTDESCENTMULTI Performs gradient descent to learn theta</span><br><span class="line">%   theta = GRADIENTDESCENTMULTI(x, y, theta, alpha, num_iters) updates theta by</span><br><span class="line">%   taking num_iters gradient steps <span class="keyword">with</span> learning rate alpha</span><br><span class="line"></span><br><span class="line">% Initialize some useful values</span><br><span class="line">m = length(y); % number <span class="keyword">of</span> training examples</span><br><span class="line">J_history = zeros(num_iters, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> iter = <span class="number">1</span>:num_iters</span><br><span class="line"></span><br><span class="line">    % ====================== YOUR CODE HERE ======================</span><br><span class="line">    % Instructions: Perform a single gradient step on the parameter vector</span><br><span class="line">    %               theta. </span><br><span class="line">    %</span><br><span class="line">    % Hint: While debugging, it can be useful to print out the values</span><br><span class="line">    %       <span class="keyword">of</span> the cost <span class="function"><span class="keyword">function</span> (<span class="params">computeCostMulti</span>) <span class="title">and</span> <span class="title">gradient</span> <span class="title">here</span>.</span></span><br><span class="line">    %</span><br><span class="line"></span><br><span class="line">    predictions0 = <span class="number">1</span> / m * sum(X * theta - y);</span><br><span class="line">    theta(<span class="number">1</span>) = theta(<span class="number">1</span>) - alpha * predictions0;</span><br><span class="line">    predictions1 = <span class="number">1</span> / m * sum((X * theta - y) .* X(:, <span class="number">2</span>));</span><br><span class="line">    theta(<span class="number">2</span>) = theta(<span class="number">2</span>) - alpha * predictions1;    </span><br><span class="line">    predictions2 = <span class="number">1</span> / m * sum((X * theta - y) .* X(:, <span class="number">3</span>));</span><br><span class="line">    theta(<span class="number">3</span>) = theta(<span class="number">3</span>) - alpha * predictions2;</span><br><span class="line">   </span><br><span class="line">    % ============================================================</span><br><span class="line"></span><br><span class="line">    % Save the cost J <span class="keyword">in</span> every iteration</span><br><span class="line">    J_history(iter) = computeCostMulti(X, y, theta);</span><br><span class="line"></span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">end</span><br></pre></td></tr></table></figure></p>
+<h2 id="用梯度下降选择参数theta并且预测"><a href="#用梯度下降选择参数theta并且预测" class="headerlink" title="用梯度下降选择参数theta并且预测"></a>用梯度下降选择参数theta并且预测</h2><p>这段代码包含于主函数代码中<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">fprintf(<span class="string">'Running gradient descent ...\n'</span>);</span><br><span class="line"></span><br><span class="line">% Choose some alpha value</span><br><span class="line">alpha = <span class="number">0.01</span>;</span><br><span class="line">num_iters = <span class="number">400</span>;</span><br><span class="line"></span><br><span class="line">% Init Theta and Run Gradient Descent</span><br><span class="line">theta = zeros(<span class="number">3</span>, <span class="number">1</span>);</span><br><span class="line">[theta, J_history] = gradientDescentMulti(X, y, theta, alpha, num_iters);</span><br><span class="line"></span><br><span class="line">% Plot the convergence graph</span><br><span class="line">figure;</span><br><span class="line">plot(<span class="number">1</span>:numel(J_history), J_history, <span class="string">'-b'</span>, <span class="string">'LineWidth'</span>, <span class="number">2</span>);</span><br><span class="line">xlabel(<span class="string">'Number of iterations'</span>);</span><br><span class="line">ylabel(<span class="string">'Cost J'</span>);</span><br><span class="line"></span><br><span class="line">% Display gradient descent<span class="string">'s result</span></span><br><span class="line"><span class="string">fprintf('</span>Theta computed <span class="keyword">from</span> gradient descent: \n<span class="string">');</span></span><br><span class="line"><span class="string">fprintf('</span> %f \n<span class="string">', theta);</span></span><br><span class="line"><span class="string">fprintf('</span>\n<span class="string">');</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">% Estimate the price of a 1650 sq-ft, 3 br house</span></span><br><span class="line"><span class="string">% ====================== YOUR CODE HERE ======================</span></span><br><span class="line"><span class="string">% Recall that the first column of X is all-ones. Thus, it does</span></span><br><span class="line"><span class="string">% not need to be normalized.</span></span><br><span class="line"><span class="string">%price = 0; % You should change this</span></span><br><span class="line"><span class="string">x = [1650 3];</span></span><br><span class="line"><span class="string">x = (x - mu) ./ sigma;</span></span><br><span class="line"><span class="string">x = [ones(1, 1) x];</span></span><br><span class="line"><span class="string">price = x * theta;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">% ============================================================</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">fprintf(['</span>Predicted price <span class="keyword">of</span> a <span class="number">1650</span> sq-ft, <span class="number">3</span> br house <span class="string">' ...</span></span><br><span class="line"><span class="string">         '</span>(using gradient descent):\n $%f\n<span class="string">'], price);</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">fprintf('</span>Program paused. Press enter to <span class="keyword">continue</span>.\n<span class="string">');</span></span><br><span class="line"><span class="string">pause;</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>运行结果</strong><br><img src="https://img-blog.csdnimg.cn/20190401205313219.png" width="60%" alt><br><img src="https://img-blog.csdnimg.cn/20190401205502808.png" width="60%" alt></p>
+<h2 id="Part-3-Normal-Equations"><a href="#Part-3-Normal-Equations" class="headerlink" title="Part 3: Normal Equations"></a>Part 3: Normal Equations</h2><p>正规方程<br>非迭代方法选择参数，并做与上述相同的预测</p>
+<p><strong>normalEqn.m</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">function [theta] = normalEqn(X, y)</span><br><span class="line">%NORMALEQN Computes the closed-form solution to linear regression </span><br><span class="line">%   NORMALEQN(X,y) computes the closed-form solution to linear </span><br><span class="line">%   regression using the normal equations.</span><br><span class="line"></span><br><span class="line">theta = zeros(size(X, <span class="number">2</span>), <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">% ====================== YOUR CODE HERE ======================</span><br><span class="line">% Instructions: Complete the code to compute the closed form solution</span><br><span class="line">%               to linear regression and put the result <span class="keyword">in</span> theta.</span><br><span class="line">%</span><br><span class="line">theta = pinv(X<span class="string">'*X)*X'</span>*y;</span><br><span class="line"></span><br><span class="line">% ============================================================</span><br><span class="line"></span><br><span class="line">end</span><br></pre></td></tr></table></figure></p>
+<p><strong>运行结果</strong><br><img src="https://img-blog.csdnimg.cn/20190401211028783.png" width="60%" alt></p>
+<h2 id="主函数代码-1"><a href="#主函数代码-1" class="headerlink" title="主函数代码"></a>主函数代码</h2><p><strong>ex1_multi.m</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br></pre></td><td class="code"><pre><span class="line">%% Machine Learning Online Class</span><br><span class="line">%  Exercise <span class="number">1</span>: Linear regression <span class="keyword">with</span> multiple variables</span><br><span class="line">%</span><br><span class="line">%  Instructions</span><br><span class="line">%  ------------</span><br><span class="line">% </span><br><span class="line">%  This file contains code that helps you <span class="keyword">get</span> started on the</span><br><span class="line">%  linear regression exercise. </span><br><span class="line">%</span><br><span class="line">%  You will need to complete the following functions in this </span><br><span class="line">%  exericse:</span><br><span class="line">%</span><br><span class="line">%     warmUpExercise.m</span><br><span class="line">%     plotData.m</span><br><span class="line">%     gradientDescent.m</span><br><span class="line">%     computeCost.m</span><br><span class="line">%     gradientDescentMulti.m</span><br><span class="line">%     computeCostMulti.m</span><br><span class="line">%     featureNormalize.m</span><br><span class="line">%     normalEqn.m</span><br><span class="line">%</span><br><span class="line">%  For this part of the exercise, you will need to change some</span><br><span class="line">%  parts of the code below for various experiments (e.g., changing</span><br><span class="line">%  learning rates).</span><br><span class="line">%</span><br><span class="line"></span><br><span class="line">%% Initialization</span><br><span class="line"></span><br><span class="line">%% ================ Part 1: Feature Normalization ================</span><br><span class="line"></span><br><span class="line">%% Clear and Close Figures</span><br><span class="line">clear ; close all; clc</span><br><span class="line"></span><br><span class="line">fprintf('Loading data ...\n');</span><br><span class="line"></span><br><span class="line">%% Load Data</span><br><span class="line">data = load('ex1data2.txt');</span><br><span class="line">X = data(:, 1:2);</span><br><span class="line">y = data(:, 3);</span><br><span class="line">m = length(y);</span><br><span class="line"></span><br><span class="line">% Print out some data points</span><br><span class="line">fprintf('First 10 examples from the dataset: \n');</span><br><span class="line">fprintf(' x = [%.0f %.0f], y = %.0f \n', [X(1:10,:) y(1:10,:)]');</span><br><span class="line"></span><br><span class="line">fprintf('Program paused. Press enter to continue.\n');</span><br><span class="line">pause;</span><br><span class="line"></span><br><span class="line">% Scale features and <span class="keyword">set</span> them to zero mean</span><br><span class="line">fprintf('Normalizing Features ...\n');</span><br><span class="line">[X, mu, sigma] = featureNormalize(X);</span><br><span class="line"></span><br><span class="line">% Add intercept term to X</span><br><span class="line">X = [ones(m, 1) X];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">%% ================ Part 2: Gradient Descent ================</span><br><span class="line"></span><br><span class="line">% ====================== YOUR CODE HERE ======================</span><br><span class="line">% Instructions: We have provided you with the following starter</span><br><span class="line">%               code that runs gradient descent with a particular</span><br><span class="line">%               learning rate (alpha). </span><br><span class="line">%</span><br><span class="line">%               Your task is to first make sure that your functions - </span><br><span class="line">%               computeCost and gradientDescent already work with </span><br><span class="line">%               this starter code and support multiple variables.</span><br><span class="line">%</span><br><span class="line">%               After that, try running gradient descent with </span><br><span class="line">%               different values of alpha and see which one gives</span><br><span class="line">%               you the best result.</span><br><span class="line">%</span><br><span class="line">%               Finally, you should complete the code at the end</span><br><span class="line">%               to predict the price of a 1650 sq-ft, 3 br house.</span><br><span class="line">%</span><br><span class="line">% Hint: By using the 'hold on' command, you can plot multiple </span><br><span class="line">%       graphs on the same figure.</span><br><span class="line">%</span><br><span class="line">% Hint: At prediction, make sure you do the same feature normalization.</span><br><span class="line">%</span><br><span class="line"></span><br><span class="line">fprintf('Running gradient descent ...\n');</span><br><span class="line"></span><br><span class="line">% Choose some alpha value</span><br><span class="line">alpha = 0.01;</span><br><span class="line">num_iters = 400;</span><br><span class="line"></span><br><span class="line">% Init Theta and Run Gradient Descent</span><br><span class="line">theta = zeros(3, 1);</span><br><span class="line">[theta, J_history] = gradientDescentMulti(X, y, theta, alpha, num_iters);</span><br><span class="line"></span><br><span class="line">% Plot the convergence graph</span><br><span class="line">figure;</span><br><span class="line">plot(1:numel(J_history), J_history, '-b', 'LineWidth', 2);</span><br><span class="line">xlabel('Number of iterations');</span><br><span class="line">ylabel('Cost J');</span><br><span class="line"></span><br><span class="line">% Display gradient descent's result</span><br><span class="line">fprintf('Theta computed from gradient descent: \n');</span><br><span class="line">fprintf(' %f \n', theta);</span><br><span class="line">fprintf('\n');</span><br><span class="line"></span><br><span class="line">% Estimate the price of a 1650 sq-ft, 3 br house</span><br><span class="line">% ====================== YOUR CODE HERE ======================</span><br><span class="line">% Recall that the first column of X is all-ones. Thus, it does</span><br><span class="line">% not need to be normalized.</span><br><span class="line">%price = 0; % You should change this</span><br><span class="line">x = [1650 3];</span><br><span class="line">x = (x - mu) ./ sigma;</span><br><span class="line">x = [ones(1, 1) x];</span><br><span class="line">price = x * theta;</span><br><span class="line"></span><br><span class="line">% ============================================================</span><br><span class="line"></span><br><span class="line">fprintf(['Predicted price of a 1650 sq-ft, 3 br house ' ...</span><br><span class="line">         '(using gradient descent):\n $%f\n'], price);</span><br><span class="line"></span><br><span class="line">fprintf('Program paused. Press enter to continue.\n');</span><br><span class="line">pause;</span><br><span class="line"></span><br><span class="line">%% ================ Part 3: Normal Equations ================</span><br><span class="line"></span><br><span class="line">fprintf('Solving with normal equations...\n');</span><br><span class="line"></span><br><span class="line">% ====================== YOUR CODE HERE ======================</span><br><span class="line">% Instructions: The following code computes the closed form </span><br><span class="line">%               solution for linear regression using the normal</span><br><span class="line">%               equations. You should complete the code in </span><br><span class="line">%               normalEqn.m</span><br><span class="line">%</span><br><span class="line">%               After doing so, you should complete this code </span><br><span class="line">%               to predict the price of a 1650 sq-ft, 3 br house.</span><br><span class="line">%</span><br><span class="line"></span><br><span class="line">%% Load Data</span><br><span class="line">data = csvread('ex1data2.txt');</span><br><span class="line">X = data(:, 1:2);</span><br><span class="line">y = data(:, 3);</span><br><span class="line">m = length(y);</span><br><span class="line"></span><br><span class="line">% Add intercept term to X</span><br><span class="line">X = [ones(m, 1) X];</span><br><span class="line"></span><br><span class="line">% Calculate the parameters from the normal equation</span><br><span class="line">theta = normalEqn(X, y);</span><br><span class="line"></span><br><span class="line">% Display normal equation's result</span><br><span class="line">fprintf('Theta computed from the normal equations: \n');</span><br><span class="line">fprintf(' %f \n', theta);</span><br><span class="line">fprintf('\n');</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">% Estimate the price of a 1650 sq-ft, 3 br house</span><br><span class="line">% ====================== YOUR CODE HERE ======================</span><br><span class="line">%price = 0; % You should change this</span><br><span class="line">x = [1650 3];</span><br><span class="line">x = [ones(1, 1) x];</span><br><span class="line">price = x * theta;</span><br><span class="line"></span><br><span class="line">% ============================================================</span><br><span class="line"></span><br><span class="line">fprintf(['Predicted price of a 1650 sq-ft, 3 br house ' ...</span><br><span class="line">         '(using normal equations):\n $%f\n'], price);</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>实验一完成</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://loyf.github.io/2019/03/29/AlexNet-2012/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -718,13 +1257,13 @@
 </ul>
 <blockquote>
 <p>Apr.3.2019</p>
+</blockquote>
 <h2 id="高级优化"><a href="#高级优化" class="headerlink" title="高级优化"></a>高级优化</h2><ul>
 <li>一些比梯度下降更复杂的求解最优参数的算法，涉及高等数值计算，需要用的时候直接调用即可。<br><img src="https://img-blog.csdnimg.cn/20190403090034897.png" width="55%" alt></li>
 <li>一个二维参数的例子，以及MATLAB/Octave中自动选择优化算法的具体代码。<br>即：先定义代价函数和代价函数关于参数$θ$的导数，使用fminunc()函数自动求解最优$θ$。<br><img src="https://img-blog.csdnimg.cn/20190403094010290.png" width="70%" alt></li>
 <li>实际测试<br><strong>costFunction.m</strong><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function [jVal, gradient] = costFunction(theta)</span><br><span class="line"></span><br><span class="line">jVal = (theta(<span class="number">1</span>)<span class="number">-5</span>)^<span class="number">2</span> + (theta(<span class="number">2</span>)<span class="number">-5</span>)^<span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">gradient = zeros(<span class="number">2</span>,<span class="number">1</span>);</span><br><span class="line">gradient(<span class="number">1</span>) = <span class="number">2</span>*(theta(<span class="number">1</span>)<span class="number">-5</span>);</span><br><span class="line">gradient(<span class="number">2</span>) = <span class="number">2</span>*(theta(<span class="number">2</span>)<span class="number">-5</span>);</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-</blockquote>
 <p>Octave命令行中输入<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;options = optimset(<span class="string">'GradObj'</span>, <span class="string">'on'</span>, <span class="string">'MaxIter'</span>, <span class="number">100</span>);</span><br><span class="line">&gt;&gt;initialTheta = zeros(<span class="number">2</span>, <span class="number">1</span>)</span><br><span class="line">initialTheta =</span><br><span class="line"></span><br><span class="line">   <span class="number">0</span></span><br><span class="line">   <span class="number">0</span></span><br><span class="line"></span><br><span class="line">&gt;&gt;[optTheta, functionVal, exitFlag] = fminunc(@costFunction, initialTheta, options)</span><br><span class="line">optTheta =</span><br><span class="line"></span><br><span class="line">   <span class="number">5</span></span><br><span class="line">   <span class="number">5</span></span><br><span class="line"></span><br><span class="line">functionVal = <span class="number">0</span></span><br><span class="line">exitFlag =  <span class="number">1</span></span><br></pre></td></tr></table></figure></p>
 <p>找到最优参数值(5, 5)，给定的函数此时值为0，即我们输入的costFunction，exitFlag表示已经收敛。</p>
 <ul>
@@ -1509,380 +2048,13 @@ Tropical hypersurface把f分成线性的凸单元。
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://loyf.github.io/2019/02/23/《Correspondence-principle-for-idempotent-calculus-and-some-computer-applications》笔记/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Loy Fan">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content>
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/02/23/《Correspondence-principle-for-idempotent-calculus-and-some-computer-applications》笔记/" itemprop="url">《Correspondence principle for idempotent calculus and some computer applications》笔记</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-23T11:18:37+08:00">
-                2019-02-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><br>    幂等微积分和一些计算机应用的对应法则</p>
-<h1 id="第一章-简介"><a href="#第一章-简介" class="headerlink" title="第一章 简介"></a>第一章 简介</h1><p>应用于多样优化问题，比如多重判据决策、图优化、大素数分解优化（渐进问题）、计算机系统和计算机媒体的设计优化、并行数据处理的优化组织、动态规划、离散事件体统、计算机科学、离散数学、数理逻辑等等。</p>
-<p>本文利用对应原理，对等分微积分算法和科学计算算法进行了面向对象的软硬件设计。特别是，有一种构建后端处理器和技术设备的常规方法，用于实现等幂微积分的基本算法和半环的数学。这些硬件设施提高了数据处理的速度。此外，这种方法对于非“等幂”算法的一般情况下的软硬件设计是有用的。</p>
-<h1 id="第二章-幂等量化与去量化"><a href="#第二章-幂等量化与去量化" class="headerlink" title="第二章 幂等量化与去量化"></a>第二章 幂等量化与去量化</h1><script type="math/tex; mode=display">w = hlnu</script><p>当\(u∈R_+\)，\(h&gt;0\)时，\(w∈R\)</p>
-<h1 id="第三章-半环"><a href="#第三章-半环" class="headerlink" title="第三章 半环"></a>第三章 半环</h1><h1 id="第四章-特殊性质半环"><a href="#第四章-特殊性质半环" class="headerlink" title="第四章 特殊性质半环"></a>第四章 特殊性质半环</h1><h1 id="第五章-对应法则"><a href="#第五章-对应法则" class="headerlink" title="第五章 对应法则"></a>第五章 对应法则</h1>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://loyf.github.io/2019/02/22/Start-From-Now-On/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Loy Fan">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content>
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/02/22/Start-From-Now-On/" itemprop="url">Start From Now On</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-22T19:17:19+08:00">
-                2019-02-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Start using this blog from now on. 2019.2.22</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://loyf.github.io/2019/02/22/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Loy Fan">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content>
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/02/22/hello-world/" itemprop="url">Hello World</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-22T10:06:52+08:00">
-                2019-02-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -1926,7 +2098,7 @@ Tropical hypersurface把f分成线性的凸单元。
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

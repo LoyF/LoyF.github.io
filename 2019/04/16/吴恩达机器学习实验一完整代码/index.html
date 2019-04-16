@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="@LoyFan  &amp;gt;吴恩达机器学习课程链接&amp;gt;课程总结和笔记链接实验一的原始代码和使用数据可至课程链接-课时45-章节6编程作业中下载 包括热身练习、单变量/多变量的损失函数计算、梯度下降的参数更新、特征归一化、正规方程等环境——Matlab R2018b/Octave  单特征Part 1: Basic Function输出一个5X5单位矩阵 warmUpExercise.m12345">
+<meta property="og:type" content="article">
+<meta property="og:title" content="吴恩达机器学习实验一完整代码">
+<meta property="og:url" content="https://loyf.github.io/2019/04/16/吴恩达机器学习实验一完整代码/index.html">
+<meta property="og:site_name">
+<meta property="og:description" content="@LoyFan  &amp;gt;吴恩达机器学习课程链接&amp;gt;课程总结和笔记链接实验一的原始代码和使用数据可至课程链接-课时45-章节6编程作业中下载 包括热身练习、单变量/多变量的损失函数计算、梯度下降的参数更新、特征归一化、正规方程等环境——Matlab R2018b/Octave  单特征Part 1: Basic Function输出一个5X5单位矩阵 warmUpExercise.m12345">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190401142455241.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190401142839796.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190401143937749.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190401143951120.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190401144134784.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190401144143359.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190401205313219.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190401205502808.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190401211028783.png">
+<meta property="og:updated_time" content="2019-04-16T12:55:06.193Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="吴恩达机器学习实验一完整代码">
+<meta name="twitter:description" content="@LoyFan  &amp;gt;吴恩达机器学习课程链接&amp;gt;课程总结和笔记链接实验一的原始代码和使用数据可至课程链接-课时45-章节6编程作业中下载 包括热身练习、单变量/多变量的损失函数计算、梯度下降的参数更新、特征归一化、正规方程等环境——Matlab R2018b/Octave  单特征Part 1: Basic Function输出一个5X5单位矩阵 warmUpExercise.m12345">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190401142455241.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://loyf.github.io/2019/04/16/吴恩达机器学习实验一完整代码/">
+
+
+
+
+
+  <title>吴恩达机器学习实验一完整代码 | </title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title"></span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://loyf.github.io/2019/04/16/吴恩达机器学习实验一完整代码/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Loy Fan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">吴恩达机器学习实验一完整代码</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-16T20:53:53+08:00">
+                2019-04-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>@<a href="https://loyf.github.io/">LoyFan</a></p>
+<blockquote>
+<p><a href="https://study.163.com/course/courseMain.htm?courseId=1004570029&amp;_trace_c_p_k2_=ea0c7bf2c97246f08030b6c79f38e69a" target="_blank" rel="noopener">&gt;吴恩达机器学习课程链接</a><br><a href="https://blog.csdn.net/weixin_43318626/article/details/88896788" target="_blank" rel="noopener">&gt;课程总结和笔记链接</a><br>实验一的原始代码和使用数据可至课程链接-课时45-章节6编程作业中下载</p>
+<p>包括热身练习、单变量/多变量的损失函数计算、梯度下降的参数更新、特征归一化、正规方程等<br>环境——Matlab R2018b/Octave</p>
+</blockquote>
+<h1 id="单特征"><a href="#单特征" class="headerlink" title="单特征"></a>单特征</h1><h2 id="Part-1-Basic-Function"><a href="#Part-1-Basic-Function" class="headerlink" title="Part 1: Basic Function"></a>Part 1: Basic Function</h2><p>输出一个5X5单位矩阵</p>
+<p><strong>warmUpExercise.m</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">A</span> = <span class="title">warmUpExercise</span>(<span class="params"></span>)</span></span><br><span class="line">%WARMUPEXERCISE Example function in octave</span><br><span class="line">%   A = WARMUPEXERCISE() is an example <span class="function"><span class="keyword">function</span> <span class="title">that</span> <span class="title">returns</span> <span class="title">the</span> 5<span class="title">x5</span> <span class="title">identity</span> <span class="title">matrix</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line">A = [];</span><br><span class="line">% ============= YOUR CODE HERE ==============</span><br><span class="line">% Instructions: Return the <span class="number">5</span>x5 identity matrix </span><br><span class="line">%               In octave, we <span class="keyword">return</span> values by defining which variables</span><br><span class="line">%               represent the <span class="keyword">return</span> values (at the top <span class="keyword">of</span> the file)</span><br><span class="line">%               and then <span class="keyword">set</span> them accordingly. </span><br><span class="line"></span><br><span class="line">A = eye(5);</span><br><span class="line"></span><br><span class="line">% ===========================================</span><br><span class="line">end</span><br></pre></td></tr></table></figure></p>
+<p><strong>运行结果</strong><br><img src="https://img-blog.csdnimg.cn/20190401142455241.png" width="40%" alt></p>
+<h2 id="Part-2-Plotting"><a href="#Part-2-Plotting" class="headerlink" title="Part 2: Plotting"></a>Part 2: Plotting</h2><p>显示数据集ex1data1.txt</p>
+<p><strong>plotData.m</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">plotData</span>(<span class="params">x, y</span>)</span></span><br><span class="line">%PLOTDATA Plots the data points x and y into a new figure </span><br><span class="line">%   PLOTDATA(x,y) plots the data points and gives the figure axes labels <span class="keyword">of</span></span><br><span class="line">%   population and profit.</span><br><span class="line"></span><br><span class="line">figure; % open a <span class="keyword">new</span> figure <span class="built_in">window</span></span><br><span class="line"></span><br><span class="line">% ====================== YOUR CODE HERE ======================</span><br><span class="line">% Instructions: Plot the training data into a figure using the </span><br><span class="line">%               <span class="string">"figure"</span> and <span class="string">"plot"</span> commands. Set the axes labels using</span><br><span class="line">%               the <span class="string">"xlabel"</span> and <span class="string">"ylabel"</span> commands. Assume the </span><br><span class="line">%               population and revenue data have been passed <span class="keyword">in</span></span><br><span class="line">%               <span class="keyword">as</span> the x and y <span class="built_in">arguments</span> <span class="keyword">of</span> <span class="keyword">this</span> <span class="function"><span class="keyword">function</span>.</span></span><br><span class="line">%</span><br><span class="line">% Hint: You can use the <span class="string">'rx'</span> option <span class="keyword">with</span> plot to have the markers</span><br><span class="line">%       appear <span class="keyword">as</span> red crosses. Furthermore, you can make the</span><br><span class="line">%       markers larger by using plot(..., <span class="string">'rx'</span>, <span class="string">'MarkerSize'</span>, <span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">plot(x, y, <span class="string">'rx'</span>, <span class="string">'MarkerSize'</span>, <span class="number">10</span>);</span><br><span class="line">xlabel(<span class="string">'population'</span>);</span><br><span class="line">ylabel(<span class="string">'revenue'</span>);</span><br><span class="line">% ============================================================</span><br><span class="line">end</span><br></pre></td></tr></table></figure></p>
+<p><strong>运行结果</strong><br><img src="https://img-blog.csdnimg.cn/20190401142839796.png" width="60%" alt></p>
+<h2 id="Part-3-Cost-and-Gradient-descent"><a href="#Part-3-Cost-and-Gradient-descent" class="headerlink" title="Part 3: Cost and Gradient descent"></a>Part 3: Cost and Gradient descent</h2><p>损失函数和梯度下降</p>
+<p><strong>computeCost.m</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">J</span> = <span class="title">computeCost</span>(<span class="params">X, y, theta</span>)</span></span><br><span class="line">%COMPUTECOST Compute cost for linear regression</span><br><span class="line">%   J = COMPUTECOST(X, y, theta) computes the cost <span class="keyword">of</span> using theta <span class="keyword">as</span> the</span><br><span class="line">%   parameter <span class="keyword">for</span> linear regression to fit the data points <span class="keyword">in</span> X and y</span><br><span class="line"></span><br><span class="line">% Initialize some useful values</span><br><span class="line">m = length(y); % number <span class="keyword">of</span> training examples</span><br><span class="line"></span><br><span class="line">% You need to <span class="keyword">return</span> the following variables correctly </span><br><span class="line">J = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">% ====================== YOUR CODE HERE ======================</span><br><span class="line">% Instructions: Compute the cost <span class="keyword">of</span> a particular choice <span class="keyword">of</span> theta</span><br><span class="line">%               You should <span class="keyword">set</span> J to the cost.</span><br><span class="line"></span><br><span class="line">predictions = X * theta;</span><br><span class="line">sqrErrors = (predictions - y).^2;</span><br><span class="line">J = 1 / (2 * m) * sum(sqrErrors);</span><br><span class="line"></span><br><span class="line">% =========================================================================</span><br><span class="line">end</span><br></pre></td></tr></table></figure></p>
+<p><strong>gradientDescent.m</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">function [theta, J_history] = gradientDescent(X, y, theta, alpha, num_iters)</span><br><span class="line">%GRADIENTDESCENT Performs gradient descent to learn theta</span><br><span class="line">%   theta = GRADIENTDESCENT(X, y, theta, alpha, num_iters) updates theta by </span><br><span class="line">%   taking num_iters gradient steps <span class="keyword">with</span> learning rate alpha</span><br><span class="line"></span><br><span class="line">% Initialize some useful values</span><br><span class="line">m = length(y); % number <span class="keyword">of</span> training examples</span><br><span class="line">J_history = zeros(num_iters, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> iter = <span class="number">1</span>:num_iters</span><br><span class="line"></span><br><span class="line">    % ====================== YOUR CODE HERE ======================</span><br><span class="line">    % Instructions: Perform a single gradient step on the parameter vector</span><br><span class="line">    %               theta. </span><br><span class="line">    %</span><br><span class="line">    % Hint: While debugging, it can be useful to print out the values</span><br><span class="line">    %       <span class="keyword">of</span> the cost <span class="function"><span class="keyword">function</span> (<span class="params">computeCost</span>) <span class="title">and</span> <span class="title">gradient</span> <span class="title">here</span>.</span></span><br><span class="line">    %</span><br><span class="line">    predictions0 = <span class="number">1</span> / m * sum(X * theta - y);</span><br><span class="line">    theta(<span class="number">1</span>) = theta(<span class="number">1</span>) - alpha * predictions0;</span><br><span class="line">    predictions1 = <span class="number">1</span> / m * sum((X * theta - y) .* X(:,<span class="number">2</span>));</span><br><span class="line">    theta(<span class="number">2</span>) = theta(<span class="number">2</span>) - alpha * predictions1;</span><br><span class="line"></span><br><span class="line">    % ============================================================</span><br><span class="line"></span><br><span class="line">    % Save the cost J <span class="keyword">in</span> every iteration    </span><br><span class="line">    J_history(iter) = computeCost(X, y, theta);</span><br><span class="line"></span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">end</span><br></pre></td></tr></table></figure></p>
+<p><strong>运行结果</strong><br><img src="https://img-blog.csdnimg.cn/20190401143937749.png" width="80%" alt><br><img src="https://img-blog.csdnimg.cn/20190401143951120.png" width="60%" alt></p>
+<h2 id="Part-4-Visualizing-J-theta-0-theta-1"><a href="#Part-4-Visualizing-J-theta-0-theta-1" class="headerlink" title="Part 4: Visualizing J(theta_0, theta_1)"></a>Part 4: Visualizing J(theta_0, theta_1)</h2><p>参数更新视图<br><img src="https://img-blog.csdnimg.cn/20190401144134784.png" width="55%" alt><br><img src="https://img-blog.csdnimg.cn/20190401144143359.png" width="60%" alt></p>
+<h2 id="主函数代码"><a href="#主函数代码" class="headerlink" title="主函数代码"></a>主函数代码</h2><p><strong>ex1.m</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br></pre></td><td class="code"><pre><span class="line">%% Machine Learning Online Class - Exercise <span class="number">1</span>: Linear Regression</span><br><span class="line"></span><br><span class="line">%  Instructions</span><br><span class="line">%  ------------</span><br><span class="line">%</span><br><span class="line">%  This file contains code that helps you <span class="keyword">get</span> started on the</span><br><span class="line">%  linear exercise. You will need to complete the following functions</span><br><span class="line">%  in this exericse:</span><br><span class="line">%</span><br><span class="line">%     warmUpExercise.m</span><br><span class="line">%     plotData.m</span><br><span class="line">%     gradientDescent.m</span><br><span class="line">%     computeCost.m</span><br><span class="line">%     gradientDescentMulti.m</span><br><span class="line">%     computeCostMulti.m</span><br><span class="line">%     featureNormalize.m</span><br><span class="line">%     normalEqn.m</span><br><span class="line">%</span><br><span class="line">%  For this exercise, you will not need to change any code in this file,</span><br><span class="line">%  or any other files other than those mentioned above.</span><br><span class="line">%</span><br><span class="line">% x refers to the population size in 10,000s</span><br><span class="line">% y refers to the profit in $10,000s</span><br><span class="line">%</span><br><span class="line"></span><br><span class="line">%% Initialization</span><br><span class="line">clear ; close all; clc</span><br><span class="line"></span><br><span class="line">%% ==================== Part 1: Basic Function ====================</span><br><span class="line">% Complete warmUpExercise.m</span><br><span class="line">fprintf('Running warmUpExercise ... \n');</span><br><span class="line">fprintf('5x5 Identity Matrix: \n');</span><br><span class="line">warmUpExercise()</span><br><span class="line"></span><br><span class="line">fprintf('Program paused. Press enter to continue.\n');</span><br><span class="line">pause;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">%% ======================= Part 2: Plotting =======================</span><br><span class="line">fprintf('Plotting Data ...\n')</span><br><span class="line">data = load('ex1data1.txt');</span><br><span class="line">X = data(:, 1); y = data(:, 2);</span><br><span class="line">m = length(y); % number of training examples</span><br><span class="line"></span><br><span class="line">% Plot Data</span><br><span class="line">% Note: You have to complete the code in plotData.m</span><br><span class="line">plotData(X, y);</span><br><span class="line"></span><br><span class="line">fprintf('Program paused. Press enter to continue.\n');</span><br><span class="line">pause;</span><br><span class="line"></span><br><span class="line">%% =================== Part 3: Cost and Gradient descent ===================</span><br><span class="line"></span><br><span class="line">X = [ones(m, 1), data(:,1)]; % Add a column of ones to x</span><br><span class="line">theta = zeros(2, 1); % initialize fitting parameters</span><br><span class="line"></span><br><span class="line">% Some gradient descent settings</span><br><span class="line">iterations = 1500;</span><br><span class="line">alpha = 0.01;</span><br><span class="line"></span><br><span class="line">fprintf('\nTesting the cost function ...\n')</span><br><span class="line">% compute and display initial cost</span><br><span class="line">J = computeCost(X, y, theta);</span><br><span class="line">fprintf('With theta = [0 ; 0]\nCost computed = %f\n', J);</span><br><span class="line">fprintf('Expected cost value (approx) 32.07\n');</span><br><span class="line"></span><br><span class="line">% further testing of the cost function</span><br><span class="line">J = computeCost(X, y, [-1 ; 2]);</span><br><span class="line">fprintf('\nWith theta = [-1 ; 2]\nCost computed = %f\n', J);</span><br><span class="line">fprintf('Expected cost value (approx) 54.24\n');</span><br><span class="line"></span><br><span class="line">fprintf('Program paused. Press enter to continue.\n');</span><br><span class="line">pause;</span><br><span class="line"></span><br><span class="line">fprintf('\nRunning Gradient Descent ...\n')</span><br><span class="line">% run gradient descent</span><br><span class="line">theta = gradientDescent(X, y, theta, alpha, iterations);</span><br><span class="line"></span><br><span class="line">% print theta to screen</span><br><span class="line">fprintf('Theta found by gradient descent:\n');</span><br><span class="line">fprintf('%f\n', theta);</span><br><span class="line">fprintf('Expected theta values (approx)\n');</span><br><span class="line">fprintf(' -3.6303\n  1.1664\n\n');</span><br><span class="line"></span><br><span class="line">% Plot the linear fit</span><br><span class="line">hold on; % keep previous plot visible</span><br><span class="line">plot(X(:,2), X*theta, '-')</span><br><span class="line">legend('Training data', 'Linear regression')</span><br><span class="line">hold off % don't overlay any more plots on this figure</span><br><span class="line"></span><br><span class="line">% Predict values for population sizes of 35,000 and 70,000</span><br><span class="line">predict1 = [1, 3.5] *theta;</span><br><span class="line">fprintf('For population = 35,000, we predict a profit of %f\n',...</span><br><span class="line">    predict1*10000);</span><br><span class="line">predict2 = [1, 7] * theta;</span><br><span class="line">fprintf('For population = 70,000, we predict a profit of %f\n',...</span><br><span class="line">    predict2*10000);</span><br><span class="line"></span><br><span class="line">fprintf('Program paused. Press enter to continue.\n');</span><br><span class="line">pause;</span><br><span class="line"></span><br><span class="line">%% ============= Part 4: Visualizing J(theta_0, theta_1) =============</span><br><span class="line">fprintf('Visualizing J(theta_0, theta_1) ...\n')</span><br><span class="line"></span><br><span class="line">% Grid over which we will calculate J</span><br><span class="line">theta0_vals = linspace(-10, 10, 100);</span><br><span class="line">theta1_vals = linspace(-1, 4, 100);</span><br><span class="line"></span><br><span class="line">% initialize J_vals to a matrix of 0's</span><br><span class="line">J_vals = zeros(length(theta0_vals), length(theta1_vals));</span><br><span class="line"></span><br><span class="line">% Fill out J_vals</span><br><span class="line">for i = 1:length(theta0_vals)</span><br><span class="line">    for j = 1:length(theta1_vals)</span><br><span class="line">	  t = [theta0_vals(i); theta1_vals(j)];</span><br><span class="line">	  J_vals(i,j) = computeCost(X, y, t);</span><br><span class="line">    end</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">% Because of the way meshgrids work in the surf command, we need to</span><br><span class="line">% transpose J_vals before calling surf, or else the axes will be flipped</span><br><span class="line">J_vals = J_vals';</span><br><span class="line">% Surface plot</span><br><span class="line">figure;</span><br><span class="line">surf(theta0_vals, theta1_vals, J_vals)</span><br><span class="line">xlabel('\theta_0'); ylabel('\theta_1');</span><br><span class="line"></span><br><span class="line">% Contour plot</span><br><span class="line">figure;</span><br><span class="line">% Plot J_vals as 15 contours spaced logarithmically between 0.01 and 100</span><br><span class="line">contour(theta0_vals, theta1_vals, J_vals, logspace(-2, 3, 20))</span><br><span class="line">xlabel('\theta_0'); ylabel('\theta_1');</span><br><span class="line">hold on;</span><br><span class="line">plot(theta(1), theta(2), 'rx', 'MarkerSize', 10, 'LineWidth', 2);</span><br></pre></td></tr></table></figure></p>
+<h1 id="多特征"><a href="#多特征" class="headerlink" title="多特征"></a>多特征</h1><h2 id="Part-1-Feature-Normalization"><a href="#Part-1-Feature-Normalization" class="headerlink" title="Part 1: Feature Normalization"></a>Part 1: Feature Normalization</h2><p>多元特征归一化</p>
+<p><strong>featureNormalize.m</strong><br>使得特征均值为0，标准差为1</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">function [X_norm, mu, sigma] = featureNormalize(X)</span><br><span class="line">%FEATURENORMALIZE Normalizes the features <span class="keyword">in</span> X </span><br><span class="line">%   FEATURENORMALIZE(X) returns a normalized version <span class="keyword">of</span> X where</span><br><span class="line">%   the mean value <span class="keyword">of</span> each feature is <span class="number">0</span> and the standard deviation</span><br><span class="line">%   is <span class="number">1.</span> This is often a good preprocessing step to <span class="keyword">do</span> when</span><br><span class="line">%   working <span class="keyword">with</span> learning algorithms.</span><br><span class="line"></span><br><span class="line">% You need to <span class="keyword">set</span> these values correctly</span><br><span class="line"></span><br><span class="line">X_norm = X;</span><br><span class="line">mu = zeros(1, size(X, 2));</span><br><span class="line">sigma = zeros(1, size(X, 2));</span><br><span class="line"></span><br><span class="line">% ====================== YOUR CODE HERE ======================</span><br><span class="line">% Instructions: First, for each feature dimension, compute the mean</span><br><span class="line">%               of the feature and subtract it from the dataset,</span><br><span class="line">%               storing the mean value in mu. Next, compute the </span><br><span class="line">%               standard deviation of each feature and divide</span><br><span class="line">%               each feature by it's standard deviation, storing</span><br><span class="line">%               the standard deviation in sigma. </span><br><span class="line">%</span><br><span class="line">%               Note that X is a matrix where each column is a </span><br><span class="line">%               feature and each row is an example. You need </span><br><span class="line">%               to perform the normalization separately for </span><br><span class="line">%               each feature. </span><br><span class="line">%</span><br><span class="line">% Hint: You might find the 'mean' and 'std' functions useful.</span><br><span class="line">%       </span><br><span class="line"></span><br><span class="line">mu = mean(X_norm, 1);</span><br><span class="line">sigma = std(X_norm, 0, 1);   %std(X, OPT, dim) X待计算矩阵，normalization OPT must be 0 or 1，dim以哪个维度计算（行/列）</span><br><span class="line">X_norm = (X_norm - mu) ./ sigma;</span><br><span class="line"></span><br><span class="line">%standard_deviation = std(X_norm, 0, 1);</span><br><span class="line">%Mean = mean(X_norm, 1);</span><br><span class="line">%fprintf('mean value: \n');</span><br><span class="line">%fprintf(' %.2f\n', [Mean(1:1,:)]);</span><br><span class="line">%fprintf('standard deviation: \n');</span><br><span class="line">%fprintf(' %.2f\n', [standard_deviation(1:1,:)]);</span><br><span class="line"></span><br><span class="line">% ============================================================</span><br><span class="line"></span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<h2 id="Part-2-Gradient-Descent"><a href="#Part-2-Gradient-Descent" class="headerlink" title="Part 2: Gradient Descent"></a>Part 2: Gradient Descent</h2><p>多元损失函数和梯度下降</p>
+<p><strong>computeCostMulti.m</strong><br>和上述的损失函数相同</p>
+<p><strong>gradientDescentMulti.m</strong><br>和上述的单一变量梯度下降几乎相同<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">function [theta, J_history] = gradientDescentMulti(X, y, theta, alpha, num_iters)</span><br><span class="line">%GRADIENTDESCENTMULTI Performs gradient descent to learn theta</span><br><span class="line">%   theta = GRADIENTDESCENTMULTI(x, y, theta, alpha, num_iters) updates theta by</span><br><span class="line">%   taking num_iters gradient steps <span class="keyword">with</span> learning rate alpha</span><br><span class="line"></span><br><span class="line">% Initialize some useful values</span><br><span class="line">m = length(y); % number <span class="keyword">of</span> training examples</span><br><span class="line">J_history = zeros(num_iters, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> iter = <span class="number">1</span>:num_iters</span><br><span class="line"></span><br><span class="line">    % ====================== YOUR CODE HERE ======================</span><br><span class="line">    % Instructions: Perform a single gradient step on the parameter vector</span><br><span class="line">    %               theta. </span><br><span class="line">    %</span><br><span class="line">    % Hint: While debugging, it can be useful to print out the values</span><br><span class="line">    %       <span class="keyword">of</span> the cost <span class="function"><span class="keyword">function</span> (<span class="params">computeCostMulti</span>) <span class="title">and</span> <span class="title">gradient</span> <span class="title">here</span>.</span></span><br><span class="line">    %</span><br><span class="line"></span><br><span class="line">    predictions0 = <span class="number">1</span> / m * sum(X * theta - y);</span><br><span class="line">    theta(<span class="number">1</span>) = theta(<span class="number">1</span>) - alpha * predictions0;</span><br><span class="line">    predictions1 = <span class="number">1</span> / m * sum((X * theta - y) .* X(:, <span class="number">2</span>));</span><br><span class="line">    theta(<span class="number">2</span>) = theta(<span class="number">2</span>) - alpha * predictions1;    </span><br><span class="line">    predictions2 = <span class="number">1</span> / m * sum((X * theta - y) .* X(:, <span class="number">3</span>));</span><br><span class="line">    theta(<span class="number">3</span>) = theta(<span class="number">3</span>) - alpha * predictions2;</span><br><span class="line">   </span><br><span class="line">    % ============================================================</span><br><span class="line"></span><br><span class="line">    % Save the cost J <span class="keyword">in</span> every iteration</span><br><span class="line">    J_history(iter) = computeCostMulti(X, y, theta);</span><br><span class="line"></span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">end</span><br></pre></td></tr></table></figure></p>
+<h2 id="用梯度下降选择参数theta并且预测"><a href="#用梯度下降选择参数theta并且预测" class="headerlink" title="用梯度下降选择参数theta并且预测"></a>用梯度下降选择参数theta并且预测</h2><p>这段代码包含于主函数代码中<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">fprintf(<span class="string">'Running gradient descent ...\n'</span>);</span><br><span class="line"></span><br><span class="line">% Choose some alpha value</span><br><span class="line">alpha = <span class="number">0.01</span>;</span><br><span class="line">num_iters = <span class="number">400</span>;</span><br><span class="line"></span><br><span class="line">% Init Theta and Run Gradient Descent</span><br><span class="line">theta = zeros(<span class="number">3</span>, <span class="number">1</span>);</span><br><span class="line">[theta, J_history] = gradientDescentMulti(X, y, theta, alpha, num_iters);</span><br><span class="line"></span><br><span class="line">% Plot the convergence graph</span><br><span class="line">figure;</span><br><span class="line">plot(<span class="number">1</span>:numel(J_history), J_history, <span class="string">'-b'</span>, <span class="string">'LineWidth'</span>, <span class="number">2</span>);</span><br><span class="line">xlabel(<span class="string">'Number of iterations'</span>);</span><br><span class="line">ylabel(<span class="string">'Cost J'</span>);</span><br><span class="line"></span><br><span class="line">% Display gradient descent<span class="string">'s result</span></span><br><span class="line"><span class="string">fprintf('</span>Theta computed <span class="keyword">from</span> gradient descent: \n<span class="string">');</span></span><br><span class="line"><span class="string">fprintf('</span> %f \n<span class="string">', theta);</span></span><br><span class="line"><span class="string">fprintf('</span>\n<span class="string">');</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">% Estimate the price of a 1650 sq-ft, 3 br house</span></span><br><span class="line"><span class="string">% ====================== YOUR CODE HERE ======================</span></span><br><span class="line"><span class="string">% Recall that the first column of X is all-ones. Thus, it does</span></span><br><span class="line"><span class="string">% not need to be normalized.</span></span><br><span class="line"><span class="string">%price = 0; % You should change this</span></span><br><span class="line"><span class="string">x = [1650 3];</span></span><br><span class="line"><span class="string">x = (x - mu) ./ sigma;</span></span><br><span class="line"><span class="string">x = [ones(1, 1) x];</span></span><br><span class="line"><span class="string">price = x * theta;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">% ============================================================</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">fprintf(['</span>Predicted price <span class="keyword">of</span> a <span class="number">1650</span> sq-ft, <span class="number">3</span> br house <span class="string">' ...</span></span><br><span class="line"><span class="string">         '</span>(using gradient descent):\n $%f\n<span class="string">'], price);</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">fprintf('</span>Program paused. Press enter to <span class="keyword">continue</span>.\n<span class="string">');</span></span><br><span class="line"><span class="string">pause;</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>运行结果</strong><br><img src="https://img-blog.csdnimg.cn/20190401205313219.png" width="60%" alt><br><img src="https://img-blog.csdnimg.cn/20190401205502808.png" width="60%" alt></p>
+<h2 id="Part-3-Normal-Equations"><a href="#Part-3-Normal-Equations" class="headerlink" title="Part 3: Normal Equations"></a>Part 3: Normal Equations</h2><p>正规方程<br>非迭代方法选择参数，并做与上述相同的预测</p>
+<p><strong>normalEqn.m</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">function [theta] = normalEqn(X, y)</span><br><span class="line">%NORMALEQN Computes the closed-form solution to linear regression </span><br><span class="line">%   NORMALEQN(X,y) computes the closed-form solution to linear </span><br><span class="line">%   regression using the normal equations.</span><br><span class="line"></span><br><span class="line">theta = zeros(size(X, <span class="number">2</span>), <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">% ====================== YOUR CODE HERE ======================</span><br><span class="line">% Instructions: Complete the code to compute the closed form solution</span><br><span class="line">%               to linear regression and put the result <span class="keyword">in</span> theta.</span><br><span class="line">%</span><br><span class="line">theta = pinv(X<span class="string">'*X)*X'</span>*y;</span><br><span class="line"></span><br><span class="line">% ============================================================</span><br><span class="line"></span><br><span class="line">end</span><br></pre></td></tr></table></figure></p>
+<p><strong>运行结果</strong><br><img src="https://img-blog.csdnimg.cn/20190401211028783.png" width="60%" alt></p>
+<h2 id="主函数代码-1"><a href="#主函数代码-1" class="headerlink" title="主函数代码"></a>主函数代码</h2><p><strong>ex1_multi.m</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br></pre></td><td class="code"><pre><span class="line">%% Machine Learning Online Class</span><br><span class="line">%  Exercise <span class="number">1</span>: Linear regression <span class="keyword">with</span> multiple variables</span><br><span class="line">%</span><br><span class="line">%  Instructions</span><br><span class="line">%  ------------</span><br><span class="line">% </span><br><span class="line">%  This file contains code that helps you <span class="keyword">get</span> started on the</span><br><span class="line">%  linear regression exercise. </span><br><span class="line">%</span><br><span class="line">%  You will need to complete the following functions in this </span><br><span class="line">%  exericse:</span><br><span class="line">%</span><br><span class="line">%     warmUpExercise.m</span><br><span class="line">%     plotData.m</span><br><span class="line">%     gradientDescent.m</span><br><span class="line">%     computeCost.m</span><br><span class="line">%     gradientDescentMulti.m</span><br><span class="line">%     computeCostMulti.m</span><br><span class="line">%     featureNormalize.m</span><br><span class="line">%     normalEqn.m</span><br><span class="line">%</span><br><span class="line">%  For this part of the exercise, you will need to change some</span><br><span class="line">%  parts of the code below for various experiments (e.g., changing</span><br><span class="line">%  learning rates).</span><br><span class="line">%</span><br><span class="line"></span><br><span class="line">%% Initialization</span><br><span class="line"></span><br><span class="line">%% ================ Part 1: Feature Normalization ================</span><br><span class="line"></span><br><span class="line">%% Clear and Close Figures</span><br><span class="line">clear ; close all; clc</span><br><span class="line"></span><br><span class="line">fprintf('Loading data ...\n');</span><br><span class="line"></span><br><span class="line">%% Load Data</span><br><span class="line">data = load('ex1data2.txt');</span><br><span class="line">X = data(:, 1:2);</span><br><span class="line">y = data(:, 3);</span><br><span class="line">m = length(y);</span><br><span class="line"></span><br><span class="line">% Print out some data points</span><br><span class="line">fprintf('First 10 examples from the dataset: \n');</span><br><span class="line">fprintf(' x = [%.0f %.0f], y = %.0f \n', [X(1:10,:) y(1:10,:)]');</span><br><span class="line"></span><br><span class="line">fprintf('Program paused. Press enter to continue.\n');</span><br><span class="line">pause;</span><br><span class="line"></span><br><span class="line">% Scale features and <span class="keyword">set</span> them to zero mean</span><br><span class="line">fprintf('Normalizing Features ...\n');</span><br><span class="line">[X, mu, sigma] = featureNormalize(X);</span><br><span class="line"></span><br><span class="line">% Add intercept term to X</span><br><span class="line">X = [ones(m, 1) X];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">%% ================ Part 2: Gradient Descent ================</span><br><span class="line"></span><br><span class="line">% ====================== YOUR CODE HERE ======================</span><br><span class="line">% Instructions: We have provided you with the following starter</span><br><span class="line">%               code that runs gradient descent with a particular</span><br><span class="line">%               learning rate (alpha). </span><br><span class="line">%</span><br><span class="line">%               Your task is to first make sure that your functions - </span><br><span class="line">%               computeCost and gradientDescent already work with </span><br><span class="line">%               this starter code and support multiple variables.</span><br><span class="line">%</span><br><span class="line">%               After that, try running gradient descent with </span><br><span class="line">%               different values of alpha and see which one gives</span><br><span class="line">%               you the best result.</span><br><span class="line">%</span><br><span class="line">%               Finally, you should complete the code at the end</span><br><span class="line">%               to predict the price of a 1650 sq-ft, 3 br house.</span><br><span class="line">%</span><br><span class="line">% Hint: By using the 'hold on' command, you can plot multiple </span><br><span class="line">%       graphs on the same figure.</span><br><span class="line">%</span><br><span class="line">% Hint: At prediction, make sure you do the same feature normalization.</span><br><span class="line">%</span><br><span class="line"></span><br><span class="line">fprintf('Running gradient descent ...\n');</span><br><span class="line"></span><br><span class="line">% Choose some alpha value</span><br><span class="line">alpha = 0.01;</span><br><span class="line">num_iters = 400;</span><br><span class="line"></span><br><span class="line">% Init Theta and Run Gradient Descent</span><br><span class="line">theta = zeros(3, 1);</span><br><span class="line">[theta, J_history] = gradientDescentMulti(X, y, theta, alpha, num_iters);</span><br><span class="line"></span><br><span class="line">% Plot the convergence graph</span><br><span class="line">figure;</span><br><span class="line">plot(1:numel(J_history), J_history, '-b', 'LineWidth', 2);</span><br><span class="line">xlabel('Number of iterations');</span><br><span class="line">ylabel('Cost J');</span><br><span class="line"></span><br><span class="line">% Display gradient descent's result</span><br><span class="line">fprintf('Theta computed from gradient descent: \n');</span><br><span class="line">fprintf(' %f \n', theta);</span><br><span class="line">fprintf('\n');</span><br><span class="line"></span><br><span class="line">% Estimate the price of a 1650 sq-ft, 3 br house</span><br><span class="line">% ====================== YOUR CODE HERE ======================</span><br><span class="line">% Recall that the first column of X is all-ones. Thus, it does</span><br><span class="line">% not need to be normalized.</span><br><span class="line">%price = 0; % You should change this</span><br><span class="line">x = [1650 3];</span><br><span class="line">x = (x - mu) ./ sigma;</span><br><span class="line">x = [ones(1, 1) x];</span><br><span class="line">price = x * theta;</span><br><span class="line"></span><br><span class="line">% ============================================================</span><br><span class="line"></span><br><span class="line">fprintf(['Predicted price of a 1650 sq-ft, 3 br house ' ...</span><br><span class="line">         '(using gradient descent):\n $%f\n'], price);</span><br><span class="line"></span><br><span class="line">fprintf('Program paused. Press enter to continue.\n');</span><br><span class="line">pause;</span><br><span class="line"></span><br><span class="line">%% ================ Part 3: Normal Equations ================</span><br><span class="line"></span><br><span class="line">fprintf('Solving with normal equations...\n');</span><br><span class="line"></span><br><span class="line">% ====================== YOUR CODE HERE ======================</span><br><span class="line">% Instructions: The following code computes the closed form </span><br><span class="line">%               solution for linear regression using the normal</span><br><span class="line">%               equations. You should complete the code in </span><br><span class="line">%               normalEqn.m</span><br><span class="line">%</span><br><span class="line">%               After doing so, you should complete this code </span><br><span class="line">%               to predict the price of a 1650 sq-ft, 3 br house.</span><br><span class="line">%</span><br><span class="line"></span><br><span class="line">%% Load Data</span><br><span class="line">data = csvread('ex1data2.txt');</span><br><span class="line">X = data(:, 1:2);</span><br><span class="line">y = data(:, 3);</span><br><span class="line">m = length(y);</span><br><span class="line"></span><br><span class="line">% Add intercept term to X</span><br><span class="line">X = [ones(m, 1) X];</span><br><span class="line"></span><br><span class="line">% Calculate the parameters from the normal equation</span><br><span class="line">theta = normalEqn(X, y);</span><br><span class="line"></span><br><span class="line">% Display normal equation's result</span><br><span class="line">fprintf('Theta computed from the normal equations: \n');</span><br><span class="line">fprintf(' %f \n', theta);</span><br><span class="line">fprintf('\n');</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">% Estimate the price of a 1650 sq-ft, 3 br house</span><br><span class="line">% ====================== YOUR CODE HERE ======================</span><br><span class="line">%price = 0; % You should change this</span><br><span class="line">x = [1650 3];</span><br><span class="line">x = [ones(1, 1) x];</span><br><span class="line">price = x * theta;</span><br><span class="line"></span><br><span class="line">% ============================================================</span><br><span class="line"></span><br><span class="line">fprintf(['Predicted price of a 1650 sq-ft, 3 br house ' ...</span><br><span class="line">         '(using normal equations):\n $%f\n'], price);</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>实验一完成</p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/29/AlexNet-2012/" rel="next" title="AlexNet-2012">
+                <i class="fa fa-chevron-left"></i> AlexNet-2012
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/16/吴恩达机器学习实验二完整代码/" rel="prev" title="吴恩达机器学习实验二完整代码">
+                吴恩达机器学习实验二完整代码 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Loy Fan</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#单特征"><span class="nav-number">1.</span> <span class="nav-text">单特征</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Part-1-Basic-Function"><span class="nav-number">1.1.</span> <span class="nav-text">Part 1: Basic Function</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Part-2-Plotting"><span class="nav-number">1.2.</span> <span class="nav-text">Part 2: Plotting</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Part-3-Cost-and-Gradient-descent"><span class="nav-number">1.3.</span> <span class="nav-text">Part 3: Cost and Gradient descent</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Part-4-Visualizing-J-theta-0-theta-1"><span class="nav-number">1.4.</span> <span class="nav-text">Part 4: Visualizing J(theta_0, theta_1)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主函数代码"><span class="nav-number">1.5.</span> <span class="nav-text">主函数代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#多特征"><span class="nav-number">2.</span> <span class="nav-text">多特征</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Part-1-Feature-Normalization"><span class="nav-number">2.1.</span> <span class="nav-text">Part 1: Feature Normalization</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Part-2-Gradient-Descent"><span class="nav-number">2.2.</span> <span class="nav-text">Part 2: Gradient Descent</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用梯度下降选择参数theta并且预测"><span class="nav-number">2.3.</span> <span class="nav-text">用梯度下降选择参数theta并且预测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Part-3-Normal-Equations"><span class="nav-number">2.4.</span> <span class="nav-text">Part 3: Normal Equations</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主函数代码-1"><span class="nav-number">2.5.</span> <span class="nav-text">主函数代码</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Loy Fan</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

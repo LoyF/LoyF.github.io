@@ -79,17 +79,13 @@
 
 
 
-<meta name="description" content="幂等微积分和一些计算机应用的对应法则 第一章 简介应用于多样优化问题，比如多重判据决策、图优化、大素数分解优化（渐进问题）、计算机系统和计算机媒体的设计优化、并行数据处理的优化组织、动态规划、离散事件体统、计算机科学、离散数学、数理逻辑等等。 本文利用对应原理，对等分微积分算法和科学计算算法进行了面向对象的软硬件设计。特别是，有一种构建后端处理器和技术设备的常规方法，用于实现等幂微积分的基">
-<meta property="og:type" content="article">
-<meta property="og:title" content="《Correspondence principle for idempotent calculus and some computer applications》笔记">
-<meta property="og:url" content="https://loyf.github.io/2019/02/23/《Correspondence-principle-for-idempotent-calculus-and-some-computer-applications》笔记/index.html">
+<meta property="og:type" content="website">
+<meta property="og:title">
+<meta property="og:url" content="https://loyf.github.io/page/2/index.html">
 <meta property="og:site_name">
-<meta property="og:description" content="幂等微积分和一些计算机应用的对应法则 第一章 简介应用于多样优化问题，比如多重判据决策、图优化、大素数分解优化（渐进问题）、计算机系统和计算机媒体的设计优化、并行数据处理的优化组织、动态规划、离散事件体统、计算机科学、离散数学、数理逻辑等等。 本文利用对应原理，对等分微积分算法和科学计算算法进行了面向对象的软硬件设计。特别是，有一种构建后端处理器和技术设备的常规方法，用于实现等幂微积分的基">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-03-01T13:23:10.167Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="《Correspondence principle for idempotent calculus and some computer applications》笔记">
-<meta name="twitter:description" content="幂等微积分和一些计算机应用的对应法则 第一章 简介应用于多样优化问题，比如多重判据决策、图优化、大素数分解优化（渐进问题）、计算机系统和计算机媒体的设计优化、并行数据处理的优化组织、动态规划、离散事件体统、计算机科学、离散数学、数理逻辑等等。 本文利用对应原理，对等分微积分算法和科学计算算法进行了面向对象的软硬件设计。特别是，有一种构建后端处理器和技术设备的常规方法，用于实现等幂微积分的基">
+<meta name="twitter:title">
 
 
 
@@ -119,13 +115,13 @@
 
 
 
-  <link rel="canonical" href="https://loyf.github.io/2019/02/23/《Correspondence-principle-for-idempotent-calculus-and-some-computer-applications》笔记/">
+  <link rel="canonical" href="https://loyf.github.io/page/2/">
 
 
 
 
 
-  <title>《Correspondence principle for idempotent calculus and some computer applications》笔记 | </title>
+  <title></title>
   
 
 
@@ -144,7 +140,8 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail">
+  <div class="container sidebar-position-left 
+  page-home">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -217,9 +214,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-
-  <div id="posts" class="posts-expand">
+  <section id="posts" class="posts-expand">
     
+      
 
   
 
@@ -249,7 +246,9 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">《Correspondence principle for idempotent calculus and some computer applications》笔记</h1>
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/02/23/《Correspondence-principle-for-idempotent-calculus-and-some-computer-applications》笔记/" itemprop="url">《Correspondence principle for idempotent calculus and some computer applications》笔记</a></h1>
         
 
         <div class="post-meta">
@@ -299,11 +298,15 @@
       
 
       
-        <p><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><br>    幂等微积分和一些计算机应用的对应法则</p>
+        
+          
+            <p><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><br>    幂等微积分和一些计算机应用的对应法则</p>
 <h1 id="第一章-简介"><a href="#第一章-简介" class="headerlink" title="第一章 简介"></a>第一章 简介</h1><p>应用于多样优化问题，比如多重判据决策、图优化、大素数分解优化（渐进问题）、计算机系统和计算机媒体的设计优化、并行数据处理的优化组织、动态规划、离散事件体统、计算机科学、离散数学、数理逻辑等等。</p>
 <p>本文利用对应原理，对等分微积分算法和科学计算算法进行了面向对象的软硬件设计。特别是，有一种构建后端处理器和技术设备的常规方法，用于实现等幂微积分的基本算法和半环的数学。这些硬件设施提高了数据处理的速度。此外，这种方法对于非“等幂”算法的一般情况下的软硬件设计是有用的。</p>
 <h1 id="第二章-幂等量化与去量化"><a href="#第二章-幂等量化与去量化" class="headerlink" title="第二章 幂等量化与去量化"></a>第二章 幂等量化与去量化</h1><script type="math/tex; mode=display">w = hlnu</script><p>当\(u∈R_+\)，\(h&gt;0\)时，\(w∈R\)</p>
 <h1 id="第三章-半环"><a href="#第三章-半环" class="headerlink" title="第三章 半环"></a>第三章 半环</h1><h1 id="第四章-特殊性质半环"><a href="#第四章-特殊性质半环" class="headerlink" title="第四章 特殊性质半环"></a>第四章 特殊性质半环</h1><h1 id="第五章-对应法则"><a href="#第五章-对应法则" class="headerlink" title="第五章 对应法则"></a>第五章 对应法则</h1>
+          
+        
       
     </div>
     
@@ -320,32 +323,12 @@
       
 
       
-      
+
       
 
       
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2019/02/22/Start-From-Now-On/" rel="next" title="Start From Now On">
-                <i class="fa fa-chevron-left"></i> Start From Now On
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/02/24/《Introduction-to-Tropical-Geometry》笔记/" rel="prev" title="《Introduction to Tropical Geometry》笔记">
-                《Introduction to Tropical Geometry》笔记 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
       
-
-      
+        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -355,11 +338,262 @@
   </article>
 
 
+    
+      
 
-    <div class="post-spread">
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://loyf.github.io/2019/02/22/Start-From-Now-On/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Loy Fan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/02/22/Start-From-Now-On/" itemprop="url">Start From Now On</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-22T19:17:19+08:00">
+                2019-02-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Start using this blog from now on. 2019.2.22</p>
+
+          
+        
       
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
   </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://loyf.github.io/2019/02/22/hello-world/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Loy Fan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/02/22/hello-world/" itemprop="url">Hello World</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-22T10:06:52+08:00">
+                2019-02-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+  </section>
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+  </nav>
+
 
 
           </div>
@@ -367,10 +601,6 @@
 
 
           
-
-  
-
-
 
         </div>
         
@@ -391,17 +621,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -443,22 +664,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#第一章-简介"><span class="nav-number">1.</span> <span class="nav-text">第一章 简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第二章-幂等量化与去量化"><span class="nav-number">2.</span> <span class="nav-text">第二章 幂等量化与去量化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第三章-半环"><span class="nav-number">3.</span> <span class="nav-text">第三章 半环</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第四章-特殊性质半环"><span class="nav-number">4.</span> <span class="nav-text">第四章 特殊性质半环</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第五章-对应法则"><span class="nav-number">5.</span> <span class="nav-text">第五章 对应法则</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
@@ -592,10 +797,6 @@
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
-
-
 
   
 

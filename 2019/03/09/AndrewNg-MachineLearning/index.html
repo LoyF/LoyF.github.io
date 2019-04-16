@@ -138,7 +138,7 @@
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20190406200305352.png">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20190406200658655.png">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20190406201741318.png">
-<meta property="og:updated_time" content="2019-04-16T12:44:04.357Z">
+<meta property="og:updated_time" content="2019-04-16T12:50:48.454Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AndrewNg-MachineLearning">
 <meta name="twitter:description" content="@LoyFan  吴恩达机器学习课程链接  绪论 Mar.9.2019  什么是机器学习？ Arthur samuel 1959年创造了这个词 “Machine Learning”——Field of study that gives computers  the ability to learn without being explicitly programmed.“在没有明确设置的情况下，使">
@@ -498,13 +498,13 @@
 </ul>
 <blockquote>
 <p>Apr.3.2019</p>
+</blockquote>
 <h2 id="高级优化"><a href="#高级优化" class="headerlink" title="高级优化"></a>高级优化</h2><ul>
 <li>一些比梯度下降更复杂的求解最优参数的算法，涉及高等数值计算，需要用的时候直接调用即可。<br><img src="https://img-blog.csdnimg.cn/20190403090034897.png" width="55%" alt></li>
 <li>一个二维参数的例子，以及MATLAB/Octave中自动选择优化算法的具体代码。<br>即：先定义代价函数和代价函数关于参数$θ$的导数，使用fminunc()函数自动求解最优$θ$。<br><img src="https://img-blog.csdnimg.cn/20190403094010290.png" width="70%" alt></li>
 <li>实际测试<br><strong>costFunction.m</strong><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function [jVal, gradient] = costFunction(theta)</span><br><span class="line"></span><br><span class="line">jVal = (theta(<span class="number">1</span>)<span class="number">-5</span>)^<span class="number">2</span> + (theta(<span class="number">2</span>)<span class="number">-5</span>)^<span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">gradient = zeros(<span class="number">2</span>,<span class="number">1</span>);</span><br><span class="line">gradient(<span class="number">1</span>) = <span class="number">2</span>*(theta(<span class="number">1</span>)<span class="number">-5</span>);</span><br><span class="line">gradient(<span class="number">2</span>) = <span class="number">2</span>*(theta(<span class="number">2</span>)<span class="number">-5</span>);</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-</blockquote>
 <p>Octave命令行中输入<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;options = optimset(<span class="string">'GradObj'</span>, <span class="string">'on'</span>, <span class="string">'MaxIter'</span>, <span class="number">100</span>);</span><br><span class="line">&gt;&gt;initialTheta = zeros(<span class="number">2</span>, <span class="number">1</span>)</span><br><span class="line">initialTheta =</span><br><span class="line"></span><br><span class="line">   <span class="number">0</span></span><br><span class="line">   <span class="number">0</span></span><br><span class="line"></span><br><span class="line">&gt;&gt;[optTheta, functionVal, exitFlag] = fminunc(@costFunction, initialTheta, options)</span><br><span class="line">optTheta =</span><br><span class="line"></span><br><span class="line">   <span class="number">5</span></span><br><span class="line">   <span class="number">5</span></span><br><span class="line"></span><br><span class="line">functionVal = <span class="number">0</span></span><br><span class="line">exitFlag =  <span class="number">1</span></span><br></pre></td></tr></table></figure></p>
 <p>找到最优参数值(5, 5)，给定的函数此时值为0，即我们输入的costFunction，exitFlag表示已经收敛。</p>
 <ul>
@@ -690,7 +690,7 @@ h_{\Theta}(x) \in \mathbb{R}^{K} \quad\left(h_{\Theta}(x)\right)_{i}=i^{t h} \te
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
