@@ -79,12 +79,12 @@
 
 
 
-<meta name="description" content="General NounbatchSize 批尺寸    iteration 迭代，使用一个batchsize训练一次    epoch 迭代次数，使用全部样本训练一次 batchSize * iteration = 1 epoch 激活函数总结其中 $z$ 为神经元输入  linear linear(z)=z sigmoid sigmoid(z)=\frac{1}{1+e^{-z}} tan">
+<meta name="description" content="General NounbatchSize 批尺寸    iteration 迭代，使用一个batchsize训练一次    epoch 迭代次数，使用全部样本训练一次 batchSize * iteration = 1 epoch 激活函数总结其中 z 为神经元输入  linear   linear(z)=z sigmoid   sigmoid(z)=\frac{1}{1+e^{-z}} t">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Neural-Network-Introduction">
 <meta property="og:url" content="https://loyf.github.io/2019/02/26/Neural-Network-Introduction/index.html">
 <meta property="og:site_name">
-<meta property="og:description" content="General NounbatchSize 批尺寸    iteration 迭代，使用一个batchsize训练一次    epoch 迭代次数，使用全部样本训练一次 batchSize * iteration = 1 epoch 激活函数总结其中 $z$ 为神经元输入  linear linear(z)=z sigmoid sigmoid(z)=\frac{1}{1+e^{-z}} tan">
+<meta property="og:description" content="General NounbatchSize 批尺寸    iteration 迭代，使用一个batchsize训练一次    epoch 迭代次数，使用全部样本训练一次 batchSize * iteration = 1 epoch 激活函数总结其中 z 为神经元输入  linear   linear(z)=z sigmoid   sigmoid(z)=\frac{1}{1+e^{-z}} t">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20190329145810918.png">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20190329143132703.png">
@@ -93,10 +93,10 @@
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20190329141221770.png">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20190329141300192.png">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20190329141515392.png">
-<meta property="og:updated_time" content="2019-04-19T10:41:02.715Z">
+<meta property="og:updated_time" content="2019-04-19T12:01:28.450Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Neural-Network-Introduction">
-<meta name="twitter:description" content="General NounbatchSize 批尺寸    iteration 迭代，使用一个batchsize训练一次    epoch 迭代次数，使用全部样本训练一次 batchSize * iteration = 1 epoch 激活函数总结其中 $z$ 为神经元输入  linear linear(z)=z sigmoid sigmoid(z)=\frac{1}{1+e^{-z}} tan">
+<meta name="twitter:description" content="General NounbatchSize 批尺寸    iteration 迭代，使用一个batchsize训练一次    epoch 迭代次数，使用全部样本训练一次 batchSize * iteration = 1 epoch 激活函数总结其中 z 为神经元输入  linear   linear(z)=z sigmoid   sigmoid(z)=\frac{1}{1+e^{-z}} t">
 <meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190329145810918.png">
 
 
@@ -311,41 +311,66 @@
 
 <h1 id="General-Noun"><a href="#General-Noun" class="headerlink" title="General Noun"></a>General Noun</h1><p><strong>batchSize</strong> 批尺寸    <strong>iteration</strong> 迭代，使用一个batchsize训练一次    <strong>epoch</strong> 迭代次数，使用全部样本训练一次</p>
 <p>batchSize * iteration = 1 epoch</p>
-<p><strong>激活函数总结</strong><br>其中 $z$ 为神经元输入</p>
+<p><strong>激活函数总结</strong><br>其中 z 为神经元输入</p>
 <ul>
-<li>linear<script type="math/tex; mode=display">
-linear(z)=z</script></li>
-<li>sigmoid<script type="math/tex; mode=display">
-sigmoid(z)=\frac{1}{1+e^{-z}}</script></li>
-<li>tanh<script type="math/tex; mode=display">
-\tanh (z)=\frac{e^{z}-e^{-z}}{e^{z}+e^{-z}}</script></li>
-<li>ReLu<script type="math/tex; mode=display">
-ReLu(z)=\max (0, z)</script></li>
-<li>LeakyReLu<script type="math/tex; mode=display">
-LeakyReLu(z)=\max (\alpha z, z)</script></li>
-<li>ELU (Exponential Linear Units)<script type="math/tex; mode=display">
-ELU(z)=\left\{\begin{array}{ll}{z,} & {\text { if } z>0} \\ {\alpha\left(e^{z}-1\right),} & {\text { otherwise }}\end{array}\right.</script></li>
-<li>MaxOut层<br>神经元计算公式<script type="math/tex; mode=display">
-h_{i}(z)=\max _{j \in[1, k]} z_{i j}</script>k是超参。</li>
-<li>SoftMax层<br>神经元计算公式（softmax值）<script type="math/tex; mode=display">
-S_{i}=\frac{e^{z_i}}{\sum_{j} e^{z_j}}</script></li>
+<li>linear</li>
 </ul>
-<p><strong>Loss Function损失函数总结</strong></p>
+<script type="math/tex; mode=display">
+linear(z)=z</script><ul>
+<li>sigmoid</li>
+</ul>
+<script type="math/tex; mode=display">
+sigmoid(z)=\frac{1}{1+e^{-z}}</script><ul>
+<li>tanh</li>
+</ul>
+<script type="math/tex; mode=display">
+\tanh (z)=\frac{e^{z}-e^{-z}}{e^{z}+e^{-z}}</script><ul>
+<li>ReLu</li>
+</ul>
+<script type="math/tex; mode=display">
+ReLu(z)=\max (0, z)</script><ul>
+<li>LeakyReLu</li>
+</ul>
+<script type="math/tex; mode=display">
+LeakyReLu(z)=\max (\alpha z, z)</script><ul>
+<li>ELU (Exponential Linear Units)</li>
+</ul>
+<script type="math/tex; mode=display">
+ELU(z)=\left\{\begin{array}{ll}{z,} & {\text { if } z>0} \\ {\alpha\left(e^{z}-1\right),} & {\text { otherwise }}\end{array}\right.</script><ul>
+<li>MaxOut层<br>神经元计算公式</li>
+</ul>
+<script type="math/tex; mode=display">
+h_{i}(z)=\max _{j \in[1, k]} z_{i j}</script><p>k是超参。</p>
 <ul>
-<li>MSE均方差损失（二次代价函数、平方误差函数）<script type="math/tex; mode=display">
-J(\theta)=\frac{1}{2 m} \sum_{i=1}^{m}\left(h_{\theta}\left(x^{(i)}\right)-y^{(i)}\right)^{2}</script></li>
-<li>Cross-entropy交叉熵损失（对数损失函数）<script type="math/tex; mode=display">
-J(\theta)=-\frac{1}{m} \sum_{i=1}^{m}\left[y^{(i)} \log h_{\theta}\left(x^{(i)}\right)+\left(1-y^{(i)}\right) \log \left(1-h_{\theta}\left(x^{(i)}\right)\right)\right]</script></li>
-<li>MAE绝对值损失<script type="math/tex; mode=display">
-L(Y, f(X))=|Y-f(X)|</script></li>
-<li>指数损失<script type="math/tex; mode=display">
-L(y, f(x))=\frac{1}{n} \sum_{i=1}^{n} \exp \left[-y_{i} f\left(x_{i}\right)\right]</script></li>
-<li>Huber损失<script type="math/tex; mode=display">
-L_{\delta}(y, f(x))=\left\{\begin{array}{ll}{\frac{1}{2}(y-f(x))^{2}} & {\text { for }|y-f(x)| \leq \delta} \\ {\delta|y-f(x)|-\frac{1}{2} \delta^{2}} & {\text { otherwise. }}\end{array}\right.</script></li>
-<li>Hinge损失<script type="math/tex; mode=display">
-L(y)=\max (0,1-y \tilde{y}), y=\pm 1</script></li>
+<li>SoftMax层<br>神经元计算公式（softmax值）</li>
 </ul>
-<p><strong>梯度消失和梯度爆炸</strong></p>
+<script type="math/tex; mode=display">
+S_{i}=\frac{e^{z_i}}{\sum_{j} e^{z_j}}</script><p><strong>Loss Function损失函数总结</strong></p>
+<ul>
+<li>MSE均方差损失（二次代价函数、平方误差函数）</li>
+</ul>
+<script type="math/tex; mode=display">
+J(\theta)=\frac{1}{2 m} \sum_{i=1}^{m}\left(h_{\theta}\left(x^{(i)}\right)-y^{(i)}\right)^{2}</script><ul>
+<li>Cross-entropy交叉熵损失（对数损失函数）</li>
+</ul>
+<script type="math/tex; mode=display">
+J(\theta)=-\frac{1}{m} \sum_{i=1}^{m}\left[y^{(i)} \log h_{\theta}\left(x^{(i)}\right)+\left(1-y^{(i)}\right) \log \left(1-h_{\theta}\left(x^{(i)}\right)\right)\right]</script><ul>
+<li>MAE绝对值损失</li>
+</ul>
+<script type="math/tex; mode=display">
+L(Y, f(X))=|Y-f(X)|</script><ul>
+<li>指数损失</li>
+</ul>
+<script type="math/tex; mode=display">
+L(y, f(x))=\frac{1}{n} \sum_{i=1}^{n} \exp \left[-y_{i} f\left(x_{i}\right)\right]</script><ul>
+<li>Huber损失</li>
+</ul>
+<script type="math/tex; mode=display">
+L_{\delta}(y, f(x))=\left\{\begin{array}{ll}{\frac{1}{2}(y-f(x))^{2}} & {\text { for }|y-f(x)| \leq \delta} \\ {\delta|y-f(x)|-\frac{1}{2} \delta^{2}} & {\text { otherwise. }}\end{array}\right.</script><ul>
+<li>Hinge损失</li>
+</ul>
+<script type="math/tex; mode=display">
+L(y)=\max (0,1-y \tilde{y}), y=\pm 1</script><p><strong>梯度消失和梯度爆炸</strong></p>
 <p><strong>超参数hyperparameter</strong><br>在机器学习的上下文中，超参数是在开始学习过程之前设置值的参数。 相反，其他参数的值通过训练得出。</p>
 <ul>
 <li>超参数：<br>定义关于模型的更高层次的概念，如复杂性或学习能力。<br>不能直接从标准模型培训过程中的数据中学习，需要预先定义。<br>可以通过设置不同的值，训练不同的模型和选择更好的测试值来决定</li>
