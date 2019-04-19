@@ -79,12 +79,12 @@
 
 
 
-<meta name="description" content="General NounbatchSize 批尺寸iteration 迭代，使用一个batchsize训练一次epoch 迭代次数，使用全部样本训练一次batchSize * iteration = 1 epoch 梯度消失和梯度爆炸 超参数hyperparameter在机器学习的上下文中，超参数是在开始学习过程之前设置值的参数。 相反，其他参数的值通过训练得出。  超参数：定义关于模型的更高">
+<meta name="description" content="General NounbatchSize 批尺寸    iteration 迭代，使用一个batchsize训练一次    epoch 迭代次数，使用全部样本训练一次 batchSize * iteration = 1 epoch 激活函数总结其中 $z$ 为神经元输入  linear linear(z)=z sigmoid sigmoid(z)=\frac{1}{1+e^{-z}} tan">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Neural-Network-Introduction">
 <meta property="og:url" content="https://loyf.github.io/2019/02/26/Neural-Network-Introduction/index.html">
 <meta property="og:site_name">
-<meta property="og:description" content="General NounbatchSize 批尺寸iteration 迭代，使用一个batchsize训练一次epoch 迭代次数，使用全部样本训练一次batchSize * iteration = 1 epoch 梯度消失和梯度爆炸 超参数hyperparameter在机器学习的上下文中，超参数是在开始学习过程之前设置值的参数。 相反，其他参数的值通过训练得出。  超参数：定义关于模型的更高">
+<meta property="og:description" content="General NounbatchSize 批尺寸    iteration 迭代，使用一个batchsize训练一次    epoch 迭代次数，使用全部样本训练一次 batchSize * iteration = 1 epoch 激活函数总结其中 $z$ 为神经元输入  linear linear(z)=z sigmoid sigmoid(z)=\frac{1}{1+e^{-z}} tan">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20190329145810918.png">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20190329143132703.png">
@@ -93,10 +93,10 @@
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20190329141221770.png">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20190329141300192.png">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20190329141515392.png">
-<meta property="og:updated_time" content="2019-04-16T12:47:48.819Z">
+<meta property="og:updated_time" content="2019-04-19T10:41:02.715Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Neural-Network-Introduction">
-<meta name="twitter:description" content="General NounbatchSize 批尺寸iteration 迭代，使用一个batchsize训练一次epoch 迭代次数，使用全部样本训练一次batchSize * iteration = 1 epoch 梯度消失和梯度爆炸 超参数hyperparameter在机器学习的上下文中，超参数是在开始学习过程之前设置值的参数。 相反，其他参数的值通过训练得出。  超参数：定义关于模型的更高">
+<meta name="twitter:description" content="General NounbatchSize 批尺寸    iteration 迭代，使用一个batchsize训练一次    epoch 迭代次数，使用全部样本训练一次 batchSize * iteration = 1 epoch 激活函数总结其中 $z$ 为神经元输入  linear linear(z)=z sigmoid sigmoid(z)=\frac{1}{1+e^{-z}} tan">
 <meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190329145810918.png">
 
 
@@ -309,7 +309,42 @@
       
         <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
-<h1 id="General-Noun"><a href="#General-Noun" class="headerlink" title="General Noun"></a>General Noun</h1><p><strong>batchSize</strong> 批尺寸<br><strong>iteration</strong> 迭代，使用一个batchsize训练一次<br><strong>epoch</strong> 迭代次数，使用全部样本训练一次<br>batchSize * iteration = 1 epoch</p>
+<h1 id="General-Noun"><a href="#General-Noun" class="headerlink" title="General Noun"></a>General Noun</h1><p><strong>batchSize</strong> 批尺寸    <strong>iteration</strong> 迭代，使用一个batchsize训练一次    <strong>epoch</strong> 迭代次数，使用全部样本训练一次</p>
+<p>batchSize * iteration = 1 epoch</p>
+<p><strong>激活函数总结</strong><br>其中 $z$ 为神经元输入</p>
+<ul>
+<li>linear<script type="math/tex; mode=display">
+linear(z)=z</script></li>
+<li>sigmoid<script type="math/tex; mode=display">
+sigmoid(z)=\frac{1}{1+e^{-z}}</script></li>
+<li>tanh<script type="math/tex; mode=display">
+\tanh (z)=\frac{e^{z}-e^{-z}}{e^{z}+e^{-z}}</script></li>
+<li>ReLu<script type="math/tex; mode=display">
+ReLu(z)=\max (0, z)</script></li>
+<li>LeakyReLu<script type="math/tex; mode=display">
+LeakyReLu(z)=\max (\alpha z, z)</script></li>
+<li>ELU (Exponential Linear Units)<script type="math/tex; mode=display">
+ELU(z)=\left\{\begin{array}{ll}{z,} & {\text { if } z>0} \\ {\alpha\left(e^{z}-1\right),} & {\text { otherwise }}\end{array}\right.</script></li>
+<li>MaxOut层<br>神经元计算公式<script type="math/tex; mode=display">
+h_{i}(z)=\max _{j \in[1, k]} z_{i j}</script>k是超参。</li>
+<li>SoftMax层<br>神经元计算公式（softmax值）<script type="math/tex; mode=display">
+S_{i}=\frac{e^{z_i}}{\sum_{j} e^{z_j}}</script></li>
+</ul>
+<p><strong>Loss Function损失函数总结</strong></p>
+<ul>
+<li>MSE均方差损失（二次代价函数、平方误差函数）<script type="math/tex; mode=display">
+J(\theta)=\frac{1}{2 m} \sum_{i=1}^{m}\left(h_{\theta}\left(x^{(i)}\right)-y^{(i)}\right)^{2}</script></li>
+<li>Cross-entropy交叉熵损失（对数损失函数）<script type="math/tex; mode=display">
+J(\theta)=-\frac{1}{m} \sum_{i=1}^{m}\left[y^{(i)} \log h_{\theta}\left(x^{(i)}\right)+\left(1-y^{(i)}\right) \log \left(1-h_{\theta}\left(x^{(i)}\right)\right)\right]</script></li>
+<li>MAE绝对值损失<script type="math/tex; mode=display">
+L(Y, f(X))=|Y-f(X)|</script></li>
+<li>指数损失<script type="math/tex; mode=display">
+L(y, f(x))=\frac{1}{n} \sum_{i=1}^{n} \exp \left[-y_{i} f\left(x_{i}\right)\right]</script></li>
+<li>Huber损失<script type="math/tex; mode=display">
+L_{\delta}(y, f(x))=\left\{\begin{array}{ll}{\frac{1}{2}(y-f(x))^{2}} & {\text { for }|y-f(x)| \leq \delta} \\ {\delta|y-f(x)|-\frac{1}{2} \delta^{2}} & {\text { otherwise. }}\end{array}\right.</script></li>
+<li>Hinge损失<script type="math/tex; mode=display">
+L(y)=\max (0,1-y \tilde{y}), y=\pm 1</script></li>
+</ul>
 <p><strong>梯度消失和梯度爆炸</strong></p>
 <p><strong>超参数hyperparameter</strong><br>在机器学习的上下文中，超参数是在开始学习过程之前设置值的参数。 相反，其他参数的值通过训练得出。</p>
 <ul>
@@ -318,9 +353,10 @@
 </ul>
 <p><strong>卷积层Convolution</strong><br>我们选取一个给定大小宽度和高度的滤波器（filter），将图片分成多个小块patch（patch大小与filter大小相同），用这个filter对图片的第一个patch做内积运算，得到一个输出；然后我们可以利用这个filter在水平方向和垂直方向进行滑动（滑动的步长称为<strong>stride</strong>）从而对图片的不同部分进行聚焦，最终得到下一层图像。如图2.2所示：假设image的size是5<em>5，现在用一个3</em>3大小的filter对其进行卷积，stride为1，卷积后最终可以得到一个3<em>3的convolved feature。如果希望卷积后的图片与输入大小相同，可以在原始图片外外层包裹一圈0，这个行为称之为<em>*padding(pad)</em></em>。<br><img src="https://img-blog.csdnimg.cn/20190329145810918.png" width="40%" alt></p>
 <p><strong>卷积层特点</strong><br>局部感知：传统神经网络中，每个神经元都要与上层所有像素链接；而卷积神经网络中每个神经元的权重个数均为卷积核的大小，即每个神经元只与图片部分像素相连接。<br>多核：每个卷积层可以有多个filter，每个filter对上层图片卷积操作后得到的图像就是该filter提取到特征的映射，即一个特征图（feature map）。不同的卷积核，提取到不同的特征。<br>参数共享：一张图片进行卷积操作时，卷积核的权重不变，一幅图片中不同位置的相同目标，提取到的特征是相同的。参数共享在降低了网络模型复杂度的同时与局部感知一样，极大程度的减少了运算量。</p>
-<p><strong>SGD 随机梯度下降</strong><br>相对于批量梯度下降，随机梯度下降每次更新是针对数据集中的一个样本求损失函数，然后对其求相应的偏导数，SGD运行速度大大加快。SGD更新值的方差很大，在频繁的更新之下，目标函数会有剧烈的波动。当降低学习率的时候，SGD表现出了与批量梯度下降相似的过程。</p>
 <p><strong>池化层MaxPooling Layer</strong><br>主要是为了降低数据维度，减少数据和参数的数量，并赋予了模型对轻量形变的容忍度，增强了模型的泛化能力，在一定程度上减小过拟合。</p>
 <p><strong>全连接层Fully Connected Layer</strong><br>两层之间所有的神经元都有权重链接，和传统的神经网络链接方式一样。</p>
+<p><strong>MaxOut层</strong></p>
+<p><strong>SGD 随机梯度下降</strong><br>相对于批量梯度下降，随机梯度下降每次更新是针对数据集中的一个样本求损失函数，然后对其求相应的偏导数，SGD运行速度大大加快。SGD更新值的方差很大，在频繁的更新之下，目标函数会有剧烈的波动。当降低学习率的时候，SGD表现出了与批量梯度下降相似的过程。</p>
 <p><strong>Dropout</strong><br>典型神经网络的训练流程是，将输入通过网络正向传播，然后将误差进行反向传播，进行权值更新。Dropout是针对上述过程中，临时随机删除部分神经元（本次不训练临时删除神经元对应的链接权重）。通过dropout处理，有效减少了神经元之间的共适应性，增强了模型的鲁棒性，同时也减小了过拟合的发生。</p>
 <p><strong>fine-tune</strong><br>Finetune model属于迁移学习的一种。在实际运用当中，由于训练时间的限制和训练样本过大的原因，很少有人从头开始训练网络模型，常见的作法有两种：<br>一是把预训练的CNN模型当做特征提取器；例如使用在ImageNet数据集上的预训练模型，去掉top的全链接层，然后将剩下的网络结构当做一个特征提取器。将数据集输入这个特征提取器中，去除top全链接层网络的输出即为我们提取到的特征，将得到的特征用线性分类器（例如svm或者softmax等）来进行分类图像。<br>二是fine-tune卷积网络。除了去掉top的全链接层，在网络top端搭建我们自己的分类器之外，我们需要在网络训练过程中对网络模型的后面几层或者是全部层进行权值更新。通常，由于前面几层提取到的是图像的通用特征（例如例如色彩、边缘、简单的图形等），后面几层是针对特定类别有关的特征，因此一般我们fine-tune卷积网络的后边几个层。</p>
 <p><strong>批量标准化BatchNormalization</strong><br>数据带入模型之前，通常会有预处理过程，将输入数据中心化、归一化处理，以帮助模型进行学习训练，随着参数更新，除了输入层之外的其他各层网络的输入数据分布都会发生变化，这将影响网络的训练速度。<br>BN算法就是为了解决再训练过程中，中间层数据分布发生变化的情况下的数据归一化。<br>批量标准化对每小批数据都从新进行标准化，在模型中加入批量标准化后，能使用更高的学习率而且不在对初始化参数特别敏感。<br>批量标准化可以看做是一种正则化手段，提高了网络泛化能力。</p>
