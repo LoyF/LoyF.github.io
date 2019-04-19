@@ -392,13 +392,13 @@
 </ol>
 </li>
 <li><p>Definition 2.2.2（Tropical monomial单项式）</p>
-<script type="math/tex; mode=display">c⊙x_1^{a_1} ⊙ x_2^{a_2} ⊙···⊙ x_d^{a_d}</script><p>  where $c ∈ R ∪ {−∞} and a_1,…,a_d ∈ N$.</p>
+<script type="math/tex; mode=display">c⊙x_1^{a_1} ⊙ x_2^{a_2} ⊙···⊙ x_d^{a_d}</script><p>  where $c ∈ R ∪ {−∞}\ and\ a_1,…,a_d ∈ N$.</p>
 <p>  也可以方便地写成：</p>
-<script type="math/tex; mode=display">cx^α</script><p>  where $α = (a_1,…,a_d) ∈ N^d and x = (x_1, . . . , x_d)$. </p>
+<script type="math/tex; mode=display">cx^α</script><p>  where $α = (a_1,…,a_d) ∈ N^d\ and\ x = (x_1, . . . , x_d)$. </p>
 <p>  当然，对于Tropical乘法恒等元素0，有：</p>
 <script type="math/tex; mode=display">x^α = 0 ⊙ x^α</script></li>
 <li><p>Definition 2.2.3（Tropical多项式）</p>
-<script type="math/tex; mode=display">f(x)=c_1x^{α_1}⊕ . . .⊕ c_rx^{α_r}</script><p>  where $α<em>i = (a</em>{i1},…,a_{id}) ∈ N^d and c_i ∈ R ∪ {−∞}, i = 1,…,r$. </p>
+<script type="math/tex; mode=display">f(x)=c_1x^{α_1}⊕ . . .⊕ c_rx^{α_r}</script><p>  where $α_i = (a_{i1},…,a_{id}) ∈ N^d\ and\ c_i ∈ R ∪ {−∞}, i = 1,…,r$. </p>
 </li>
 <li><p>Definition 2.2.4（Tropical有理函数）<br>Tropical有理函数是两个Tropical多项式的差</p>
 <script type="math/tex; mode=display">f(x) - g(x) = f(x) ⊘ g(x).</script><p>  Tropical多项式在⊕⊙运算下形成了一个半环，相似地，Tropical有理函数形成了一个半域。</p>
@@ -552,7 +552,7 @@ Tropical hypersurface把f分成线性的凸单元。
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -789,6 +789,28 @@ Tropical hypersurface把f分成线性的凸单元。
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
 
   
 
