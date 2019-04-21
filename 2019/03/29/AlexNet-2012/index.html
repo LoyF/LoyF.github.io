@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Machine Learning,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="NIPS 2012 《ImageNet Classification with Deep Convolutional Neural Networks》Alex Krizhevsky | Ilya Sutskever | Geoffrey E. HintonPaperLink    基本参数input： 224×224大小的图片，3通道conv1： 11×11大小的卷积核96个，每个GPU上48个">
+<meta name="keywords" content="Machine Learning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AlexNet-2012">
+<meta property="og:url" content="https://loyf.github.io/2019/03/29/AlexNet-2012/index.html">
+<meta property="og:site_name" content="Loy With No Title">
+<meta property="og:description" content="NIPS 2012 《ImageNet Classification with Deep Convolutional Neural Networks》Alex Krizhevsky | Ilya Sutskever | Geoffrey E. HintonPaperLink    基本参数input： 224×224大小的图片，3通道conv1： 11×11大小的卷积核96个，每个GPU上48个">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190329141116436.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190329200929967.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190329161627716.png">
+<meta property="og:updated_time" content="2019-04-20T02:01:45.627Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AlexNet-2012">
+<meta name="twitter:description" content="NIPS 2012 《ImageNet Classification with Deep Convolutional Neural Networks》Alex Krizhevsky | Ilya Sutskever | Geoffrey E. HintonPaperLink    基本参数input： 224×224大小的图片，3通道conv1： 11×11大小的卷积核96个，每个GPU上48个">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190329141116436.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://loyf.github.io/2019/03/29/AlexNet-2012/">
+
+
+
+
+
+  <title>AlexNet-2012 | Loy With No Title</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Loy With No Title</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Life can not be planned</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://loyf.github.io/2019/03/29/AlexNet-2012/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Loy Fan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Loy With No Title">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">AlexNet-2012</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-29T16:51:57+08:00">
+                2019-03-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Machine-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">Machine Learning</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>NIPS 2012 《ImageNet Classification with Deep Convolutional Neural Networks》<br>Alex Krizhevsky | Ilya Sutskever | Geoffrey E. Hinton<br><a href="https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf" target="_blank" rel="noopener">PaperLink</a></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20190329141116436.png" width="100%" alt></p>
+<p><img src="https://img-blog.csdnimg.cn/20190329200929967.png" width="100%" alt></p>
+<h1 id="基本参数"><a href="#基本参数" class="headerlink" title="基本参数"></a>基本参数</h1><p><strong>input：</strong> 224×224大小的图片，3通道<br><strong>conv1：</strong> 11×11大小的卷积核96个，每个GPU上48个。<br><a id="more"></a><br><strong>max-pooling：</strong> 2×2的核。<br><strong>conv2：</strong> 5×5卷积核256个，每个GPU上128个。<br><strong>max-pooling：</strong> 2×2的核。<br><strong>conv3：</strong> 与上一层是全连接，3x3的卷积核384个。分到两个GPU上个192个。<br><strong>conv4：</strong> 3×3的卷积核384个，两个GPU各192个。该层与上一层连接没有经过pooling层。<br><strong>conv5：</strong> 3×3的卷积核256个，两个GPU上个128个。<br><strong>max-pooling：</strong> 2×2的核。<br><strong>FullyConnected1：</strong> 4096维，将第五层max-pooling的输出连接成为一个一维向量，作为该层的输入。<br><strong>FullyConnected2：</strong> 4096维<br><strong>Softmax：</strong> 输出为1000，输出的每一维都是图片属于该类别的概率。</p>
+<h1 id="一些操作"><a href="#一些操作" class="headerlink" title="一些操作"></a>一些操作</h1><p><strong>ReLU</strong><br>使用非线性饱和函数ReLU作为神经元激活函数$f(x)=max(0,x)$</p>
+<p><strong>数据增强</strong></p>
+<ul>
+<li>随机抓取224x224的小块，以及它的水平翻转：<br>从256x256的图片中抓取224x224的小块，并用这抓取的小块来训练网络；<br>使训练集增加了2048倍，但是样本间有高度依赖性；<br>不使用这个方案时，出现大量的过拟合；<br>测试阶段时，抓取5个224x224的小块以及它们的水平翻转（共10个）来做预测，并对这10个小块的softmax预测值做平均。</li>
+<li>改变训练图像中的RGB通道的强度：<br>遍历ImageNet训练集，在RGB像素值的集合上使用PCA<br>使已知的主成分加倍<br>比例为对应特征值乘以一个随机变量<br>随机变量服从均值为0，标准差为0.1的高斯分布</li>
+</ul>
+<p><strong>Dual GPU</strong><br>使用了两个NVIDIA GTX 580 3GB GPU<br>每个GPU有一半的kernel，且只在一些特定的层，GPU之间才进行通信：</p>
+<ul>
+<li>第2、4、5卷积层的输入只连接了位于同一GPU的前一层的kernel；</li>
+<li>第3层连接了第2层所有kernel（两个GPU的）；</li>
+<li>全连接层是与前一层所有神经元连接的（两个GPU的）。</li>
+</ul>
+<p><strong>LRN(Local Response Normalization)局部响应归一化</strong><br><img src="https://img-blog.csdnimg.cn/20190329161627716.png" width="50%" alt></p>
+<p>作者发现进行局部的标准化可以提高性能。</p>
+<ul>
+<li>其中a代表在feature map中第i个卷积核(x,y)坐标经过了ReLU激活函数的输出，n表示相邻的几个卷积核。N表示这一层总的卷积核数量。k, n, α和β是hyper-parameters，他们的值是在验证集上实验得到的，其中k = 2，n = 5，α = 0.0001，β = 0.75。</li>
+<li>这种归一化操作实现了某种形式的横向抑制，这也是受真实神经元的某种行为启发。</li>
+<li>卷积核矩阵的排序是随机任意，并且在训练之前就已经决定好顺序。这种LPN形成了一种横向抑制机制。</li>
+</ul>
+<p><strong>Overlap Pooling</strong><br>在池化层提取结果时，会受到相邻pooling单元的影响，有可能结果重复，即相邻池化单元有重叠部分，实验结果表明这比传统池化要好，在Top-1和Top-5上分别提高了0.4%和0.3%。</p>
+<p><strong>Drop Out</strong><br>文章以0.5的概率将每个隐层的神经元输出置为0，dropout减少了神经元互适应性的复杂度，隐层中任何一个神经元都可能会以0.5的概率被丢弃，神经元无法依赖于其他特定的神经元而存在，因此这会迫使网络学习更为健壮、鲁棒的特征。运用了这种机制的神经元不会干扰前向传递也不影响后续操作。dropout减少了过拟合，也使收敛迭代次数增加一倍。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Machine-Learning/" rel="tag"><i class="fa fa-tag"></i> Machine Learning</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/09/AndrewNg-MachineLearning/" rel="next" title="AndrewNg-MachineLearning">
+                <i class="fa fa-chevron-left"></i> AndrewNg-MachineLearning
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/16/吴恩达机器学习实验一完整代码/" rel="prev" title="吴恩达机器学习实验一完整代码">
+                吴恩达机器学习实验一完整代码 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Loy Fan</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基本参数"><span class="nav-number">1.</span> <span class="nav-text">基本参数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一些操作"><span class="nav-number">2.</span> <span class="nav-text">一些操作</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Loy Fan</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">16.3k words in this blog site.</span>
+</div>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

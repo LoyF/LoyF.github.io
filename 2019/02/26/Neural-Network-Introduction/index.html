@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Machine Learning,Neural Network,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="mathjax: true General NounbatchSize 批尺寸    iteration 迭代，使用一个batchsize训练一次    epoch 迭代次数，使用全部样本训练一次 batchSize * iteration = 1 epoch 激活函数总结其中 z 为神经元输入  linear   linear(z)=z sigmoid   sigmoid(z)=\frac{1}">
+<meta name="keywords" content="Machine Learning,Neural Network">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Neural-Network-Introduction">
+<meta property="og:url" content="https://loyf.github.io/2019/02/26/Neural-Network-Introduction/index.html">
+<meta property="og:site_name" content="Loy With No Title">
+<meta property="og:description" content="mathjax: true General NounbatchSize 批尺寸    iteration 迭代，使用一个batchsize训练一次    epoch 迭代次数，使用全部样本训练一次 batchSize * iteration = 1 epoch 激活函数总结其中 z 为神经元输入  linear   linear(z)=z sigmoid   sigmoid(z)=\frac{1}">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190329145810918.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190329143132703.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2019032914052295.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190329141116436.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190329141221770.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190329141300192.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190329141515392.png">
+<meta property="og:updated_time" content="2019-04-20T02:08:04.861Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Neural-Network-Introduction">
+<meta name="twitter:description" content="mathjax: true General NounbatchSize 批尺寸    iteration 迭代，使用一个batchsize训练一次    epoch 迭代次数，使用全部样本训练一次 batchSize * iteration = 1 epoch 激活函数总结其中 z 为神经元输入  linear   linear(z)=z sigmoid   sigmoid(z)=\frac{1}">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190329145810918.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://loyf.github.io/2019/02/26/Neural-Network-Introduction/">
+
+
+
+
+
+  <title>Neural-Network-Introduction | Loy With No Title</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Loy With No Title</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Life can not be planned</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://loyf.github.io/2019/02/26/Neural-Network-Introduction/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Loy Fan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Loy With No Title">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Neural-Network-Introduction</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-26T11:06:53+08:00">
+                2019-02-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Machine-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">Machine Learning</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>mathjax: true</p>
+<h1 id="General-Noun"><a href="#General-Noun" class="headerlink" title="General Noun"></a>General Noun</h1><p><strong>batchSize</strong> 批尺寸    <strong>iteration</strong> 迭代，使用一个batchsize训练一次    <strong>epoch</strong> 迭代次数，使用全部样本训练一次</p>
+<p>batchSize * iteration = 1 epoch</p>
+<p><strong>激活函数总结</strong><br>其中 z 为神经元输入</p>
+<ul>
+<li>linear</li>
+</ul>
+<script type="math/tex; mode=display">
+linear(z)=z</script><ul>
+<li>sigmoid</li>
+</ul>
+<script type="math/tex; mode=display">
+sigmoid(z)=\frac{1}{1+e^{-z}}</script><ul>
+<li>tanh</li>
+</ul>
+<script type="math/tex; mode=display">
+\tanh (z)=\frac{e^{z}-e^{-z}}{e^{z}+e^{-z}}</script><ul>
+<li>ReLu</li>
+</ul>
+<script type="math/tex; mode=display">
+ReLu(z)=\max (0, z)</script><a id="more"></a>
+<ul>
+<li>LeakyReLu</li>
+</ul>
+<script type="math/tex; mode=display">
+LeakyReLu(z)=\max (\alpha z, z)</script><ul>
+<li>ELU (Exponential Linear Units)</li>
+</ul>
+<script type="math/tex; mode=display">
+ELU(z)=\left\{\begin{array}{ll}{z,} & {\text { if } z>0} \\ {\alpha\left(e^{z}-1\right),} & {\text { otherwise }}\end{array}\right.</script><ul>
+<li>MaxOut层<br>神经元计算公式</li>
+</ul>
+<script type="math/tex; mode=display">
+h_{i}(z)=\max _{j \in[1, k]} z_{i j}</script><p>k是超参。</p>
+<ul>
+<li>SoftMax层<br>神经元计算公式（softmax值）</li>
+</ul>
+<script type="math/tex; mode=display">
+S_{i}=\frac{e^{z_i}}{\sum_{j} e^{z_j}}</script><p><strong>Loss Function损失函数总结</strong></p>
+<ul>
+<li>MSE均方差损失（二次代价函数、平方误差函数）</li>
+</ul>
+<script type="math/tex; mode=display">
+J(\theta)=\frac{1}{2 m} \sum_{i=1}^{m}\left(h_{\theta}\left(x^{(i)}\right)-y^{(i)}\right)^{2}</script><ul>
+<li>Cross-entropy交叉熵损失（对数损失函数）</li>
+</ul>
+<script type="math/tex; mode=display">
+J(\theta)=-\frac{1}{m} \sum_{i=1}^{m}\left[y^{(i)} \log h_{\theta}\left(x^{(i)}\right)+\left(1-y^{(i)}\right) \log \left(1-h_{\theta}\left(x^{(i)}\right)\right)\right]</script><ul>
+<li>MAE绝对值损失</li>
+</ul>
+<script type="math/tex; mode=display">
+L(Y, f(X))=|Y-f(X)|</script><ul>
+<li>指数损失</li>
+</ul>
+<script type="math/tex; mode=display">
+L(y, f(x))=\frac{1}{n} \sum_{i=1}^{n} \exp \left[-y_{i} f\left(x_{i}\right)\right]</script><ul>
+<li>Huber损失</li>
+</ul>
+<script type="math/tex; mode=display">
+L_{\delta}(y, f(x))=\left\{\begin{array}{ll}{\frac{1}{2}(y-f(x))^{2}} & {\text { for }|y-f(x)| \leq \delta} \\ {\delta|y-f(x)|-\frac{1}{2} \delta^{2}} & {\text { otherwise. }}\end{array}\right.</script><ul>
+<li>Hinge损失</li>
+</ul>
+<script type="math/tex; mode=display">
+L(y)=\max (0,1-y \tilde{y}), y=\pm 1</script><p><strong>梯度消失和梯度爆炸</strong></p>
+<p><strong>超参数hyperparameter</strong><br>在机器学习的上下文中，超参数是在开始学习过程之前设置值的参数。 相反，其他参数的值通过训练得出。</p>
+<ul>
+<li>超参数：<br>定义关于模型的更高层次的概念，如复杂性或学习能力。<br>不能直接从标准模型培训过程中的数据中学习，需要预先定义。<br>可以通过设置不同的值，训练不同的模型和选择更好的测试值来决定</li>
+<li>超参数的一些示例：<br>树的数量或树的深度<br>矩阵分解中潜在因素的数量<br>学习率（多种模式）<br>深层神经网络隐藏层数<br>k均值聚类中的簇数</li>
+</ul>
+<p><strong>卷积层Convolution</strong><br>我们选取一个给定大小宽度和高度的滤波器（filter），将图片分成多个小块patch（patch大小与filter大小相同），用这个filter对图片的第一个patch做内积运算，得到一个输出；然后我们可以利用这个filter在水平方向和垂直方向进行滑动（滑动的步长称为<strong>stride</strong>）从而对图片的不同部分进行聚焦，最终得到下一层图像。如图2.2所示：假设image的size是5<em>5，现在用一个3</em>3大小的filter对其进行卷积，stride为1，卷积后最终可以得到一个3<em>3的convolved feature。如果希望卷积后的图片与输入大小相同，可以在原始图片外外层包裹一圈0，这个行为称之为<em>*padding(pad)</em></em>。<br><img src="https://img-blog.csdnimg.cn/20190329145810918.png" width="40%" alt></p>
+<p><strong>卷积层特点</strong><br>局部感知：传统神经网络中，每个神经元都要与上层所有像素链接；而卷积神经网络中每个神经元的权重个数均为卷积核的大小，即每个神经元只与图片部分像素相连接。<br>多核：每个卷积层可以有多个filter，每个filter对上层图片卷积操作后得到的图像就是该filter提取到特征的映射，即一个特征图（feature map）。不同的卷积核，提取到不同的特征。<br>参数共享：一张图片进行卷积操作时，卷积核的权重不变，一幅图片中不同位置的相同目标，提取到的特征是相同的。参数共享在降低了网络模型复杂度的同时与局部感知一样，极大程度的减少了运算量。</p>
+<p><strong>池化层MaxPooling Layer</strong><br>主要是为了降低数据维度，减少数据和参数的数量，并赋予了模型对轻量形变的容忍度，增强了模型的泛化能力，在一定程度上减小过拟合。</p>
+<p><strong>全连接层Fully Connected Layer</strong><br>两层之间所有的神经元都有权重链接，和传统的神经网络链接方式一样。</p>
+<p><strong>MaxOut层</strong></p>
+<p><strong>SGD 随机梯度下降</strong><br>相对于批量梯度下降，随机梯度下降每次更新是针对数据集中的一个样本求损失函数，然后对其求相应的偏导数，SGD运行速度大大加快。SGD更新值的方差很大，在频繁的更新之下，目标函数会有剧烈的波动。当降低学习率的时候，SGD表现出了与批量梯度下降相似的过程。</p>
+<p><strong>Dropout</strong><br>典型神经网络的训练流程是，将输入通过网络正向传播，然后将误差进行反向传播，进行权值更新。Dropout是针对上述过程中，临时随机删除部分神经元（本次不训练临时删除神经元对应的链接权重）。通过dropout处理，有效减少了神经元之间的共适应性，增强了模型的鲁棒性，同时也减小了过拟合的发生。</p>
+<p><strong>fine-tune</strong><br>Finetune model属于迁移学习的一种。在实际运用当中，由于训练时间的限制和训练样本过大的原因，很少有人从头开始训练网络模型，常见的作法有两种：<br>一是把预训练的CNN模型当做特征提取器；例如使用在ImageNet数据集上的预训练模型，去掉top的全链接层，然后将剩下的网络结构当做一个特征提取器。将数据集输入这个特征提取器中，去除top全链接层网络的输出即为我们提取到的特征，将得到的特征用线性分类器（例如svm或者softmax等）来进行分类图像。<br>二是fine-tune卷积网络。除了去掉top的全链接层，在网络top端搭建我们自己的分类器之外，我们需要在网络训练过程中对网络模型的后面几层或者是全部层进行权值更新。通常，由于前面几层提取到的是图像的通用特征（例如例如色彩、边缘、简单的图形等），后面几层是针对特定类别有关的特征，因此一般我们fine-tune卷积网络的后边几个层。</p>
+<p><strong>批量标准化BatchNormalization</strong><br>数据带入模型之前，通常会有预处理过程，将输入数据中心化、归一化处理，以帮助模型进行学习训练，随着参数更新，除了输入层之外的其他各层网络的输入数据分布都会发生变化，这将影响网络的训练速度。<br>BN算法就是为了解决再训练过程中，中间层数据分布发生变化的情况下的数据归一化。<br>批量标准化对每小批数据都从新进行标准化，在模型中加入批量标准化后，能使用更高的学习率而且不在对初始化参数特别敏感。<br>批量标准化可以看做是一种正则化手段，提高了网络泛化能力。</p>
+<p><strong>embedding</strong></p>
+<p><strong>自编码器AutoEncoder</strong><br><a href="https://blog.csdn.net/marsjhao/article/details/73480859" target="_blank" rel="noopener">IntroductionLink</a><br>自动编码器是一种数据的压缩算法，其中数据的压缩和解压缩函数是数据相关的、有损的、从样本中自动学习的。在大部分提到自动编码器的场合，压缩和解压缩的函数是通过神经网络实现的。</p>
+<ul>
+<li><p>自动编码器是数据相关的（data-specific 或 data-dependent），这意味着自动编码器只能压缩那些与训练数据类似的数据。比如，使用人脸训练出来的自动编码器在压缩别的图片，比如树木时性能很差，因为它学习到的特征是与人脸相关的。</p>
+</li>
+<li><p>自动编码器是有损的，意思是解压缩的输出与原来的输入相比是退化的，MP3，JPEG等压缩算法也是如此。这与无损压缩算法不同。</p>
+</li>
+<li><p>自动编码器是从数据样本中自动学习的，这意味着很容易对指定类的输入训练出一种特定的编码器，而不需要完成任何新工作。</p>
+</li>
+</ul>
+<p>搭建一个自动编码器需要完成下面三样工作：搭建编码器，搭建解码器，设定一个损失函数，用以衡量由于压缩而损失掉的信息。编码器和解码器一般都是参数化的方程，并关于损失函数可导，典型情况是使用神经网络。编码器和解码器的参数可以通过最小化损失函数而优化，例如SGD。</p>
+<p>自编码器是一个自监督的算法，并不是一个无监督算法。自监督学习是监督学习的一个实例，其标签产生自输入数据。要获得一个自监督的模型，你需要一个靠谱的目标跟一个损失函数，仅仅把目标设定为重构输入可能不是正确的选项。基本上，要求模型在像素级上精确重构输入不是机器学习的兴趣所在，学习到高级的抽象特征才是。事实上，当主要任务是分类、定位之类的任务时，那些对这类任务而言的最好的特征基本上都是重构输入时的最差的那种特征。</p>
+<p>目前自编码器的应用主要有两个方面，第一是数据去噪，第二是为进行可视化而降维。配合适当的维度和稀疏约束，自编码器可以学习到比PCA等技术更有意思的数据投影。</p>
+<p>对于2D的数据可视化，t-SNE（读作tee-snee）或许是目前最好的算法，但通常还是需要原数据的维度相对低一些。所以，可视化高维数据的一个好办法是首先使用自编码器将维度降低到较低的水平（如32维），然后再使用t-SNE将其投影在2D平面上。</p>
+<h1 id="Neural-Network-Models"><a href="#Neural-Network-Models" class="headerlink" title="Neural Network Models"></a>Neural Network Models</h1><p><center><br><img src="https://img-blog.csdnimg.cn/20190329143132703.png" width="80%" alt></center></p>
+<h2 id="LeNet-1989"><a href="#LeNet-1989" class="headerlink" title="LeNet 1989"></a>LeNet 1989</h2><blockquote>
+<p><a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&amp;arnumber=726791" target="_blank" rel="noopener">PaperLink</a></p>
+</blockquote>
+<p>A layered model composed of convolution and subsampling operations followed by a holistic representation and ultimately a classifier for handwritten digits.</p>
+<p><center><br><img src="https://img-blog.csdnimg.cn/2019032914052295.png" width="100%" alt></center></p>
+<h2 id="AlexNet-2012"><a href="#AlexNet-2012" class="headerlink" title="AlexNet 2012"></a>AlexNet 2012</h2><blockquote>
+<p>NIPS2012 <a href="https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf" target="_blank" rel="noopener">PaperLink</a></p>
+</blockquote>
+<p><center><br><img src="https://img-blog.csdnimg.cn/20190329141116436.png" width="100%" alt></center></p>
+<p><strong>基本参数：</strong><br>输入：224×224大小的图片，3通道<br>第一层卷积：11×11大小的卷积核96个，每个GPU上48个。<br>第一层max-pooling：2×2的核。<br>第二层卷积：5×5卷积核256个，每个GPU上128个。<br>第二层max-pooling：2×2的核。<br>第三层卷积：与上一层是全连接，3*3的卷积核384个。分到两个GPU上个192个。<br>第四层卷积：3×3的卷积核384个，两个GPU各192个。该层与上一层连接没有经过pooling层。<br>第五层卷积：3×3的卷积核256个，两个GPU上个128个。<br>第五层max-pooling：2×2的核。<br>第一层全连接：4096维，将第五层max-pooling的输出连接成为一个一维向量，作为该层的输入。<br>第二层全连接：4096维<br>Softmax层：输出为1000，输出的每一维都是图片属于该类别的概率。</p>
+<h2 id="ZF-Net"><a href="#ZF-Net" class="headerlink" title="ZF-Net"></a>ZF-Net</h2><h2 id="VGG-2014"><a href="#VGG-2014" class="headerlink" title="VGG 2014"></a>VGG 2014</h2><h2 id="GoogleNet-2014"><a href="#GoogleNet-2014" class="headerlink" title="GoogleNet 2014"></a>GoogleNet 2014</h2><blockquote>
+<p>CVPR2015 <a href="https://arxiv.org/abs/1409.4842" target="_blank" rel="noopener">paperlink</a></p>
+</blockquote>
+<p><strong>Inception V1</strong></p>
+<p><strong>Inception V2</strong></p>
+<p><strong>xception</strong></p>
+<h2 id="ResNet-2015"><a href="#ResNet-2015" class="headerlink" title="ResNet 2015"></a>ResNet 2015</h2><blockquote>
+<p>CVPR2016 Best Paper <a href="https://arxiv.org/abs/1512.03385" target="_blank" rel="noopener">PaperLink</a></p>
+<p><strong>解决退化问题：</strong><br>随着网络层数的增加，模型的准确率下降了，这种退化并不是由过拟合造成的，在一个合理的深度模型中增加更多的层却导致了更高的错误。</p>
+<p><center><br><img src="https://img-blog.csdnimg.cn/20190329141221770.png" width="80%" alt></center></p>
+</blockquote>
+<p><strong>残差学习：</strong></p>
+<p><center><br><img src="https://img-blog.csdnimg.cn/20190329141300192.png" width="60%" alt></center></p>
+<p><strong>网络结构：</strong></p>
+<p><center><br><img src="https://img-blog.csdnimg.cn/20190329141515392.png" width="80%" alt></center></p>
+<h2 id="DenseNet"><a href="#DenseNet" class="headerlink" title="DenseNet"></a>DenseNet</h2><blockquote>
+<p>CVPR2017 Best Paper <a href="https://arxiv.org/pdf/1608.06993.pdf" target="_blank" rel="noopener">PaperLink</a></p>
+<h2 id="GAN-生成对抗"><a href="#GAN-生成对抗" class="headerlink" title="GAN 生成对抗"></a>GAN 生成对抗</h2><h2 id="R-CNN-Regions-with-CNN-features"><a href="#R-CNN-Regions-with-CNN-features" class="headerlink" title="R-CNN    Regions with CNN features"></a>R-CNN    Regions with CNN features</h2><p><strong>RCNN</strong><br>CVPR2014 <a href="https://arxiv.org/pdf/1311.2524v3.pdf" target="_blank" rel="noopener">PaperLink</a></p>
+</blockquote>
+<p><strong>fast-RCNN</strong></p>
+<p><strong>faster-RCNN</strong></p>
+<h2 id="NASNet"><a href="#NASNet" class="headerlink" title="NASNet"></a>NASNet</h2><blockquote>
+<p>CVPR2017 <a href="https://arxiv.org/pdf/1707.07012.pdf" target="_blank" rel="noopener">PaperLink</a><br><a href="https://github.com/tensorflow/models/tree/master/research/slim/nets/nasnet" target="_blank" rel="noopener">CodeLink</a></p>
+<h2 id="FCN全卷积网络"><a href="#FCN全卷积网络" class="headerlink" title="FCN全卷积网络"></a>FCN全卷积网络</h2></blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Machine-Learning/" rel="tag"><i class="fa fa-tag"></i> Machine Learning</a>
+          
+            <a href="/tags/Neural-Network/" rel="tag"><i class="fa fa-tag"></i> Neural Network</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/26/Chicago-LiWenZhang-GraduationProgram 笔记/" rel="next" title="Chicago-LiWenZhang-GraduationProgram笔记">
+                <i class="fa fa-chevron-left"></i> Chicago-LiWenZhang-GraduationProgram笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/09/AndrewNg-MachineLearning/" rel="prev" title="AndrewNg-MachineLearning">
+                AndrewNg-MachineLearning <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Loy Fan</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#General-Noun"><span class="nav-number">1.</span> <span class="nav-text">General Noun</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Neural-Network-Models"><span class="nav-number">2.</span> <span class="nav-text">Neural Network Models</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#LeNet-1989"><span class="nav-number">2.1.</span> <span class="nav-text">LeNet 1989</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AlexNet-2012"><span class="nav-number">2.2.</span> <span class="nav-text">AlexNet 2012</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ZF-Net"><span class="nav-number">2.3.</span> <span class="nav-text">ZF-Net</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VGG-2014"><span class="nav-number">2.4.</span> <span class="nav-text">VGG 2014</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GoogleNet-2014"><span class="nav-number">2.5.</span> <span class="nav-text">GoogleNet 2014</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ResNet-2015"><span class="nav-number">2.6.</span> <span class="nav-text">ResNet 2015</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DenseNet"><span class="nav-number">2.7.</span> <span class="nav-text">DenseNet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GAN-生成对抗"><span class="nav-number">2.8.</span> <span class="nav-text">GAN 生成对抗</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#R-CNN-Regions-with-CNN-features"><span class="nav-number">2.9.</span> <span class="nav-text">R-CNN    Regions with CNN features</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NASNet"><span class="nav-number">2.10.</span> <span class="nav-text">NASNet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FCN全卷积网络"><span class="nav-number">2.11.</span> <span class="nav-text">FCN全卷积网络</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Loy Fan</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">16.3k words in this blog site.</span>
+</div>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
