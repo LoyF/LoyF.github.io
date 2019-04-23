@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Machine Learning,Neural Network,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="mathjax: true  维基百科上的中文版反向传播算法的翻译不是特别准确，英文原版的结构也不是很容易理解，于是结合了各方资料重新写了一个版本。以下是中英维基百科的链接。BackPropagation - Wikipedia反向传播算法 - 维基百科中文版网站  反向传播（Backpropagation，缩写为BP）是一种用于人工神经网络的方法，用于计算在计算网络中使用的权重需要用到的梯度。反">
+<meta name="keywords" content="Machine Learning,Neural Network">
+<meta property="og:type" content="article">
+<meta property="og:title" content="反向传播算法 基于维基百科的理解 | Back Propagation - Wikipedia">
+<meta property="og:url" content="https://loyf.github.io/2019/04/23/反向传播算法-基于维基百科的理解-Back-Propagation-Wikipedia/index.html">
+<meta property="og:site_name" content="Loy With No Title">
+<meta property="og:description" content="mathjax: true  维基百科上的中文版反向传播算法的翻译不是特别准确，英文原版的结构也不是很容易理解，于是结合了各方资料重新写了一个版本。以下是中英维基百科的链接。BackPropagation - Wikipedia反向传播算法 - 维基百科中文版网站  反向传播（Backpropagation，缩写为BP）是一种用于人工神经网络的方法，用于计算在计算网络中使用的权重需要用到的梯度。反">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190422205909861.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190423130446545.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190423142141282.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190423195004808.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190423202249357.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190423160717476.png">
+<meta property="og:updated_time" content="2019-04-23T13:00:01.040Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="反向传播算法 基于维基百科的理解 | Back Propagation - Wikipedia">
+<meta name="twitter:description" content="mathjax: true  维基百科上的中文版反向传播算法的翻译不是特别准确，英文原版的结构也不是很容易理解，于是结合了各方资料重新写了一个版本。以下是中英维基百科的链接。BackPropagation - Wikipedia反向传播算法 - 维基百科中文版网站  反向传播（Backpropagation，缩写为BP）是一种用于人工神经网络的方法，用于计算在计算网络中使用的权重需要用到的梯度。反">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190422205909861.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://loyf.github.io/2019/04/23/反向传播算法-基于维基百科的理解-Back-Propagation-Wikipedia/">
+
+
+
+
+
+  <title>反向传播算法 基于维基百科的理解 | Back Propagation - Wikipedia | Loy With No Title</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Loy With No Title</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Life can not be planned</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://loyf.github.io/2019/04/23/反向传播算法-基于维基百科的理解-Back-Propagation-Wikipedia/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Loy Fan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Loy With No Title">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">反向传播算法 基于维基百科的理解 | Back Propagation - Wikipedia</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-23T20:31:47+08:00">
+                2019-04-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Machine-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">Machine Learning</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>mathjax: true</p>
+<blockquote>
+<p>维基百科上的中文版反向传播算法的翻译不是特别准确，英文原版的结构也不是很容易理解，于是结合了各方资料重新写了一个版本。以下是中英维基百科的链接。<br><a href="https://en.wikipedia.org/wiki/Backpropagation" target="_blank" rel="noopener">BackPropagation - Wikipedia</a><br><a href="https://www.bk.gugeeseo.com/baike-%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95" target="_blank" rel="noopener">反向传播算法 - 维基百科中文版网站</a></p>
+</blockquote>
+<p><strong>反向传播</strong>（Backpropagation，缩写为BP）是一种用于人工神经网络的方法，用于计算在计算网络中使用的权重需要用到的梯度。反向传播是“误差反向传播”的简写，因为误差是在输出时计算的，并且从输出层往后分布于网络的各个层。它通常被用来训练深层神经网络。<br>反向传播是将<a href="https://en.wikipedia.org/wiki/Delta_rule" target="_blank" rel="noopener">delta规则</a>推广到多层前馈网络，通过使用<a href="https://en.wikipedia.org/wiki/Chain_rule" target="_blank" rel="noopener">链规则</a>迭代计算每个层的梯度来实现。它与<a href="https://en.wikipedia.org/wiki/Gauss%E2%80%93Newton_algorithm" target="_blank" rel="noopener">高斯-牛顿算法</a>密切相关，是神经反向传播研究（生物学上）的一部分。<br>反向传播是一种更通用的技术称作<a href="https://en.wikipedia.org/wiki/Automatic_differentiation" target="_blank" rel="noopener">自动微分</a>的特例。在学习的中，反向传播通常被<a href="https://en.wikipedia.org/wiki/Gradient_descent" target="_blank" rel="noopener">梯度下降</a>优化算法所使用，通过计算<a href="https://en.wikipedia.org/wiki/Loss_function" target="_blank" rel="noopener">损失函数</a>的梯度来更新神经元权重，以最小化损失函数。<br><a id="more"></a></p>
+<h1 id="动机"><a href="#动机" class="headerlink" title="动机"></a>动机</h1><p>任何<a href="https://en.wikipedia.org/wiki/Supervised_learning" target="_blank" rel="noopener">监督学习</a>算法的目标都是找到一个将一组输入映射到其正确的输出的最佳函数，反向传播的动机是训练一个多层神经网络，使其能够学习适当的内部表达式，从而可以学习任何输入到输出的映射。</p>
+<h1 id="直观理解"><a href="#直观理解" class="headerlink" title="直观理解"></a>直观理解</h1><p><strong>作为一个优化问题学习</strong></p>
+<p>为了理解反向传播算法的数学推导，首先要对神经元的实际输出与特定训练示例的正确输出之间的关系进行一些直觉理解。考虑一个简单的神经网络，它有两个输入单元，一个输出单元，没有隐藏单元，每个神经元使用一个线性输出（这与实际神经网络上的大多数工作不同，实际中从输入到输出的映射基本都是非线性的），即其输入的加权和。（下图中 y 应改为 t ）<br><img src="https://img-blog.csdnimg.cn/20190422205909861.png" width="40%" alt><br>最初，在训练之前，权重会被随机设置，接着神经元从训练样本中学习，在这种情况下，训练样本由一组元组$(x_1,x_2,y)$组成，其中$x_1,x_2$是网络的输入，$y$是正确的输出（当网络被训练时，由这些输入而应该得到的输出）。这个最初的网络，在给定了$x_1,x_2$后，会计算出一个输出结果$t$，很可能会与$y$不同（因为给了随机权重）。度量预期输出$y$和实际输出$t$之间的误差常用的方法是计算它们的平方误差：</p>
+<script type="math/tex; mode=display">
+E=(t-y)^{2}</script><p>其中$E$就是误差。<br>这里给一个例子，我们考虑这个网络的训练集只有一个样本$(1,1,0)$，因此输入$x_1,x_2$分别为1和1，正确的输出为$y=0$。现在若将实际输出 t 画在 x 轴（图中标为y了，本文为了了统一符号，应改为 t ），误差 E 画在 y 轴，得出的是一条抛物线。抛物线的极小值对应输出 t ，最小化了误差 E 。对于单一训练实例，极小值还会接触到 x 轴，这意味着误差为零，网络可以产生与期望输出 y 完全匹配的输出 t。因此，把输入映射到输出的问题就化为了一个找到一个能产生最小误差的函数的最优化问题。<br><img src="https://img-blog.csdnimg.cn/20190423130446545.png" width="40%" alt><br>然而，一个神经元的输出取决于其所有输入的加权总和：</p>
+<script type="math/tex; mode=display">
+t=x_{1} w_{1}+x_{2} w_{2}</script><p>其中$w_1,w_2$是从输入单元到输出单元的权重。因此，误差取决于出入到该神经元的权重，也是网络要学习最终需要改变的。若每个权重都画在一个水平的轴上，而误差画在垂直轴上，得出的就是一个抛物面（若一个神经元有 k 个权重，则误差曲面的维度就会是 k+1，因而就是二维抛物线的 k+1 维等价）。<br><img src="https://img-blog.csdnimg.cn/20190423142141282.png" width="50%" alt><br>反向传播算法的目的是找到一组能最大限度地减小误差的权重。寻找抛物线或任意维度中的任何函数的极大值的方法有若干种。第一种方法是求解方程组，但这仅适用于线性系统的网络，然而我们需要的是可以训练多层非线性网络的方法（因为多层线性网络与单层网络等价）。第二种方法，也是在反向传播中使用的方法是梯度下降法。</p>
+<p><strong>运用类比理解梯度下降法</strong></p>
+<p>梯度下降法背后的直观感受可以用假设情境进行说明。一个被卡在山上的人正在试图下山（即试图找到极小值）。大雾使得能见度非常低。因此，下山的道路是看不见的，所以他必须利用局部信息来找到极小值。他可以使用梯度下降法，该方法涉及到察看在他当前位置山的陡峭程度，然后沿着负陡度（即下坡）最大的方向前进。如果他要找到山顶（即极大值）的话，他需要沿着正陡度（即上坡）最大的方向前进。使用此方法，他会最终找到下山的路。不过，要假设山的陡度不能通过简单地观察得到，而需要复杂的工具测量，而这个工具此人恰好有。需要相当长的一段时间用仪器测量山的陡峭度，因此如果他想在日落之前下山，就需要最小化仪器的使用率。问题就在于怎样选取他测量山的陡峭度的频率才不致偏离路线。<br>在这个类比中，此人代表反向传播算法，而下山路径表示能使误差最小化的权重集合。山的陡度表示误差曲面在该点的斜率。他要前行的方向对应于误差曲面在该点的梯度。用来测量陡峭度的工具是微分（误差曲面的斜率可以通过对平方误差函数在该点求导数计算出来）。他在两次测量之间前行的距离（与测量频率成正比）是算法的学习速率。参见限制一节中对此类型“爬山”算法的限制的讨论。</p>
+<h1 id="概括"><a href="#概括" class="headerlink" title="概括"></a>概括</h1><p>由于反向传播使用梯度下降法，需要计算平方误差函数对网络权值的导数。假设对于一个输出神经元，平方误差函数为：</p>
+<script type="math/tex; mode=display">
+E=\frac{1}{2}(t-y)^{2}</script><p>其中，$E$为平方误差，$t$为训练样本的目标输出，$y$为输出神经元的实际输出。<br>加入系数1/2是为了抵消微分出来的指数。之后，该表达式会乘以一个任意的学习率，因此常系数无关紧要。对于每个神经元$j$，它的输出$a_j$定义为</p>
+<script type="math/tex; mode=display">
+a_{j}=\varphi\left(\text { net }_{j}\right)=\varphi\left(\sum_{i=1}^{n} w_{i j} a_{i}\right)</script><p>通向一个神经元的输入$net_j$是之前神经元输出$a_j$的加权和。若该神经元处于输入层后的第一层，输入层的输出$a_i$就是网络的输入$x_i$。该神经元的输入数量是$n$。变量$w_{ij}$表示神经元$i,j$之间的权值。<br>激活函数$\varphi$一般是非线性可微函数。常用的激活函数是sigmoid函数</p>
+<script type="math/tex; mode=display">
+\varphi(z)=\frac{1}{1+e^{-z}}</script><p>其导数形式</p>
+<script type="math/tex; mode=display">
+\frac{\partial \varphi}{\partial z}=\varphi(1-\varphi)</script><blockquote>
+<p>反向传播算法主要由两个阶段组成：激励传播与权值更新。</p>
+</blockquote>
+<p><strong>第一阶段：激励传播</strong><br>每次迭代中的传播环节包含两步：</p>
+<ul>
+<li>（向前传播阶段）将训练数据输入网络以获得激励响应（实际输出）。</li>
+<li>（反向传播阶段）将激励响应同目标输出求差，从而获得输出层、隐藏层的响应误差。</li>
+</ul>
+<p>第一阶段即损失函数的计算，可以描述如下：</p>
+<script type="math/tex; mode=display">
+J\left(w_{0}, w_{1}, \ldots, w_{n}\right)=\frac{1}{2 m} \sum_{i=1}^{m}\left(h_{w}\left(x^{(i)}\right)-y^{(i)}\right)^{2}</script><p>其中$h_{w}\left(x^{(i)}\right)$即为$a_i$。</p>
+<p><strong>第二阶段：权值更新</strong><br>对于每一个神经元上的权值，按照以下步骤进行更新：</p>
+<ul>
+<li>将输入和误差相乘，从而获得权重的梯度；</li>
+<li>将这个梯度乘上一个比例并取反后加到权重上。<br>这个比例（学习率）将会影响到训练过程的速度和效果，因此成为“训练因子”。梯度的方向指明了误差扩大的方向，因此在更新权重的时候需要对其取反，从而减小权重引起的误差。</li>
+</ul>
+<p>第二阶段即使用梯度下降的权值更新公式，可以描述如下：</p>
+<script type="math/tex; mode=display">
+w_{j} :=w_{j}-\alpha \sum_{i=1}^{m}\left(h_{w}\left(x^{(i)}\right)-y^{(i)}\right) x_{j}^{(i)}</script><p>$\alpha$即学习率，超参。</p>
+<p><strong>第 1 和第 2 阶段可以反复循环迭代，直到网络对输入的响应达到满意的预定的目标范围为止。</strong></p>
+<h1 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h1><p>BP算法的名称意味着误差会从输出结点反向传播到输入结点。严格地讲，反向传播算法对网络的可修改权值计算了网络误差的梯度。这个梯度会在简单随机梯度下降法中经常用来求最小化误差的权重。通常“反向传播”这个词使用更一般的含义，用来指涵盖了计算梯度以及在随机梯度下降法中使用的整个过程。在适用反向传播算法的网络中，它通常可以快速收敛到令人满意的极小值。</p>
+<hr>
+<p><strong>BP算法</strong></p>
+<p>训练集    $\left\{\left(x^{(1)}, y^{(1)}\right), \ldots,\left(x^{(m)}, y^{(m)}\right)\right\}$</p>
+<p>设    $\Delta_{i j}^{(l)}=0(\text { for all } l, i, j)$</p>
+<p>$\begin{array}{l}{\text {For } i=1 \text { to } m}\end{array}$</p>
+<script type="math/tex; mode=display">
+\begin{array}{l}{\text { Set } a^{(1)}=x^{(i)}} \\ {\text { Perform forward propagation to compute } a^{(l)} \text { for } l=2,3, \ldots, L} \\ {\text { Using } y^{(i)}, \text { compute } \delta^{(L)}=a^{(L)}-y^{(i)}} \\ {\text { Compute } \delta^{(L-1)}, \delta^{(l+1)}, \ldots, \delta^{(2)}} \\ {\Delta_{i j}^{(l)} :=\Delta_{i j}^{(l)}+a_{j}^{(l)} \delta_{i}^{(l+1)}}\end{array}</script><p>$\begin{array}{l}{D_{i j}^{(l)} :=\frac{1}{m} \Delta_{i j}^{(l)}+\lambda W_{i j}^{(l)}} &amp; {\text { if } j \neq 0} \\ {D_{i j}^{(l)} :=\frac{1}{m} \Delta_{i j}^{(l)}} &amp; {\text { if } j=0}\end{array}$</p>
+<p>其中    $\frac{\partial}{\partial W_{i j}^{(l)}} J(W)=D_{i j}^{(l)}$</p>
+<hr>
+<p><strong>问题：什么是 $\delta_{j}^{(l)}$ ？</strong><br>对于l层的元素j的“误差”是：</p>
+<script type="math/tex; mode=display">
+\text { Intuition: } \delta_{j}^{(l)}=\text { "error" of node } j \text { in layer } l</script><p>假设层数为4，对于每一层的输出元素来说，误差是：</p>
+<script type="math/tex; mode=display">
+\delta_{j}^{(4)}={a_{j}^{(4)}-y_{j}}</script><script type="math/tex; mode=display">
+\delta^{(3)}=\left(W^{(3)}\right)^{T} \delta^{(4)} \cdot * g^{\prime}\left(z^{(3)}\right)</script><script type="math/tex; mode=display">
+\delta^{(2)}=\left(W^{(2)}\right)^{T} \delta^{(3)} \cdot * g^{\prime}\left(z^{(2)}\right)</script><p>其中$g^{\prime}$是激活函数的偏导数。</p>
+<p><strong>问题：每一层的“误差”为什么是这么计算的？权值是如何更新的？</strong><br>==（推导过程——划重点）==<br>我们都知道，前馈神经网络可以由输出层的输出计算损失函数的值，得到误差，而梯度下降每一层都需要有明确的误差才能更新参数，因此反向传播的工作是将输出层的误差传递给隐藏层。<br>假设我们的网络只有一个隐藏层，如下图：<br><img src="https://img-blog.csdnimg.cn/20190423195004808.png" width="50%" alt><br>输出层的误差为$e_{o1},e_{o2}$，我们现在想要得到神经元c的误差，容易想到我们可以把输出神经元e,f的误差按照权值分配给c,d两个神经元，于是我们有神经元c和d的误差$e_{h1},e_{h2}$分别是($e_{h2}$图中未标出)：</p>
+<script type="math/tex; mode=display">
+e_{h 1}=\frac{w_{11}^{2}}{w_{11}^{2}+w_{21}^{2}} \cdot e_{o 1}+\frac{w_{12}^{2}}{w_{12}^{2}+w_{22}^{2}} \cdot e_{o 2}</script><script type="math/tex; mode=display">
+e_{h 2}=\frac{w_{21}^{2}}{w_{11}^{2}+w_{21}^{2}} \cdot e_{o 1}+\frac{w_{22}^{2}}{w_{12}^{2}+w_{22}^{2}} \cdot e_{o 2}</script><p>转为矩阵表示：</p>
+<script type="math/tex; mode=display">
+\left( \begin{array}{c}{e_{h 1}} \\ {e_{h 2}}\end{array}\right)=\left( \begin{array}{cc}{\frac{w_{11}^{2}}{w_{11}^{2}+w_{21}^{2}}} & {\frac{w_{12}^{2}}{w_{12}^{2}+w_{22}^{2}}} \\ {\frac{w_{21}^{2}}{w_{11}^{2}+w_{21}^{2}}} & {\frac{w_{22}^{2}}{w_{12}^{2}+w_{22}^{2}}}\end{array}\right) \cdot \left( \begin{array}{c}{e_{o 1}} \\ {e_{o 2}}\end{array}\right)</script><p>发现只要保持比例不变的话，可以去掉分母，写成：</p>
+<script type="math/tex; mode=display">
+\left( \begin{array}{c}{e_{h 1}} \\ {e_{h 2}}\end{array}\right)=\left( \begin{array}{cc}{w_{11}^{2}} & {w_{12}^{2}} \\ {w_{21}^{2}} & {w_{22}^{2}}\end{array}\right) \cdot \left( \begin{array}{c}{e_{o 1}} \\ {e_{o 2}}\end{array}\right)</script><p>又发现这个2x2矩阵其实就是前向传播时权值矩阵W的转置，所以又可以改写成：</p>
+<script type="math/tex; mode=display">
+\mathbf{E}_{h}=\mathbf{W}^{T} \cdot \mathbf{E}_{o}</script><p>于是我们可以利用这个隐藏层的误差来更新权值。</p>
+<p>我们现在考虑只有一个输出的情况，如下：<br><img src="https://img-blog.csdnimg.cn/20190423202249357.png" width="50%" alt><br>首先更新$w_{11}^{2}$，我们从输出层开始推导。<br>输出层神经元e的误差：</p>
+<script type="math/tex; mode=display">
+e_{o 1}=\frac{1}{2}\left(a_{1}^{3}-y_{1}\right)^{2}</script><p>神经元e的输出：</p>
+<script type="math/tex; mode=display">
+a_{1}^{3}=\operatorname{sigmoid}\left(z_{1}^{3}\right)</script><p>神经元e的输入：</p>
+<script type="math/tex; mode=display">
+z_{1}^{3}=\left(w_{11}^{2} \cdot a_{1}^{2}+w_{12}^{2} \cdot a_{2}^{2}+b_{1}^{3}\right)</script><p>接下来求e的误差对$w_{11}^{2}$的偏导（链式法则）：</p>
+<script type="math/tex; mode=display">
+\frac{\partial e_{o 1}}{\partial w_{11}^{2}}=\frac{\partial e_{o 1}}{\partial a_{1}^{3}} \cdot \frac{\partial a_{1}^{3}}{\partial z_{1}^{3}} \cdot \frac{\partial z_{1}^{3}}{\partial w_{11}^{2}}</script><script type="math/tex; mode=display">
+\frac{\partial e_{o 1}}{\partial w_{11}^{2}}=\left(a_{1}^{3}-y_{1}\right) \cdot \operatorname{sigmoid}\left(z_{1}^{3}\right) \cdot\left(1-\operatorname{sigmoid}\left(z_{1}^{3}\right)\right) \cdot a_{1}^{2}</script><p>同理也可以求e的误差对$w_{12}^{2}$的偏导：</p>
+<script type="math/tex; mode=display">
+\frac{\partial e_{o 1}}{\partial w_{12}^{2}}=\frac{\partial e_{o 1}}{\partial a_{1}^{3}} \cdot \frac{\partial a_{1}^{3}}{\partial z_{1}^{3}} \cdot \frac{\partial z_{1}^{3}}{\partial w_{12}^{2}}</script><script type="math/tex; mode=display">
+\frac{\partial e_{o 1}}{\overline{\partial} w_{12}^{2}}=\left(a_{1}^{3}-y_{1}\right) \cdot \operatorname{sigmoid}\left(z_{1}^{3}\right) \cdot\left(1-\operatorname{sigmoid}\left(z_{1}^{3}\right)\right) \cdot a_{2}^{2}</script><p>e的误差对偏置的偏导：</p>
+<script type="math/tex; mode=display">
+\frac{\partial e_{o 1}}{\partial b_{1}^{3}}=\frac{\partial e_{o 1}}{\partial a_{1}^{3}} \cdot \frac{\partial a_{1}^{3}}{\partial z_{1}^{3}} \cdot \frac{\partial z_{1}^{3}}{\partial b_{1}^{3}}</script><script type="math/tex; mode=display">
+\frac{\partial e_{o 1}}{\partial b_{1}^{3}}=\left(a_{1}^{3}-y_{1}\right) \cdot \operatorname{sigmoid}\left(z_{1}^{3}\right) \cdot\left(1-\operatorname{sigmoid}\left(z_{1}^{3}\right)\right)</script><p>接下来要对$w_{11}^{1}$进行更新，这次从后向前的推导过程更长一些。</p>
+<script type="math/tex; mode=display">
+\begin{aligned} e_{o 1} &=\frac{1}{2}\left(a_{1}^{3}-y_{1}\right)^{2} \\ a_{1}^{3} &=\operatorname{sigmoid}\left(z_{1}^{3}\right) \\ z_{1}^{3} &=\left(w_{11}^{2} \cdot a_{1}^{2}+w_{12}^{2} \cdot a_{2}^{2}+b_{1}^{3}\right) \\ a_{1}^{2} &=\operatorname{sigmoid}\left(z_{1}^{2}\right) \\ z_{1}^{2} &=\left(w_{11}^{1} \cdot a_{1}^{1}+w_{12}^{1} \cdot a_{2}^{1}+b_{1}^{2}\right) \end{aligned}</script><p>同样求e的误差对$w_{11}^{1}$的偏导：</p>
+<script type="math/tex; mode=display">
+\frac{\partial e_{o 1}}{\partial w_{11}^{1}}=\frac{\partial e_{o 1}}{\partial a_{1}^{3}} \cdot \frac{\check{\partial} a_{1}^{3}}{\partial z_{1}^{3}} \cdot \frac{\partial z_{1}^{3}}{\overline{\partial} a_{1}^{2}} \cdot \frac{\partial a_{1}^{2}}{\partial z_{1}^{2}} \cdot \frac{\partial z_{1}^{2}}{\partial w_{11}^{1}}</script><script type="math/tex; mode=display">
+\frac{\partial e_{o 1}}{\partial w_{11}^{1}}=\left(a_{1}^{3}-y_{1}\right) \cdot \operatorname{sigmoid}\left(z_{1}^{3}\right) \cdot\left(1-\operatorname{sigmoid}\left(z_{1}^{3}\right)\right) \cdot w_{11}^{2} \cdot \operatorname{sigmoid}\left(z_{1}^{2}\right) \cdot\left(1-\operatorname{sigmoid}\left(z_{1}^{2}\right)\right) \cdot a_{1}^{1}</script><p>$w_{21}^{1}$和偏置同理也可以求得。</p>
+<p><strong>求这些偏导是为了做什么？——代入梯度下降来更新权值。</strong><br>比如：</p>
+<script type="math/tex; mode=display">
+\begin{array}{l}{w=w-\alpha \frac{\partial e_{o 1}}{\partial w}}\end{array}</script><script type="math/tex; mode=display">
+\begin{array}{l}{b_{1}=b-\alpha \frac{\partial e_{o 1}}{\partial b}}\end{array}</script><p><strong>问题：那么算法中为什么是$\delta$和$\Delta$？</strong><br>利用链式法则来更新权重方法简单，但过于冗长。由于更新的过程可以看做是从网络的输入层到输出层从前往后更新，每次更新的时候都需要重新计算节点的误差，因此会存在一些不必要的重复计算。所以我们采取先更新后边的权重，之后再在此基础上利用更新后边的权重产生的中间值来更新较靠前的参数的办法。这个中间变量就是下文要介绍的$\delta$变量，它的作用是简化公式并减少计算量。<br>发现在计算偏导数时公式存在相同的部分，如下：</p>
+<script type="math/tex; mode=display">
+\frac{\partial e_{o 1}}{\partial w_{11}^{2}}={\left(a_{1}^{3}-y_{1}\right) \cdot \operatorname{sigmoid}\left(z_{1}^{3}\right) \cdot\left(1-\operatorname{sigmoid}\left(z_{1}^{3}\right)\right)} \cdot a_{1}^{2}</script><script type="math/tex; mode=display">
+\frac{\partial e_{o 1}}{\partial w_{11}^{1}}={\left(a_{1}^{3}-y_{1}\right) \cdot \operatorname{sigmoid}\left(z_{1}^{3}\right) \cdot\left(1-\operatorname{sigmoid}\left(z_{1}^{3}\right)\right)} \cdot w_{11}^{2} \cdot \operatorname{sigmoid}\left(z_{1}^{2}\right) \cdot\left(1-\operatorname{sigmoid}\left(z_{1}^{2}\right)\right) \cdot a_{1}^{1}</script><script type="math/tex; mode=display">
+\frac{\partial e_{o 1}}{\partial b_{1}^{3}}={\left(a_{1}^{3}-y_{1}\right) \cdot \operatorname{sigmoid}\left(z_{1}^{3}\right) \cdot\left(1-\operatorname{sigmoid}\left(z_{1}^{3}\right)\right)}</script><p>我们把$\delta_{1}^{3}$定义为这个例子中的输出层神经元e的“误差”：<br>==公式一==</p>
+<script type="math/tex; mode=display">
+\delta_{1}^{3}=\left(a_{1}^{3}-y_{1}\right) \cdot\left[\operatorname{sigmoid}\left(z_{1}^{3}\right) \cdot\left(1-\operatorname{sigmoid}\left(z_{1}^{3}\right)\right)\right]=\nabla_{a} C \odot \sigma^{\prime}\left(z_{1}^{3}\right)</script><p>隐藏层的误差为：<br>==公式二==</p>
+<script type="math/tex; mode=display">
+\delta_{1}^{2}={\left(a_{1}^{3}-y_{1}\right) \cdot \operatorname{sigmoid}\left(z_{1}^{3}\right) \cdot\left(1-\operatorname{sigmoid}\left(z_{1}^{3}\right)\right)} \cdot w_{11}^{2} \cdot \operatorname{sigmoid}\left(z_{1}^{2}\right) \cdot\left(1-\operatorname{sigmoid}\left(z_{1}^{2}\right)\right)=\left(\left(w_{11}^{2}\right)^{T} \delta_{1}^{3}\right) \odot \sigma^{\prime}\left(z_{1}^{2}\right)</script><p>权值更新的表示为：<br>==公式三==</p>
+<script type="math/tex; mode=display">
+\frac{\partial e_{o 1}}{\partial w_{11}^{2}}={\left(a_{1}^{3}-y_{1}\right) \cdot \operatorname{sigmoid}\left(z_{1}^{3}\right) \cdot\left(1-\operatorname{sigmoid}\left(z_{1}^{3}\right)\right)} \cdot a_{1}^{2}=a_{1}^{2} \cdot \delta_{1}^{3}</script><p>偏置的更新表示为：<br>==公式四==</p>
+<script type="math/tex; mode=display">
+\frac{\partial e_{o 1}}{\partial b_{1}^{3}}={\left(a_{1}^{3}-y_{1}\right) \cdot \operatorname{sigmoid}\left(z_{1}^{3}\right) \cdot\left(1-\operatorname{sigmoid}\left(z_{1}^{3}\right)\right)}=\delta_{1}^{3}</script><p>以上就是<strong>反向传播四大公式</strong>。</p>
+<script type="math/tex; mode=display">
+\delta^{L}=\frac{\partial e}{\partial a^{L}} \odot \sigma^{\prime}\left(z^{L}\right)</script><script type="math/tex; mode=display">
+\delta^{L-1}=\left(W^{L}\right)^{T} \delta^{L} \odot \sigma^{\prime}\left(z^{L-1}\right)</script><script type="math/tex; mode=display">
+\frac{\partial e}{b_{j}^{l}}=\delta_{j}^{l}</script><script type="math/tex; mode=display">
+\frac{\partial e}{w_{j k}^{l}}=\delta_{j}^{l} a_{k}^{l-1}</script><h1 id="限制"><a href="#限制" class="headerlink" title="限制"></a>限制</h1><ul>
+<li>结果可能会收敛到极值。如果只有一个极小值，梯度下降的“爬山”策略一定可以起作用。然而，往往是误差曲面有许多局部最小值和最大值。如果梯度下降的起始点恰好介于局部最大值和局部最小值之间，则沿着梯度下降最大的方向会到达局部最小值。<br><img src="https://img-blog.csdnimg.cn/20190423160717476.png" width="40%" alt></li>
+<li>从反向传播学习获得的收敛很慢。</li>
+<li>在反向传播学习的收敛性不能保证。</li>
+<li>反向传播学习不需要输入向量的标准化（normalization）；然而，标准化可提高性能。</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Machine-Learning/" rel="tag"><i class="fa fa-tag"></i> Machine Learning</a>
+          
+            <a href="/tags/Neural-Network/" rel="tag"><i class="fa fa-tag"></i> Neural Network</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/16/吴恩达机器学习实验三完整代码/" rel="next" title="吴恩达机器学习实验三完整代码">
+                <i class="fa fa-chevron-left"></i> 吴恩达机器学习实验三完整代码
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Loy Fan</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#动机"><span class="nav-number">1.</span> <span class="nav-text">动机</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#直观理解"><span class="nav-number">2.</span> <span class="nav-text">直观理解</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#概括"><span class="nav-number">3.</span> <span class="nav-text">概括</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#算法"><span class="nav-number">4.</span> <span class="nav-text">算法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#限制"><span class="nav-number">5.</span> <span class="nav-text">限制</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Loy Fan</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">21.1k words in this blog site.</span>
+</div>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
