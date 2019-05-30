@@ -79,13 +79,13 @@
 
 
 
-<meta name="description" content="mathjax: true  维基百科上的中文版反向传播算法的翻译不是特别准确，英文原版的结构也不是很容易理解，于是结合了各方资料重新写了一个版本。以下是中英维基百科的链接。BackPropagation - Wikipedia反向传播算法 - 维基百科中文版网站  反向传播（Backpropagation，缩写为BP）是一种用于人工神经网络的方法，用于计算在计算网络中使用的权重需要用到的梯度。反">
+<meta name="description" content="mathjax: true  维基百科上的中文版反向传播算法的翻译不是特别准确，英文原版的结构也不是很容易理解，于是结合了各方资料重新写了一个版本。以下是中英维基百科的链接。BackPropagation - Wikipedia反向传播算法 - 维基百科中文版网站">
 <meta name="keywords" content="Machine Learning,Neural Network">
 <meta property="og:type" content="article">
 <meta property="og:title" content="反向传播算法 基于维基百科的理解 | Back Propagation - Wikipedia">
 <meta property="og:url" content="https://loyf.github.io/2019/04/23/反向传播算法-基于维基百科的理解-Back-Propagation-Wikipedia/index.html">
 <meta property="og:site_name" content="Loy With No Title">
-<meta property="og:description" content="mathjax: true  维基百科上的中文版反向传播算法的翻译不是特别准确，英文原版的结构也不是很容易理解，于是结合了各方资料重新写了一个版本。以下是中英维基百科的链接。BackPropagation - Wikipedia反向传播算法 - 维基百科中文版网站  反向传播（Backpropagation，缩写为BP）是一种用于人工神经网络的方法，用于计算在计算网络中使用的权重需要用到的梯度。反">
+<meta property="og:description" content="mathjax: true  维基百科上的中文版反向传播算法的翻译不是特别准确，英文原版的结构也不是很容易理解，于是结合了各方资料重新写了一个版本。以下是中英维基百科的链接。BackPropagation - Wikipedia反向传播算法 - 维基百科中文版网站">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20190422205909861.png">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20190423130446545.png">
@@ -93,10 +93,10 @@
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20190423195004808.png">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20190423202249357.png">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20190423160717476.png">
-<meta property="og:updated_time" content="2019-04-23T13:00:01.040Z">
+<meta property="og:updated_time" content="2019-05-30T07:58:30.130Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="反向传播算法 基于维基百科的理解 | Back Propagation - Wikipedia">
-<meta name="twitter:description" content="mathjax: true  维基百科上的中文版反向传播算法的翻译不是特别准确，英文原版的结构也不是很容易理解，于是结合了各方资料重新写了一个版本。以下是中英维基百科的链接。BackPropagation - Wikipedia反向传播算法 - 维基百科中文版网站  反向传播（Backpropagation，缩写为BP）是一种用于人工神经网络的方法，用于计算在计算网络中使用的权重需要用到的梯度。反">
+<meta name="twitter:description" content="mathjax: true  维基百科上的中文版反向传播算法的翻译不是特别准确，英文原版的结构也不是很容易理解，于是结合了各方资料重新写了一个版本。以下是中英维基百科的链接。BackPropagation - Wikipedia反向传播算法 - 维基百科中文版网站">
 <meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190422205909861.png">
 
 
@@ -353,7 +353,8 @@
 <blockquote>
 <p>维基百科上的中文版反向传播算法的翻译不是特别准确，英文原版的结构也不是很容易理解，于是结合了各方资料重新写了一个版本。以下是中英维基百科的链接。<br><a href="https://en.wikipedia.org/wiki/Backpropagation" target="_blank" rel="noopener">BackPropagation - Wikipedia</a><br><a href="https://www.bk.gugeeseo.com/baike-%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95" target="_blank" rel="noopener">反向传播算法 - 维基百科中文版网站</a></p>
 </blockquote>
-<p><strong>反向传播</strong>（Backpropagation，缩写为BP）是一种用于人工神经网络的方法，用于计算在计算网络中使用的权重需要用到的梯度。反向传播是“误差反向传播”的简写，因为误差是在输出时计算的，并且从输出层往后分布于网络的各个层。它通常被用来训练深层神经网络。<br>反向传播是将<a href="https://en.wikipedia.org/wiki/Delta_rule" target="_blank" rel="noopener">delta规则</a>推广到多层前馈网络，通过使用<a href="https://en.wikipedia.org/wiki/Chain_rule" target="_blank" rel="noopener">链规则</a>迭代计算每个层的梯度来实现。它与<a href="https://en.wikipedia.org/wiki/Gauss%E2%80%93Newton_algorithm" target="_blank" rel="noopener">高斯-牛顿算法</a>密切相关，是神经反向传播研究（生物学上）的一部分。<br>反向传播是一种更通用的技术称作<a href="https://en.wikipedia.org/wiki/Automatic_differentiation" target="_blank" rel="noopener">自动微分</a>的特例。在学习的中，反向传播通常被<a href="https://en.wikipedia.org/wiki/Gradient_descent" target="_blank" rel="noopener">梯度下降</a>优化算法所使用，通过计算<a href="https://en.wikipedia.org/wiki/Loss_function" target="_blank" rel="noopener">损失函数</a>的梯度来更新神经元权重，以最小化损失函数。<br><a id="more"></a></p>
+<a id="more"></a>
+<p><strong>反向传播</strong>（Backpropagation，缩写为BP）是一种用于人工神经网络的方法，用于计算在计算网络中使用的权重需要用到的梯度。反向传播是“误差反向传播”的简写，因为误差是在输出时计算的，并且从输出层往后分布于网络的各个层。它通常被用来训练深层神经网络。<br>反向传播是将<a href="https://en.wikipedia.org/wiki/Delta_rule" target="_blank" rel="noopener">delta规则</a>推广到多层前馈网络，通过使用<a href="https://en.wikipedia.org/wiki/Chain_rule" target="_blank" rel="noopener">链规则</a>迭代计算每个层的梯度来实现。它与<a href="https://en.wikipedia.org/wiki/Gauss%E2%80%93Newton_algorithm" target="_blank" rel="noopener">高斯-牛顿算法</a>密切相关，是神经反向传播研究（生物学上）的一部分。<br>反向传播是一种更通用的技术称作<a href="https://en.wikipedia.org/wiki/Automatic_differentiation" target="_blank" rel="noopener">自动微分</a>的特例。在学习的中，反向传播通常被<a href="https://en.wikipedia.org/wiki/Gradient_descent" target="_blank" rel="noopener">梯度下降</a>优化算法所使用，通过计算<a href="https://en.wikipedia.org/wiki/Loss_function" target="_blank" rel="noopener">损失函数</a>的梯度来更新神经元权重，以最小化损失函数。</p>
 <h1 id="动机"><a href="#动机" class="headerlink" title="动机"></a>动机</h1><p>任何<a href="https://en.wikipedia.org/wiki/Supervised_learning" target="_blank" rel="noopener">监督学习</a>算法的目标都是找到一个将一组输入映射到其正确的输出的最佳函数，反向传播的动机是训练一个多层神经网络，使其能够学习适当的内部表达式，从而可以学习任何输入到输出的映射。</p>
 <h1 id="直观理解"><a href="#直观理解" class="headerlink" title="直观理解"></a>直观理解</h1><p><strong>作为一个优化问题学习</strong></p>
 <p>为了理解反向传播算法的数学推导，首先要对神经元的实际输出与特定训练示例的正确输出之间的关系进行一些直觉理解。考虑一个简单的神经网络，它有两个输入单元，一个输出单元，没有隐藏单元，每个神经元使用一个线性输出（这与实际神经网络上的大多数工作不同，实际中从输入到输出的映射基本都是非线性的），即其输入的加权和。（下图中 y 应改为 t ）<br><img src="https://img-blog.csdnimg.cn/20190422205909861.png" width="40%" alt><br>最初，在训练之前，权重会被随机设置，接着神经元从训练样本中学习，在这种情况下，训练样本由一组元组$(x_1,x_2,y)$组成，其中$x_1,x_2$是网络的输入，$y$是正确的输出（当网络被训练时，由这些输入而应该得到的输出）。这个最初的网络，在给定了$x_1,x_2$后，会计算出一个输出结果$t$，很可能会与$y$不同（因为给了随机权重）。度量预期输出$y$和实际输出$t$之间的误差常用的方法是计算它们的平方误差：</p>

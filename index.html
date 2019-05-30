@@ -489,17 +489,50 @@
 
       
         
-          <p>在实现之前，先了解一下什么是<a href="https://blog.csdn.net/weixin_43318626/article/details/89977202" target="_blank" rel="noopener">同态加密</a>。</p>
+          
+            <a id="more"></a>
+<p>在实现之前，先了解一下什么是<a href="https://blog.csdn.net/weixin_43318626/article/details/89977202" target="_blank" rel="noopener">同态加密</a>。</p>
 <p>以下这个公式使我们要实现的同态加密版本</p>
 <script type="math/tex; mode=display">
-S \mathbf{c}=w \mathbf{x}+\mathbf{e} \quad \mathbf{x}=\left\lceil\frac{S \mathbf{c}}{w}\right\rfloor</script>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/05/30/Python-numpy实现同态加密算法/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+S \mathbf{c}=w \mathbf{x}+\mathbf{e} \quad \mathbf{x}=\left\lceil\frac{S \mathbf{c}}{w}\right\rfloor</script><p><strong>第一种加密</strong></p>
+<p>对称加密</p>
+<p>如果密钥S是一个单位矩阵，那么c不过是输入x的一个重加权的、略带噪声的版本。</p>
+<p>当S为单位矩阵时，相当于没有加密</p>
+<p>当S为随机矩阵时，有加密</p>
+<p>加解密使用同一key</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_key</span><span class="params">(w,m,n)</span>:</span></span><br><span class="line">    S = (np.random.rand(m,n) * w / (<span class="number">2</span> ** <span class="number">16</span>))<span class="comment"># 可证明 max(S) &lt; w</span></span><br><span class="line">    <span class="keyword">return</span> S<span class="comment"># key，对称加密</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encrypt</span><span class="params">(x,S,m,n,w)</span>:</span></span><br><span class="line">    <span class="keyword">assert</span> len(x) == len(S)</span><br><span class="line">    e = (np.random.rand(m))<span class="comment"># 可证明 max(e) &lt; w / 2</span></span><br><span class="line">    c = np.linalg.inv(S).dot((w * x) + e)   </span><br><span class="line">    <span class="keyword">return</span> c</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">decrypt</span><span class="params">(c,S,w)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> (S.dot(c) / w).astype(<span class="string">'int'</span>)</span><br><span class="line"></span><br><span class="line">x = np.array([<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">5</span>])</span><br><span class="line">m = len(x)</span><br><span class="line">n = m</span><br><span class="line">w = <span class="number">16</span></span><br><span class="line">S = generate_key(w,m,n)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">c = encrypt(x,S,m,n,w)</span><br><span class="line">decrypt(c,S,w)</span><br></pre></td></tr></table></figure>
+<p>array([0, 1, 2, 5])</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(x+x)</span><br><span class="line">print(x*<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+<p>[ 0  2  4 10]<br>[ 0 10 20 50]</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">decrypt(c+c,S,w)</span><br></pre></td></tr></table></figure>
+<p>array([ 0,  2,  4, 10])</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">decrypt(c*<span class="number">10</span>,S,w)</span><br></pre></td></tr></table></figure>
+<p>array([ 0, 10, 20, 50])</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x*x</span><br></pre></td></tr></table></figure>
+<p>array([0, 1, 4])</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">decrypt(c*c,S,w)</span><br></pre></td></tr></table></figure>
+<p>array([15296055,  6267577,  8584289])</p>
+<p><strong>第二种加密</strong></p>
+<p>论文作者没有显式地分配一对独立的“公钥”和“私钥”，相反，提出了一种“钥交换”技术，将私钥S替换为S’。更具体地，这一私钥交换技术涉及生成一个可以进行该变换的矩阵M。由于M具备将消息从未加密状态（单位矩阵密钥）转换为加密状态（随机而难以猜测的密钥），这个M矩阵正好可以用作我们的公钥！</p>
+<p>基于开篇两个公式，如果密钥是一个单位矩阵，那么消息是未加密的。</p>
+<p>基于开篇两个公式，如果密钥是一个随机矩阵，那么消息是加密的。</p>
+<p>我们构造一个矩阵M将一个密钥转换为另一个私钥。</p>
+<p>当矩阵M将单位矩阵转换为一个随机密钥时，根据定义，它使用单向加密方式加密了消息。</p>
+<p>由于M充当了“单向加密”的角色，我们称它为“公钥”，并且可以像公钥一样分发它，因为它无法用于解密。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_key</span><span class="params">(w,m,n)</span>:</span></span><br><span class="line">    S = (np.random.rand(m,n) * w / (<span class="number">2</span> ** <span class="number">16</span>)) <span class="comment"># 可证明 max(S) &lt; w</span></span><br><span class="line">    <span class="keyword">return</span> S</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encrypt</span><span class="params">(x,S,m,n,w)</span>:</span></span><br><span class="line">    <span class="keyword">assert</span> len(x) == len(S)</span><br><span class="line">    e = (np.random.rand(m)) <span class="comment"># 可证明 max(e) &lt; w / 2</span></span><br><span class="line">    c = np.linalg.inv(S).dot((w * x) + e)</span><br><span class="line">    <span class="keyword">return</span> c</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">decrypt</span><span class="params">(c,S,w)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> (S.dot(c) / w).astype(<span class="string">'int'</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_c_star</span><span class="params">(c,m,l)</span>:</span></span><br><span class="line">    c_star = np.zeros(l * m,dtype=<span class="string">'int'</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(m):</span><br><span class="line">        b = np.array(list(np.binary_repr(np.abs(c[i]))),dtype=<span class="string">'int'</span>)</span><br><span class="line">        <span class="keyword">if</span>(c[i] &lt; <span class="number">0</span>):</span><br><span class="line">            b *= <span class="number">-1</span></span><br><span class="line">        c_star[(i * l) + (l-len(b)): (i+<span class="number">1</span>) * l] += b</span><br><span class="line">    <span class="keyword">return</span> c_star</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">switch_key</span><span class="params">(c,S,m,n,T)</span>:</span></span><br><span class="line">    l = int(np.ceil(np.log2(np.max(np.abs(c)))))</span><br><span class="line">    c_star = get_c_star(c,m,l)</span><br><span class="line">    S_star = get_S_star(S,m,n,l)</span><br><span class="line">    n_prime = n + <span class="number">1</span></span><br><span class="line">    S_prime = np.concatenate((np.eye(m),T.T),<span class="number">0</span>).T</span><br><span class="line">    A = (np.random.rand(n_prime - m, n*l) * <span class="number">10</span>).astype(<span class="string">'int'</span>)</span><br><span class="line">    E = (<span class="number">1</span> * np.random.rand(S_star.shape[<span class="number">0</span>],S_star.shape[<span class="number">1</span>])).astype(<span class="string">'int'</span>)</span><br><span class="line">    M = np.concatenate(((S_star - T.dot(A) + E),A),<span class="number">0</span>)</span><br><span class="line">    c_prime = M.dot(c_star)</span><br><span class="line">    <span class="keyword">return</span> c_prime,S_prime</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_S_star</span><span class="params">(S,m,n,l)</span>:</span></span><br><span class="line">    S_star = list()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(l):</span><br><span class="line">        S_star.append(S*<span class="number">2</span>**(l-i<span class="number">-1</span>))</span><br><span class="line">    S_star = np.array(S_star).transpose(<span class="number">1</span>,<span class="number">2</span>,<span class="number">0</span>).reshape(m,n*l)</span><br><span class="line">    <span class="keyword">return</span> S_star</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_T</span><span class="params">(n)</span>:</span></span><br><span class="line">    n_prime = n + <span class="number">1</span></span><br><span class="line">    T = (<span class="number">10</span> * np.random.rand(n,n_prime - n)).astype(<span class="string">'int'</span>)</span><br><span class="line">    <span class="keyword">return</span> T</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encrypt_via_switch</span><span class="params">(x,w,m,n,T)</span>:</span></span><br><span class="line">    c,S = switch_key(x*w,np.eye(m),m,n,T)</span><br><span class="line">    <span class="keyword">return</span> c,S</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">x = np.array([<span class="number">0</span>,<span class="number">1</span>,<span class="number">3</span>,<span class="number">5</span>])</span><br><span class="line">m = len(x)</span><br><span class="line">n = m</span><br><span class="line">w = <span class="number">16</span></span><br><span class="line">S = generate_key(w,m,n)</span><br><span class="line"></span><br><span class="line">y = np.array([<span class="number">3</span>,<span class="number">3</span>,<span class="number">3</span>,<span class="number">3</span>])</span><br><span class="line">m = len(y)</span><br><span class="line">n = m</span><br><span class="line">w = <span class="number">16</span></span><br><span class="line">S = generate_key(w,m,n)</span><br><span class="line"></span><br><span class="line">print(x * <span class="number">10</span>)</span><br><span class="line">print(x + y)</span><br></pre></td></tr></table></figure>
+<p>[ 0 10 30 50]<br>[3 4 6 8]</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">T = get_T(n)</span><br><span class="line">cx,S = encrypt_via_switch(x,w,m,n,T)</span><br><span class="line">print(cx)</span><br><span class="line"><span class="comment">#T = get_T(n)</span></span><br><span class="line">cy,S = encrypt_via_switch(y,w,m,n,T)</span><br><span class="line">print(cy)</span><br></pre></td></tr></table></figure>
+<p>[-115. -122.  -21.  -35.   23.]<br>[-177. -222.  -87. -177.   45.]</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(decrypt(cx,S,w))</span><br><span class="line">print(decrypt(cy,S,w))</span><br></pre></td></tr></table></figure>
+<p>[0 1 3 5]<br>[3 3 3 3]</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">decrypt(cx * <span class="number">10</span>,S,w)</span><br></pre></td></tr></table></figure>
+<p>array([ 0, 10, 30, 50])</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">decrypt(cx + cy,S,w)</span><br></pre></td></tr></table></figure>
+<p>array([3, 4, 6, 8])</p>
+
+          
         
       
     </div>
@@ -1083,7 +1116,6 @@ S \mathbf{c}=w \mathbf{x}+\mathbf{e} \quad \mathbf{x}=\left\lceil\frac{S \mathbf
 <blockquote>
 <p>维基百科上的中文版反向传播算法的翻译不是特别准确，英文原版的结构也不是很容易理解，于是结合了各方资料重新写了一个版本。以下是中英维基百科的链接。<br><a href="https://en.wikipedia.org/wiki/Backpropagation" target="_blank" rel="noopener">BackPropagation - Wikipedia</a><br><a href="https://www.bk.gugeeseo.com/baike-%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95" target="_blank" rel="noopener">反向传播算法 - 维基百科中文版网站</a></p>
 </blockquote>
-<p><strong>反向传播</strong>（Backpropagation，缩写为BP）是一种用于人工神经网络的方法，用于计算在计算网络中使用的权重需要用到的梯度。反向传播是“误差反向传播”的简写，因为误差是在输出时计算的，并且从输出层往后分布于网络的各个层。它通常被用来训练深层神经网络。<br>反向传播是将<a href="https://en.wikipedia.org/wiki/Delta_rule" target="_blank" rel="noopener">delta规则</a>推广到多层前馈网络，通过使用<a href="https://en.wikipedia.org/wiki/Chain_rule" target="_blank" rel="noopener">链规则</a>迭代计算每个层的梯度来实现。它与<a href="https://en.wikipedia.org/wiki/Gauss%E2%80%93Newton_algorithm" target="_blank" rel="noopener">高斯-牛顿算法</a>密切相关，是神经反向传播研究（生物学上）的一部分。<br>反向传播是一种更通用的技术称作<a href="https://en.wikipedia.org/wiki/Automatic_differentiation" target="_blank" rel="noopener">自动微分</a>的特例。在学习的中，反向传播通常被<a href="https://en.wikipedia.org/wiki/Gradient_descent" target="_blank" rel="noopener">梯度下降</a>优化算法所使用，通过计算<a href="https://en.wikipedia.org/wiki/Loss_function" target="_blank" rel="noopener">损失函数</a>的梯度来更新神经元权重，以最小化损失函数。<br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2019/04/23/反向传播算法-基于维基百科的理解-Back-Propagation-Wikipedia/#more" rel="contents">
@@ -1093,7 +1125,7 @@ S \mathbf{c}=w \mathbf{x}+\mathbf{e} \quad \mathbf{x}=\left\lceil\frac{S \mathbf
           <!--/noindex-->
         
       
-    </p></div>
+    </div>
     
     
     
@@ -1234,8 +1266,6 @@ S \mathbf{c}=w \mathbf{x}+\mathbf{e} \quad \mathbf{x}=\left\lceil\frac{S \mathbf
 <p><a href="https://study.163.com/course/courseMain.htm?courseId=1004570029&amp;_trace_c_p_k2_=ea0c7bf2c97246f08030b6c79f38e69a" target="_blank" rel="noopener">&gt;吴恩达机器学习课程链接</a><br><a href="https://blog.csdn.net/weixin_43318626/article/details/88896788" target="_blank" rel="noopener">&gt;课程总结和笔记链接</a><br>实验三的原始代码和使用数据可至课程链接-课时67-章节9编程作业中下载</p>
 <p>包括了实验二中的使用了正则化项后的逻辑回归的最优化参数求解，重点是应用于多分类，采用一对多形式，对每一种分类进行“是/否”预测，得到分类。<br>环境——Matlab R2018b/Octave</p>
 </blockquote>
-<h1 id="One-vs-all"><a href="#One-vs-all" class="headerlink" title="One-vs-all"></a>One-vs-all</h1><h2 id="Part-1-Loading-and-Visualizing-Data"><a href="#Part-1-Loading-and-Visualizing-Data" class="headerlink" title="Part 1: Loading and Visualizing Data"></a>Part 1: Loading and Visualizing Data</h2><p>这个训练集一共有5000条数据，每条数据包含400维特征。一共10个分类。<br><strong>运行结果</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/20190411211940132.png" width="40%" alt></p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2019/04/16/吴恩达机器学习实验三完整代码/#more" rel="contents">
@@ -1385,10 +1415,7 @@ S \mathbf{c}=w \mathbf{x}+\mathbf{e} \quad \mathbf{x}=\left\lceil\frac{S \mathbf
 <blockquote>
 <p><a href="https://study.163.com/course/courseMain.htm?courseId=1004570029&amp;_trace_c_p_k2_=ea0c7bf2c97246f08030b6c79f38e69a" target="_blank" rel="noopener">&gt;吴恩达机器学习课程链接</a><br><a href="https://blog.csdn.net/weixin_43318626/article/details/88896788" target="_blank" rel="noopener">&gt;课程总结和笔记链接</a><br>实验二的原始代码和使用数据可至课程链接-课时60-章节8编程作业中下载</p>
 <p>包括逻辑回归的损失函数、梯度、自动优化、预测以及正则化后的损失函数、梯度等<br>环境——Matlab R2018b/Octave</p>
-<h1 id="一般Logistic-Regression"><a href="#一般Logistic-Regression" class="headerlink" title="一般Logistic Regression"></a>一般Logistic Regression</h1><h2 id="Part-1-Plotting"><a href="#Part-1-Plotting" class="headerlink" title="Part 1: Plotting"></a>Part 1: Plotting</h2><p><strong>plotData.m</strong><br>二分类，在图上用不同的标记表示两类数据<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">plotData</span>(<span class="params">X, y</span>)</span></span><br><span class="line">%PLOTDATA Plots the data points X and y into a new figure </span><br><span class="line">%   PLOTDATA(x,y) plots the data points <span class="keyword">with</span> + <span class="keyword">for</span> the positive examples</span><br><span class="line">%   and o <span class="keyword">for</span> the negative examples. X is assumed to be a Mx2 matrix.</span><br><span class="line"></span><br><span class="line">% Create New Figure</span><br><span class="line">figure; hold on;</span><br><span class="line"></span><br><span class="line">% ====================== YOUR CODE HERE ======================</span><br><span class="line">% Instructions: Plot the positive and negative examples on a</span><br><span class="line">%               <span class="number">2</span>D plot, using the option <span class="string">'k+'</span> <span class="keyword">for</span> the positive</span><br><span class="line">%               examples and <span class="string">'ko'</span> <span class="keyword">for</span> the negative examples.</span><br><span class="line">%</span><br><span class="line"></span><br><span class="line">positive = find(y == <span class="number">1</span>);</span><br><span class="line">negative = find(y == <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">plot(X(positive, <span class="number">1</span>), X(positive, <span class="number">2</span>), <span class="string">'k+'</span>)</span><br><span class="line">plot(X(negative, <span class="number">1</span>), X(negative, <span class="number">2</span>), <span class="string">'ko'</span>, <span class="string">'MarkerFaceColor'</span>, <span class="string">'b'</span>)</span><br><span class="line"></span><br><span class="line">% =========================================================================</span><br><span class="line"></span><br><span class="line">hold off;</span><br><span class="line"></span><br><span class="line">end</span><br></pre></td></tr></table></figure></p>
 </blockquote>
-<p><strong>运行结果</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/20190405115002961.png" width="60%" alt></p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2019/04/16/吴恩达机器学习实验二完整代码/#more" rel="contents">
@@ -1539,10 +1566,6 @@ S \mathbf{c}=w \mathbf{x}+\mathbf{e} \quad \mathbf{x}=\left\lceil\frac{S \mathbf
 <p><a href="https://study.163.com/course/courseMain.htm?courseId=1004570029&amp;_trace_c_p_k2_=ea0c7bf2c97246f08030b6c79f38e69a" target="_blank" rel="noopener">&gt;吴恩达机器学习课程链接</a><br><a href="https://blog.csdn.net/weixin_43318626/article/details/88896788" target="_blank" rel="noopener">&gt;课程总结和笔记链接</a><br>实验一的原始代码和使用数据可至课程链接-课时45-章节6编程作业中下载</p>
 <p>包括热身练习、单变量/多变量的损失函数计算、梯度下降的参数更新、特征归一化、正规方程等<br>环境——Matlab R2018b/Octave</p>
 </blockquote>
-<h1 id="单特征"><a href="#单特征" class="headerlink" title="单特征"></a>单特征</h1><h2 id="Part-1-Basic-Function"><a href="#Part-1-Basic-Function" class="headerlink" title="Part 1: Basic Function"></a>Part 1: Basic Function</h2><p>输出一个5X5单位矩阵</p>
-<p><strong>warmUpExercise.m</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">A</span> = <span class="title">warmUpExercise</span>(<span class="params"></span>)</span></span><br><span class="line">%WARMUPEXERCISE Example function in octave</span><br><span class="line">%   A = WARMUPEXERCISE() is an example <span class="function"><span class="keyword">function</span> <span class="title">that</span> <span class="title">returns</span> <span class="title">the</span> 5<span class="title">x5</span> <span class="title">identity</span> <span class="title">matrix</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line">A = [];</span><br><span class="line">% ============= YOUR CODE HERE ==============</span><br><span class="line">% Instructions: Return the <span class="number">5</span>x5 identity matrix </span><br><span class="line">%               In octave, we <span class="keyword">return</span> values by defining which variables</span><br><span class="line">%               represent the <span class="keyword">return</span> values (at the top <span class="keyword">of</span> the file)</span><br><span class="line">%               and then <span class="keyword">set</span> them accordingly. </span><br><span class="line"></span><br><span class="line">A = eye(5);</span><br><span class="line"></span><br><span class="line">% ===========================================</span><br><span class="line">end</span><br></pre></td></tr></table></figure></p>
-<p><strong>运行结果</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/20190401142455241.png" width="40%" alt></p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2019/04/16/吴恩达机器学习实验一完整代码/#more" rel="contents">
@@ -1688,22 +1711,40 @@ S \mathbf{c}=w \mathbf{x}+\mathbf{e} \quad \mathbf{x}=\left\lceil\frac{S \mathbf
 
       
         
-          <blockquote>
+          
+            <a id="more"></a>
+<blockquote>
 <p>NIPS 2012 《ImageNet Classification with Deep Convolutional Neural Networks》<br>Alex Krizhevsky | Ilya Sutskever | Geoffrey E. Hinton<br><a href="https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf" target="_blank" rel="noopener">PaperLink</a></p>
 </blockquote>
 <p><img src="https://img-blog.csdnimg.cn/20190329141116436.png" width="100%" alt></p>
 <p><img src="https://img-blog.csdnimg.cn/20190329200929967.png" width="100%" alt></p>
-<h1 id="基本参数"><a href="#基本参数" class="headerlink" title="基本参数"></a>基本参数</h1><p><strong>input：</strong> 224×224大小的图片，3通道<br><strong>conv1：</strong> 11×11大小的卷积核96个，每个GPU上48个。<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/03/29/AlexNet-2012/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+<h1 id="基本参数"><a href="#基本参数" class="headerlink" title="基本参数"></a>基本参数</h1><p><strong>input：</strong> 224×224大小的图片，3通道<br><strong>conv1：</strong> 11×11大小的卷积核96个，每个GPU上48个。<br><strong>max-pooling：</strong> 2×2的核。<br><strong>conv2：</strong> 5×5卷积核256个，每个GPU上128个。<br><strong>max-pooling：</strong> 2×2的核。<br><strong>conv3：</strong> 与上一层是全连接，3x3的卷积核384个。分到两个GPU上个192个。<br><strong>conv4：</strong> 3×3的卷积核384个，两个GPU各192个。该层与上一层连接没有经过pooling层。<br><strong>conv5：</strong> 3×3的卷积核256个，两个GPU上个128个。<br><strong>max-pooling：</strong> 2×2的核。<br><strong>FullyConnected1：</strong> 4096维，将第五层max-pooling的输出连接成为一个一维向量，作为该层的输入。<br><strong>FullyConnected2：</strong> 4096维<br><strong>Softmax：</strong> 输出为1000，输出的每一维都是图片属于该类别的概率。</p>
+<h1 id="一些操作"><a href="#一些操作" class="headerlink" title="一些操作"></a>一些操作</h1><p><strong>ReLU</strong><br>使用非线性饱和函数ReLU作为神经元激活函数$f(x)=max(0,x)$</p>
+<p><strong>数据增强</strong></p>
+<ul>
+<li>随机抓取224x224的小块，以及它的水平翻转：<br>从256x256的图片中抓取224x224的小块，并用这抓取的小块来训练网络；<br>使训练集增加了2048倍，但是样本间有高度依赖性；<br>不使用这个方案时，出现大量的过拟合；<br>测试阶段时，抓取5个224x224的小块以及它们的水平翻转（共10个）来做预测，并对这10个小块的softmax预测值做平均。</li>
+<li>改变训练图像中的RGB通道的强度：<br>遍历ImageNet训练集，在RGB像素值的集合上使用PCA<br>使已知的主成分加倍<br>比例为对应特征值乘以一个随机变量<br>随机变量服从均值为0，标准差为0.1的高斯分布</li>
+</ul>
+<p><strong>Dual GPU</strong><br>使用了两个NVIDIA GTX 580 3GB GPU<br>每个GPU有一半的kernel，且只在一些特定的层，GPU之间才进行通信：</p>
+<ul>
+<li>第2、4、5卷积层的输入只连接了位于同一GPU的前一层的kernel；</li>
+<li>第3层连接了第2层所有kernel（两个GPU的）；</li>
+<li>全连接层是与前一层所有神经元连接的（两个GPU的）。</li>
+</ul>
+<p><strong>LRN(Local Response Normalization)局部响应归一化</strong><br><img src="https://img-blog.csdnimg.cn/20190329161627716.png" width="50%" alt></p>
+<p>作者发现进行局部的标准化可以提高性能。</p>
+<ul>
+<li>其中a代表在feature map中第i个卷积核(x,y)坐标经过了ReLU激活函数的输出，n表示相邻的几个卷积核。N表示这一层总的卷积核数量。k, n, α和β是hyper-parameters，他们的值是在验证集上实验得到的，其中k = 2，n = 5，α = 0.0001，β = 0.75。</li>
+<li>这种归一化操作实现了某种形式的横向抑制，这也是受真实神经元的某种行为启发。</li>
+<li>卷积核矩阵的排序是随机任意，并且在训练之前就已经决定好顺序。这种LPN形成了一种横向抑制机制。</li>
+</ul>
+<p><strong>Overlap Pooling</strong><br>在池化层提取结果时，会受到相邻pooling单元的影响，有可能结果重复，即相邻池化单元有重叠部分，实验结果表明这比传统池化要好，在Top-1和Top-5上分别提高了0.4%和0.3%。</p>
+<p><strong>Drop Out</strong><br>文章以0.5的概率将每个隐层的神经元输出置为0，dropout减少了神经元互适应性的复杂度，隐层中任何一个神经元都可能会以0.5的概率被丢弃，神经元无法依赖于其他特定的神经元而存在，因此这会迫使网络学习更为健壮、鲁棒的特征。运用了这种机制的神经元不会干扰前向传递也不影响后续操作。dropout减少了过拟合，也使收敛迭代次数增加一倍。</p>
+
+          
         
       
-    </p></div>
+    </div>
     
     
     
