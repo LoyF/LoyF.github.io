@@ -79,13 +79,13 @@
 
 
 
-<meta name="description" content="Fan Shiqing @Xiamen University 实验环境安装Linux：Ubuntu16.04Java：1.7.0_80Hadoop：2.7.1Python：2.7PyCharm：2019.1.2(Community Edition)matplotlib：2.0.0Spark：2.1.0 下载数据集数据集为某音乐平台歌曲《同桌的你》评论者的信息数据，包含评论者的用户ID、动态总数、">
+<meta name="description" content="Fan Shiqing @Xiamen University">
 <meta name="keywords" content="Big Data">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Python + Spark 《同桌的你》歌曲评论听众信息分析">
 <meta property="og:url" content="https://loyf.github.io/2019/05/30/Python-Spark-《同桌的你》歌曲评论听众信息分析/index.html">
 <meta property="og:site_name" content="Loy With No Title">
-<meta property="og:description" content="Fan Shiqing @Xiamen University 实验环境安装Linux：Ubuntu16.04Java：1.7.0_80Hadoop：2.7.1Python：2.7PyCharm：2019.1.2(Community Edition)matplotlib：2.0.0Spark：2.1.0 下载数据集数据集为某音乐平台歌曲《同桌的你》评论者的信息数据，包含评论者的用户ID、动态总数、">
+<meta property="og:description" content="Fan Shiqing @Xiamen University">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20190528144036571.png">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20190528143330174.png">
@@ -94,10 +94,10 @@
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20190528155154880.png">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20190528155212436.png">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20190528155219480.png">
-<meta property="og:updated_time" content="2019-05-30T07:39:41.260Z">
+<meta property="og:updated_time" content="2019-05-30T07:44:47.246Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python + Spark 《同桌的你》歌曲评论听众信息分析">
-<meta name="twitter:description" content="Fan Shiqing @Xiamen University 实验环境安装Linux：Ubuntu16.04Java：1.7.0_80Hadoop：2.7.1Python：2.7PyCharm：2019.1.2(Community Edition)matplotlib：2.0.0Spark：2.1.0 下载数据集数据集为某音乐平台歌曲《同桌的你》评论者的信息数据，包含评论者的用户ID、动态总数、">
+<meta name="twitter:description" content="Fan Shiqing @Xiamen University">
 <meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190528144036571.png">
 
 
@@ -352,13 +352,14 @@
       
         <blockquote>
 <p>Fan Shiqing @Xiamen University</p>
+</blockquote>
+<a id="more"></a>
 <h1 id="实验环境安装"><a href="#实验环境安装" class="headerlink" title="实验环境安装"></a>实验环境安装</h1><p>Linux：Ubuntu16.04<br>Java：1.7.0_80<br>Hadoop：2.7.1<br>Python：2.7<br>PyCharm：2019.1.2(Community Edition)<br>matplotlib：2.0.0<br>Spark：2.1.0<br><img src="https://img-blog.csdnimg.cn/20190528144036571.png" width="55%" alt></p>
 <h1 id="下载数据集"><a href="#下载数据集" class="headerlink" title="下载数据集"></a>下载数据集</h1><p>数据集为某音乐平台歌曲《同桌的你》评论者的信息数据，包含评论者的用户ID、动态总数、关注总数、粉丝总数、所在地区、个人介绍、年龄、累计听歌总数属性。共4752条数据，部分如下图：<br><img src="https://img-blog.csdnimg.cn/20190528143330174.png" width="90%" alt></p>
 <h1 id="数据集的预处理"><a href="#数据集的预处理" class="headerlink" title="数据集的预处理"></a>数据集的预处理</h1><ul>
 <li>将txt文件转为csv文件</li>
 <li>修改文件属性名称方便读写<br><img src="https://img-blog.csdnimg.cn/20190528144906725.png" width="90%" alt></li>
 </ul>
-</blockquote>
 <h1 id="使用Spark进行数据分析"><a href="#使用Spark进行数据分析" class="headerlink" title="使用Spark进行数据分析"></a>使用Spark进行数据分析</h1><ul>
 <li><p>读入数据并筛选需要用到的属性</p>
 <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sc =SparkContext()</span><br><span class="line">sqlContext = SQLContext(sc)</span><br><span class="line">data = sqlContext.read.format(<span class="string">'com.databricks.spark.csv'</span>).options(header=<span class="string">'true'</span>, inferschema=<span class="string">'true'</span>).load(<span class="string">'commenters.csv'</span>)</span><br><span class="line">list = [<span class="string">'ID'</span>, <span class="string">'fans'</span>, <span class="string">'province'</span>, <span class="string">'city'</span>, <span class="string">'age'</span>, <span class="string">'songs'</span>]</span><br><span class="line">data = data.select([column <span class="keyword">for</span> column <span class="keyword">in</span> data.columns <span class="keyword">if</span> column <span class="keyword">in</span> list])</span><br></pre></td></tr></table></figure>
