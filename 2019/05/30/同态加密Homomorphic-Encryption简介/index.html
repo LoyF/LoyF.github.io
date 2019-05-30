@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="Cryptography,">
 
 
 
@@ -79,13 +79,18 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Loy With No Title">
-<meta property="og:url" content="https://loyf.github.io/categories/Tropical/index.html">
+<meta name="description" content="首先，同态加密不是某种特定的加密算法，而是一种加密形式。 同态加密允许人们对密文进行特定形式的代数运算得到仍然是加密的结果，将其解密所得到的结果与对明文进行同样的运算结果一样。 换言之，这项技术令人们可以在加密的数据中进行诸如检索、比较等操作，得出正确的结果，而在整个处理过程中无需对数据进行解密。其意义在于，真正从根本上解决将数据及其操作委托给第三方时的保密问题，例如对于各种云计算的应用。这一直是">
+<meta name="keywords" content="Cryptography">
+<meta property="og:type" content="article">
+<meta property="og:title" content="同态加密Homomorphic Encryption简介">
+<meta property="og:url" content="https://loyf.github.io/2019/05/30/同态加密Homomorphic-Encryption简介/index.html">
 <meta property="og:site_name" content="Loy With No Title">
+<meta property="og:description" content="首先，同态加密不是某种特定的加密算法，而是一种加密形式。 同态加密允许人们对密文进行特定形式的代数运算得到仍然是加密的结果，将其解密所得到的结果与对明文进行同样的运算结果一样。 换言之，这项技术令人们可以在加密的数据中进行诸如检索、比较等操作，得出正确的结果，而在整个处理过程中无需对数据进行解密。其意义在于，真正从根本上解决将数据及其操作委托给第三方时的保密问题，例如对于各种云计算的应用。这一直是">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-05-30T07:36:32.561Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Loy With No Title">
+<meta name="twitter:title" content="同态加密Homomorphic Encryption简介">
+<meta name="twitter:description" content="首先，同态加密不是某种特定的加密算法，而是一种加密形式。 同态加密允许人们对密文进行特定形式的代数运算得到仍然是加密的结果，将其解密所得到的结果与对明文进行同样的运算结果一样。 换言之，这项技术令人们可以在加密的数据中进行诸如检索、比较等操作，得出正确的结果，而在整个处理过程中无需对数据进行解密。其意义在于，真正从根本上解决将数据及其操作委托给第三方时的保密问题，例如对于各种云计算的应用。这一直是">
 
 
 
@@ -115,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="https://loyf.github.io/categories/Tropical/">
+  <link rel="canonical" href="https://loyf.github.io/2019/05/30/同态加密Homomorphic-Encryption简介/">
 
 
 
 
 
-  <title>Category: Tropical | Loy With No Title</title>
+  <title>同态加密Homomorphic Encryption简介 | Loy With No Title</title>
   
 
 
@@ -140,7 +145,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -234,79 +239,179 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block category">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>Tropical<small>Category</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://loyf.github.io/2019/05/30/同态加密Homomorphic-Encryption简介/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Loy Fan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Loy With No Title">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2019/02/26/Chicago-LiWenZhang-GraduationProgram 笔记/" itemprop="url">
-              
-                <span itemprop="name">Chicago-LiWenZhang-GraduationProgram笔记</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">同态加密Homomorphic Encryption简介</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-02-26T11:05:59+08:00" content="2019-02-26">
-          02-26
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-30T15:35:22+08:00">
+                2019-05-30
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Cryptography/" itemprop="url" rel="index">
+                    <span itemprop="name">Cryptography</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
+      
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/02/24/《Introduction-to-Tropical-Geometry》笔记/" itemprop="url">
-              
-                <span itemprop="name">《Introduction to Tropical Geometry》笔记</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-02-24T19:27:12+08:00" content="2019-02-24">
-          02-24
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+      
+        <p>首先，同态加密不是某种特定的加密算法，而是一种加密形式。</p>
+<p><strong>同态加密允许人们对密文进行特定形式的代数运算得到仍然是加密的结果，将其解密所得到的结果与对明文进行同样的运算结果一样。</strong></p>
+<p>换言之，这项技术令人们可以在加密的数据中进行诸如检索、比较等操作，得出正确的结果，而在整个处理过程中无需对数据进行解密。其意义在于，真正从根本上解决将数据及其操作委托给第三方时的保密问题，例如对于各种云计算的应用。这一直是密码学领域的一个重要课题。</p>
+<p><strong>同态分类</strong><br>a) 如果满足 f(A)+f(B)=f(A+B)， 我们将这种加密函数叫做加法同态<br>b) 如果满足 f(A)×f(B)=f(A×B)， 我们将这种加密函数叫做乘法同态。<br>如果一个加密函数f只满足加法同态，就只能进行加减法运算；<br>如果一个加密函数f只满足乘法同态，就只能进行乘除法运算;</p>
+<p><strong>全同态加密算法 Full Homomorphic Encryption</strong><br>如果一个加密函数同时满足加法同态和乘法同态，称为全同态加密。那么可以使用这个加密函数完成各种加密后的运算(加减乘除、多项式求值、指数、对数、三角函数)。</p>
+<p>第一个满足加法和乘法同态的同态加密方法：2009年9月克雷格·金特里（Craig Gentry）的论文<a href="https://www.cs.cmu.edu/~odonnell/hits09/gentry-homomorphic-encryption.pdf" target="_blank" rel="noopener">Fully Homomorphic Encryption Using Ideal Lattices</a>从数学上提出了“全同态加密”的可行方法，即可以在不解密的条件下对加密数据进行任何可以在明文上进行的运算，使这项技术获取了决定性的突破。</p>
+<p><strong>同态加密举例</strong><br>RSA 算法——乘法同态。<br>Elgamal 算法——乘法同态。<br>Paillier 算法——加法同态。<br>Gentry算法——全同态。</p>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Cryptography/" rel="tag"><i class="fa fa-tag"></i> Cryptography</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/30/基于Keras实现加密过得数据的卷积神经网络/" rel="next" title="基于Keras实现加密过得数据的卷积神经网络">
+                <i class="fa fa-chevron-left"></i> 基于Keras实现加密过得数据的卷积神经网络
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/30/Python-numpy实现同态加密算法/" rel="prev" title="Python + numpy实现同态加密算法">
+                Python + numpy实现同态加密算法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -314,6 +419,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -526,6 +635,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 

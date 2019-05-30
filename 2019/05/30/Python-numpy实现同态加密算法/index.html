@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Cryptography,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="在实现之前，先了解一下什么是同态加密。 以下这个公式使我们要实现的同态加密版本  S \mathbf{c}=w \mathbf{x}+\mathbf{e} \quad \mathbf{x}=\left\lceil\frac{S \mathbf{c}}{w}\right\rfloor第一种加密 对称加密 如果密钥S是一个单位矩阵，那么c不过是输入x的一个重加权的、略带噪声的版本。 当S为单位矩阵时，">
+<meta name="keywords" content="Cryptography">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python + numpy实现同态加密算法">
+<meta property="og:url" content="https://loyf.github.io/2019/05/30/Python-numpy实现同态加密算法/index.html">
+<meta property="og:site_name" content="Loy With No Title">
+<meta property="og:description" content="在实现之前，先了解一下什么是同态加密。 以下这个公式使我们要实现的同态加密版本  S \mathbf{c}=w \mathbf{x}+\mathbf{e} \quad \mathbf{x}=\left\lceil\frac{S \mathbf{c}}{w}\right\rfloor第一种加密 对称加密 如果密钥S是一个单位矩阵，那么c不过是输入x的一个重加权的、略带噪声的版本。 当S为单位矩阵时，">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-05-30T07:38:14.872Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python + numpy实现同态加密算法">
+<meta name="twitter:description" content="在实现之前，先了解一下什么是同态加密。 以下这个公式使我们要实现的同态加密版本  S \mathbf{c}=w \mathbf{x}+\mathbf{e} \quad \mathbf{x}=\left\lceil\frac{S \mathbf{c}}{w}\right\rfloor第一种加密 对称加密 如果密钥S是一个单位矩阵，那么c不过是输入x的一个重加权的、略带噪声的版本。 当S为单位矩阵时，">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://loyf.github.io/2019/05/30/Python-numpy实现同态加密算法/">
+
+
+
+
+
+  <title>Python + numpy实现同态加密算法 | Loy With No Title</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Loy With No Title</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Life can not be planned</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://loyf.github.io/2019/05/30/Python-numpy实现同态加密算法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Loy Fan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Loy With No Title">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Python + numpy实现同态加密算法</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-30T15:37:17+08:00">
+                2019-05-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Cryptography/" itemprop="url" rel="index">
+                    <span itemprop="name">Cryptography</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在实现之前，先了解一下什么是<a href="https://blog.csdn.net/weixin_43318626/article/details/89977202" target="_blank" rel="noopener">同态加密</a>。</p>
+<p>以下这个公式使我们要实现的同态加密版本</p>
+<script type="math/tex; mode=display">
+S \mathbf{c}=w \mathbf{x}+\mathbf{e} \quad \mathbf{x}=\left\lceil\frac{S \mathbf{c}}{w}\right\rfloor</script><p><strong>第一种加密</strong></p>
+<p>对称加密</p>
+<p>如果密钥S是一个单位矩阵，那么c不过是输入x的一个重加权的、略带噪声的版本。</p>
+<p>当S为单位矩阵时，相当于没有加密</p>
+<p>当S为随机矩阵时，有加密</p>
+<p>加解密使用同一key</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_key</span><span class="params">(w,m,n)</span>:</span></span><br><span class="line">    S = (np.random.rand(m,n) * w / (<span class="number">2</span> ** <span class="number">16</span>))<span class="comment"># 可证明 max(S) &lt; w</span></span><br><span class="line">    <span class="keyword">return</span> S<span class="comment"># key，对称加密</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encrypt</span><span class="params">(x,S,m,n,w)</span>:</span></span><br><span class="line">    <span class="keyword">assert</span> len(x) == len(S)</span><br><span class="line">    e = (np.random.rand(m))<span class="comment"># 可证明 max(e) &lt; w / 2</span></span><br><span class="line">    c = np.linalg.inv(S).dot((w * x) + e)   </span><br><span class="line">    <span class="keyword">return</span> c</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">decrypt</span><span class="params">(c,S,w)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> (S.dot(c) / w).astype(<span class="string">'int'</span>)</span><br><span class="line"></span><br><span class="line">x = np.array([<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">5</span>])</span><br><span class="line">m = len(x)</span><br><span class="line">n = m</span><br><span class="line">w = <span class="number">16</span></span><br><span class="line">S = generate_key(w,m,n)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">c = encrypt(x,S,m,n,w)</span><br><span class="line">decrypt(c,S,w)</span><br></pre></td></tr></table></figure>
+<p>array([0, 1, 2, 5])</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(x+x)</span><br><span class="line">print(x*<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+<p>[ 0  2  4 10]<br>[ 0 10 20 50]</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">decrypt(c+c,S,w)</span><br></pre></td></tr></table></figure>
+<p>array([ 0,  2,  4, 10])</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">decrypt(c*<span class="number">10</span>,S,w)</span><br></pre></td></tr></table></figure>
+<p>array([ 0, 10, 20, 50])</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x*x</span><br></pre></td></tr></table></figure>
+<p>array([0, 1, 4])</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">decrypt(c*c,S,w)</span><br></pre></td></tr></table></figure>
+<p>array([15296055,  6267577,  8584289])</p>
+<p><strong>第二种加密</strong></p>
+<p>论文作者没有显式地分配一对独立的“公钥”和“私钥”，相反，提出了一种“钥交换”技术，将私钥S替换为S’。更具体地，这一私钥交换技术涉及生成一个可以进行该变换的矩阵M。由于M具备将消息从未加密状态（单位矩阵密钥）转换为加密状态（随机而难以猜测的密钥），这个M矩阵正好可以用作我们的公钥！</p>
+<p>基于开篇两个公式，如果密钥是一个单位矩阵，那么消息是未加密的。</p>
+<p>基于开篇两个公式，如果密钥是一个随机矩阵，那么消息是加密的。</p>
+<p>我们构造一个矩阵M将一个密钥转换为另一个私钥。</p>
+<p>当矩阵M将单位矩阵转换为一个随机密钥时，根据定义，它使用单向加密方式加密了消息。</p>
+<p>由于M充当了“单向加密”的角色，我们称它为“公钥”，并且可以像公钥一样分发它，因为它无法用于解密。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_key</span><span class="params">(w,m,n)</span>:</span></span><br><span class="line">    S = (np.random.rand(m,n) * w / (<span class="number">2</span> ** <span class="number">16</span>)) <span class="comment"># 可证明 max(S) &lt; w</span></span><br><span class="line">    <span class="keyword">return</span> S</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encrypt</span><span class="params">(x,S,m,n,w)</span>:</span></span><br><span class="line">    <span class="keyword">assert</span> len(x) == len(S)</span><br><span class="line">    e = (np.random.rand(m)) <span class="comment"># 可证明 max(e) &lt; w / 2</span></span><br><span class="line">    c = np.linalg.inv(S).dot((w * x) + e)</span><br><span class="line">    <span class="keyword">return</span> c</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">decrypt</span><span class="params">(c,S,w)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> (S.dot(c) / w).astype(<span class="string">'int'</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_c_star</span><span class="params">(c,m,l)</span>:</span></span><br><span class="line">    c_star = np.zeros(l * m,dtype=<span class="string">'int'</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(m):</span><br><span class="line">        b = np.array(list(np.binary_repr(np.abs(c[i]))),dtype=<span class="string">'int'</span>)</span><br><span class="line">        <span class="keyword">if</span>(c[i] &lt; <span class="number">0</span>):</span><br><span class="line">            b *= <span class="number">-1</span></span><br><span class="line">        c_star[(i * l) + (l-len(b)): (i+<span class="number">1</span>) * l] += b</span><br><span class="line">    <span class="keyword">return</span> c_star</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">switch_key</span><span class="params">(c,S,m,n,T)</span>:</span></span><br><span class="line">    l = int(np.ceil(np.log2(np.max(np.abs(c)))))</span><br><span class="line">    c_star = get_c_star(c,m,l)</span><br><span class="line">    S_star = get_S_star(S,m,n,l)</span><br><span class="line">    n_prime = n + <span class="number">1</span></span><br><span class="line">    S_prime = np.concatenate((np.eye(m),T.T),<span class="number">0</span>).T</span><br><span class="line">    A = (np.random.rand(n_prime - m, n*l) * <span class="number">10</span>).astype(<span class="string">'int'</span>)</span><br><span class="line">    E = (<span class="number">1</span> * np.random.rand(S_star.shape[<span class="number">0</span>],S_star.shape[<span class="number">1</span>])).astype(<span class="string">'int'</span>)</span><br><span class="line">    M = np.concatenate(((S_star - T.dot(A) + E),A),<span class="number">0</span>)</span><br><span class="line">    c_prime = M.dot(c_star)</span><br><span class="line">    <span class="keyword">return</span> c_prime,S_prime</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_S_star</span><span class="params">(S,m,n,l)</span>:</span></span><br><span class="line">    S_star = list()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(l):</span><br><span class="line">        S_star.append(S*<span class="number">2</span>**(l-i<span class="number">-1</span>))</span><br><span class="line">    S_star = np.array(S_star).transpose(<span class="number">1</span>,<span class="number">2</span>,<span class="number">0</span>).reshape(m,n*l)</span><br><span class="line">    <span class="keyword">return</span> S_star</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_T</span><span class="params">(n)</span>:</span></span><br><span class="line">    n_prime = n + <span class="number">1</span></span><br><span class="line">    T = (<span class="number">10</span> * np.random.rand(n,n_prime - n)).astype(<span class="string">'int'</span>)</span><br><span class="line">    <span class="keyword">return</span> T</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encrypt_via_switch</span><span class="params">(x,w,m,n,T)</span>:</span></span><br><span class="line">    c,S = switch_key(x*w,np.eye(m),m,n,T)</span><br><span class="line">    <span class="keyword">return</span> c,S</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">x = np.array([<span class="number">0</span>,<span class="number">1</span>,<span class="number">3</span>,<span class="number">5</span>])</span><br><span class="line">m = len(x)</span><br><span class="line">n = m</span><br><span class="line">w = <span class="number">16</span></span><br><span class="line">S = generate_key(w,m,n)</span><br><span class="line"></span><br><span class="line">y = np.array([<span class="number">3</span>,<span class="number">3</span>,<span class="number">3</span>,<span class="number">3</span>])</span><br><span class="line">m = len(y)</span><br><span class="line">n = m</span><br><span class="line">w = <span class="number">16</span></span><br><span class="line">S = generate_key(w,m,n)</span><br><span class="line"></span><br><span class="line">print(x * <span class="number">10</span>)</span><br><span class="line">print(x + y)</span><br></pre></td></tr></table></figure>
+<p>[ 0 10 30 50]<br>[3 4 6 8]</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">T = get_T(n)</span><br><span class="line">cx,S = encrypt_via_switch(x,w,m,n,T)</span><br><span class="line">print(cx)</span><br><span class="line"><span class="comment">#T = get_T(n)</span></span><br><span class="line">cy,S = encrypt_via_switch(y,w,m,n,T)</span><br><span class="line">print(cy)</span><br></pre></td></tr></table></figure>
+<p>[-115. -122.  -21.  -35.   23.]<br>[-177. -222.  -87. -177.   45.]</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(decrypt(cx,S,w))</span><br><span class="line">print(decrypt(cy,S,w))</span><br></pre></td></tr></table></figure>
+<p>[0 1 3 5]<br>[3 3 3 3]</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">decrypt(cx * <span class="number">10</span>,S,w)</span><br></pre></td></tr></table></figure>
+<p>array([ 0, 10, 30, 50])</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">decrypt(cx + cy,S,w)</span><br></pre></td></tr></table></figure>
+<p>array([3, 4, 6, 8])</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Cryptography/" rel="tag"><i class="fa fa-tag"></i> Cryptography</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/30/同态加密Homomorphic-Encryption简介/" rel="next" title="同态加密Homomorphic Encryption简介">
+                <i class="fa fa-chevron-left"></i> 同态加密Homomorphic Encryption简介
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/30/Python-Spark-《同桌的你》歌曲评论听众信息分析/" rel="prev" title="Python + Spark 《同桌的你》歌曲评论听众信息分析">
+                Python + Spark 《同桌的你》歌曲评论听众信息分析 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Loy Fan</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Loy Fan</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">28.1k words in this blog site.</span>
+</div>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

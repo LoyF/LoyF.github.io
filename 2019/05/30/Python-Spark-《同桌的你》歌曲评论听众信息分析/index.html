@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Big Data,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Fan Shiqing @Xiamen University 实验环境安装Linux：Ubuntu16.04Java：1.7.0_80Hadoop：2.7.1Python：2.7PyCharm：2019.1.2(Community Edition)matplotlib：2.0.0Spark：2.1.0 下载数据集数据集为某音乐平台歌曲《同桌的你》评论者的信息数据，包含评论者的用户ID、动态总数、">
+<meta name="keywords" content="Big Data">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python + Spark 《同桌的你》歌曲评论听众信息分析">
+<meta property="og:url" content="https://loyf.github.io/2019/05/30/Python-Spark-《同桌的你》歌曲评论听众信息分析/index.html">
+<meta property="og:site_name" content="Loy With No Title">
+<meta property="og:description" content="Fan Shiqing @Xiamen University 实验环境安装Linux：Ubuntu16.04Java：1.7.0_80Hadoop：2.7.1Python：2.7PyCharm：2019.1.2(Community Edition)matplotlib：2.0.0Spark：2.1.0 下载数据集数据集为某音乐平台歌曲《同桌的你》评论者的信息数据，包含评论者的用户ID、动态总数、">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190528144036571.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190528143330174.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190528144906725.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2019052815520791.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190528155154880.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190528155212436.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190528155219480.png">
+<meta property="og:updated_time" content="2019-05-30T07:39:41.260Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python + Spark 《同桌的你》歌曲评论听众信息分析">
+<meta name="twitter:description" content="Fan Shiqing @Xiamen University 实验环境安装Linux：Ubuntu16.04Java：1.7.0_80Hadoop：2.7.1Python：2.7PyCharm：2019.1.2(Community Edition)matplotlib：2.0.0Spark：2.1.0 下载数据集数据集为某音乐平台歌曲《同桌的你》评论者的信息数据，包含评论者的用户ID、动态总数、">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190528144036571.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://loyf.github.io/2019/05/30/Python-Spark-《同桌的你》歌曲评论听众信息分析/">
+
+
+
+
+
+  <title>Python + Spark 《同桌的你》歌曲评论听众信息分析 | Loy With No Title</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Loy With No Title</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Life can not be planned</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://loyf.github.io/2019/05/30/Python-Spark-《同桌的你》歌曲评论听众信息分析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Loy Fan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Loy With No Title">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Python + Spark 《同桌的你》歌曲评论听众信息分析</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-30T15:39:02+08:00">
+                2019-05-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Big-Data/" itemprop="url" rel="index">
+                    <span itemprop="name">Big Data</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>Fan Shiqing @Xiamen University</p>
+<h1 id="实验环境安装"><a href="#实验环境安装" class="headerlink" title="实验环境安装"></a>实验环境安装</h1><p>Linux：Ubuntu16.04<br>Java：1.7.0_80<br>Hadoop：2.7.1<br>Python：2.7<br>PyCharm：2019.1.2(Community Edition)<br>matplotlib：2.0.0<br>Spark：2.1.0<br><img src="https://img-blog.csdnimg.cn/20190528144036571.png" width="55%" alt></p>
+<h1 id="下载数据集"><a href="#下载数据集" class="headerlink" title="下载数据集"></a>下载数据集</h1><p>数据集为某音乐平台歌曲《同桌的你》评论者的信息数据，包含评论者的用户ID、动态总数、关注总数、粉丝总数、所在地区、个人介绍、年龄、累计听歌总数属性。共4752条数据，部分如下图：<br><img src="https://img-blog.csdnimg.cn/20190528143330174.png" width="90%" alt></p>
+<h1 id="数据集的预处理"><a href="#数据集的预处理" class="headerlink" title="数据集的预处理"></a>数据集的预处理</h1><ul>
+<li>将txt文件转为csv文件</li>
+<li>修改文件属性名称方便读写<br><img src="https://img-blog.csdnimg.cn/20190528144906725.png" width="90%" alt></li>
+</ul>
+</blockquote>
+<h1 id="使用Spark进行数据分析"><a href="#使用Spark进行数据分析" class="headerlink" title="使用Spark进行数据分析"></a>使用Spark进行数据分析</h1><ul>
+<li><p>读入数据并筛选需要用到的属性</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sc =SparkContext()</span><br><span class="line">sqlContext = SQLContext(sc)</span><br><span class="line">data = sqlContext.read.format(<span class="string">'com.databricks.spark.csv'</span>).options(header=<span class="string">'true'</span>, inferschema=<span class="string">'true'</span>).load(<span class="string">'commenters.csv'</span>)</span><br><span class="line">list = [<span class="string">'ID'</span>, <span class="string">'fans'</span>, <span class="string">'province'</span>, <span class="string">'city'</span>, <span class="string">'age'</span>, <span class="string">'songs'</span>]</span><br><span class="line">data = data.select([column <span class="keyword">for</span> column <span class="keyword">in</span> data.columns <span class="keyword">if</span> column <span class="keyword">in</span> list])</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看数据、显示数据的结构</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">print</span> <span class="string">"【展示10行数据】"</span></span><br><span class="line">data.show(<span class="number">10</span>)</span><br><span class="line"><span class="keyword">print</span> <span class="string">"【数据结构】"</span></span><br><span class="line">data.printSchema()</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">【展示10行数据】</span><br><span class="line">19/05/28 14:18:41 WARN util.Utils: Truncated the string representation of a plan since it was too large. This behavior can be adjusted by setting &apos;spark.debug.maxToStringFields&apos; in SparkEnv.conf.</span><br><span class="line">+---------+----+--------+----+----+-----+</span><br><span class="line">|       ID|fans|province|city| age|songs|</span><br><span class="line">+---------+----+--------+----+----+-----+</span><br><span class="line">|132708526|   0|     浙江省| 金华市|  19| 1142|</span><br><span class="line">|126403842|   7|      海外|  其它|   0| 1033|</span><br><span class="line">|358013382|   3|     山东省| 烟台市|未知年龄|  232|</span><br><span class="line">| 31322471|   8|     河南省| 郑州市|未知年龄|  341|</span><br><span class="line">|398405071|   0|     安徽省| 合肥市|未知年龄|  141|</span><br><span class="line">|321142743|   0|     山东省| 临沂市|未知年龄|   75|</span><br><span class="line">|252135807|  13|     山东省| 烟台市|未知年龄|  704|</span><br><span class="line">| 10729784|  11|     浙江省| 杭州市|   1| 5585|</span><br><span class="line">|116980492|   8|     重庆市| 万州区|未知年龄|  174|</span><br><span class="line">|118405606|   0|     陕西省| 汉中市|  27| 1343|</span><br><span class="line">+---------+----+--------+----+----+-----+</span><br><span class="line">only showing top 10 rows</span><br><span class="line"></span><br><span class="line">【数据结构】</span><br><span class="line">root</span><br><span class="line"> |-- ID: integer (nullable = true)</span><br><span class="line"> |-- fans: integer (nullable = true)</span><br><span class="line"> |-- province: string (nullable = true)</span><br><span class="line"> |-- city: string (nullable = true)</span><br><span class="line"> |-- age: string (nullable = true)</span><br><span class="line"> |-- songs: string (nullable = true)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>将年龄、听歌数量改为integer类型，以便进行数据统计<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">data = data.withColumn(<span class="string">"age"</span>, data[<span class="string">"age"</span>].cast(IntegerType()))</span><br><span class="line">data = data.withColumn(<span class="string">"songs"</span>, data[<span class="string">"songs"</span>].cast(IntegerType()))``</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">【数据类型转换】</span><br><span class="line">root</span><br><span class="line"> |-- ID: integer (nullable = true)</span><br><span class="line"> |-- fans: integer (nullable = true)</span><br><span class="line"> |-- province: string (nullable = true)</span><br><span class="line"> |-- city: string (nullable = true)</span><br><span class="line"> |-- age: integer (nullable = true)</span><br><span class="line"> |-- songs: integer (nullable = true)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>查找评论者当中听歌最多的人的歌曲数量<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data.select(max(<span class="string">'songs'</span>)).show()</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">【评论者最多听歌数量】</span><br><span class="line">+----------+</span><br><span class="line">|max(songs)|</span><br><span class="line">+----------+</span><br><span class="line">|     35180|</span><br><span class="line">+----------+</span><br></pre></td></tr></table></figure>
+<ul>
+<li>统计《同桌的你》的评论者所在地区的分布情况</li>
+</ul>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">area = data.groupBy(<span class="string">'province'</span>).count().orderBy(col(<span class="string">"count"</span>).desc())</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">【评论者所在地区分布】</span><br><span class="line">+--------+-----+</span><br><span class="line">|province|count|</span><br><span class="line">+--------+-----+</span><br><span class="line">|     广东省|  534|</span><br><span class="line">|      海外|  271|</span><br><span class="line">|     四川省|  263|</span><br><span class="line">|     山东省|  263|</span><br><span class="line">|     江苏省|  254|</span><br><span class="line">|     河南省|  245|</span><br><span class="line">|     北京市|  217|</span><br><span class="line">|     浙江省|  207|</span><br><span class="line">|      新疆|  205|</span><br><span class="line">|     安徽省|  193|</span><br><span class="line">|     湖南省|  188|</span><br><span class="line">|     湖北省|  185|</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">|     青海省|   15|</span><br><span class="line">|     台湾省|    9|</span><br><span class="line">|      西藏|    5|</span><br><span class="line">|      澳门|    5|</span><br><span class="line">+--------+-----+</span><br></pre></td></tr></table></figure>
+<ul>
+<li>统计《同桌的你》的评论者的年龄的分布情况<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">age = data.groupBy(<span class="string">'age'</span>).count().orderBy(col(<span class="string">"count"</span>).desc())</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">【评论者年龄TOP10】</span><br><span class="line">+----+-----+</span><br><span class="line">| age|count|</span><br><span class="line">+----+-----+</span><br><span class="line">|null| 2451|</span><br><span class="line">|  21|  245|</span><br><span class="line">|  27|  228|</span><br><span class="line">|  19|  228|</span><br><span class="line">|  20|  215|</span><br><span class="line">|  22|  204|</span><br><span class="line">|  23|  163|</span><br><span class="line">|  18|  154|</span><br><span class="line">|  17|  153|</span><br><span class="line">|  24|  115|</span><br><span class="line">+----+-----+</span><br></pre></td></tr></table></figure>
+<ul>
+<li>统计《同桌的你》的评论者所在各个地区的听众平均年龄<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mean = data.groupBy(<span class="string">'province'</span>).agg(&#123;<span class="string">"age"</span>: <span class="string">"mean"</span>&#125;)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">【各个地区平均年龄情况】</span><br><span class="line">+--------+------------------+</span><br><span class="line">|province|          avg(age)|</span><br><span class="line">+--------+------------------+</span><br><span class="line">|     北京市|22.432692307692307|</span><br><span class="line">|      海外|19.030075187969924|</span><br><span class="line">|     辽宁省| 22.69811320754717|</span><br><span class="line">|     浙江省| 21.06451612903226|</span><br><span class="line">|     内蒙古|             20.75|</span><br><span class="line">|      新疆| 20.00943396226415|</span><br><span class="line">|     海南省|20.272727272727273|</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">|     吉林省|            22.375|</span><br><span class="line">|    未知地区|3850.4285714285716|</span><br><span class="line">|     上海市| 22.50793650793651|</span><br><span class="line">|      澳门|              27.0|</span><br><span class="line">|     青海省|20.333333333333332|</span><br><span class="line">|     江西省|19.904109589041095|</span><br><span class="line">|     安徽省| 20.22826086956522|</span><br><span class="line">|     江苏省|21.293233082706767|</span><br><span class="line">|     云南省|22.295454545454547|</span><br><span class="line">+--------+------------------+</span><br></pre></td></tr></table></figure>
+<ul>
+<li>统计《同桌的你》的评论者的粉丝数量情况<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fans = data.groupBy(<span class="string">'fans'</span>).count().orderBy(col(<span class="string">"count"</span>).desc())</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">【评论者粉丝数量】</span><br><span class="line">+----+-----+</span><br><span class="line">|fans|count|</span><br><span class="line">+----+-----+</span><br><span class="line">|   0| 1163|</span><br><span class="line">|   1|  714|</span><br><span class="line">|   2|  494|</span><br><span class="line">|   3|  351|</span><br><span class="line">|   4|  283|</span><br><span class="line">|   5|  205|</span><br><span class="line">|   6|  173|</span><br><span class="line">|   7|  149|</span><br><span class="line">|   8|  110|</span><br><span class="line">|   9|  101|</span><br><span class="line">|  10|   84|</span><br><span class="line">+----+-----+</span><br></pre></td></tr></table></figure>
+<h1 id="可视化呈现"><a href="#可视化呈现" class="headerlink" title="可视化呈现"></a>可视化呈现</h1><p>将数据分析的结果通过matplotlib可视化显示出来<br>（在实验时，中文一直出错无法显示，暂用拼音和英文代替）</p>
+<ul>
+<li><p><strong>《同桌的你》的听众所在地区的分布情况</strong><br>从图中看出，这首歌曲广东省的听众远超过其他地区。<br><img src="https://img-blog.csdnimg.cn/2019052815520791.png" width="55%" alt></p>
+</li>
+<li><p><strong>《同桌的你》听众年龄分布</strong><br>从图中看出，这首歌的听众20-30岁之间的居多，另外33岁的听众非常多。<br>有部分因素是网络歌曲平台的受众大部分在于这个年龄阶段。<br><img src="https://img-blog.csdnimg.cn/20190528155154880.png" width="55%" alt></p>
+</li>
+</ul>
+<ul>
+<li><p><strong>《同桌的你》各个区域听众平均年龄</strong><br>平均年龄基本上在17-27岁之间。<br><img src="https://img-blog.csdnimg.cn/20190528155212436.png" width="55%" alt></p>
+</li>
+<li><p><strong>听众粉丝数量情况</strong><br>大部分听众的粉丝数量低于10。<br><img src="https://img-blog.csdnimg.cn/20190528155219480.png" width="55%" alt></p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Big-Data/" rel="tag"><i class="fa fa-tag"></i> Big Data</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/30/Python-numpy实现同态加密算法/" rel="next" title="Python + numpy实现同态加密算法">
+                <i class="fa fa-chevron-left"></i> Python + numpy实现同态加密算法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Loy Fan</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#实验环境安装"><span class="nav-number">1.</span> <span class="nav-text">实验环境安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#下载数据集"><span class="nav-number">2.</span> <span class="nav-text">下载数据集</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据集的预处理"><span class="nav-number">3.</span> <span class="nav-text">数据集的预处理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用Spark进行数据分析"><span class="nav-number">4.</span> <span class="nav-text">使用Spark进行数据分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#可视化呈现"><span class="nav-number">5.</span> <span class="nav-text">可视化呈现</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Loy Fan</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">28.1k words in this blog site.</span>
+</div>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

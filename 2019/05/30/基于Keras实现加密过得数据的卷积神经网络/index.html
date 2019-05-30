@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Machine Learning, Cryptography,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="来自奥胡斯大学密码学PhD、Datadog机器学习工程师Morten Dahl介绍了如何实现基于加密数据进行训练和预测的卷积神经网络。本文进行概括和总结  工作使用一个经典CNN模型，使其能够用于基于加密数据进行训练和预测。 动机CNN目前可以用于很多分析图像的领域。如果能够让实际使用的用户在应用场景下提供更多的数据，那么模型的性能肯定可以提高。但是这涉及很多用户的隐私问题，如果用户可以明确自己">
+<meta name="keywords" content="Machine Learning, Cryptography">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于Keras实现加密过得数据的卷积神经网络">
+<meta property="og:url" content="https://loyf.github.io/2019/05/30/基于Keras实现加密过得数据的卷积神经网络/index.html">
+<meta property="og:site_name" content="Loy With No Title">
+<meta property="og:description" content="来自奥胡斯大学密码学PhD、Datadog机器学习工程师Morten Dahl介绍了如何实现基于加密数据进行训练和预测的卷积神经网络。本文进行概括和总结  工作使用一个经典CNN模型，使其能够用于基于加密数据进行训练和预测。 动机CNN目前可以用于很多分析图像的领域。如果能够让实际使用的用户在应用场景下提供更多的数据，那么模型的性能肯定可以提高。但是这涉及很多用户的隐私问题，如果用户可以明确自己">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-05-30T07:34:17.412Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于Keras实现加密过得数据的卷积神经网络">
+<meta name="twitter:description" content="来自奥胡斯大学密码学PhD、Datadog机器学习工程师Morten Dahl介绍了如何实现基于加密数据进行训练和预测的卷积神经网络。本文进行概括和总结  工作使用一个经典CNN模型，使其能够用于基于加密数据进行训练和预测。 动机CNN目前可以用于很多分析图像的领域。如果能够让实际使用的用户在应用场景下提供更多的数据，那么模型的性能肯定可以提高。但是这涉及很多用户的隐私问题，如果用户可以明确自己">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://loyf.github.io/2019/05/30/基于Keras实现加密过得数据的卷积神经网络/">
+
+
+
+
+
+  <title>基于Keras实现加密过得数据的卷积神经网络 | Loy With No Title</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Loy With No Title</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Life can not be planned</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://loyf.github.io/2019/05/30/基于Keras实现加密过得数据的卷积神经网络/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Loy Fan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Loy With No Title">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">基于Keras实现加密过得数据的卷积神经网络</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-30T15:33:01+08:00">
+                2019-05-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Machine-Learning-Cryptography/" itemprop="url" rel="index">
+                    <span itemprop="name">Machine Learning, Cryptography</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>来自奥胡斯大学密码学PhD、Datadog机器学习工程师Morten Dahl介绍了如何实现基于加密数据进行训练和预测的卷积神经网络。本文进行概括和总结</p>
+</blockquote>
+<p><strong>工作</strong><br>使用一个经典CNN模型，使其能够用于基于加密数据进行训练和预测。</p>
+<p><strong>动机</strong><br>CNN目前可以用于很多分析图像的领域。如果能够让实际使用的用户在应用场景下提供更多的数据，那么模型的性能肯定可以提高。但是这涉及很多用户的隐私问题，如果用户可以明确自己提交的数据是确保隐私安全的，那么将可以吸引更多用户使用这些工具，提交更多数据。<br>基于<a href="(https://mp.weixin.qq.com/s?__biz=MzI3ODkxODU3Mg==&amp;mid=2247485858&amp;idx=1&amp;sn=16767a8f029ba847ad48845a280211eb&amp;chksm=eb4eed61dc396477926f5d12265c1c3daf6f1c68fd4f82d340ea0692b7337e2feaa07b362406&amp;scene=21#wechat_redirect">MPC</a>)我们可以潜在地降低暴露信息的风险，从而增强参与的动机。更具体地说，通过转而在加密数据上训练，我们不仅可以防止任何人查看个人数据，还可以防止泄露学习到的模型参数。</p>
+<p><strong>使用简单的CNN模型</strong><br>用例是经典的MNIST手写数字识别，模型是Keras示例中的CNN模型<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#keras</span></span><br><span class="line">feature_layers = [</span><br><span class="line">    Conv2D(<span class="number">32</span>, (<span class="number">3</span>, <span class="number">3</span>), padding=<span class="string">'same'</span>, input_shape=(<span class="number">28</span>, <span class="number">28</span>, <span class="number">1</span>)),</span><br><span class="line">    Activation(<span class="string">'relu'</span>),</span><br><span class="line">    Conv2D(<span class="number">32</span>, (<span class="number">3</span>, <span class="number">3</span>), padding=<span class="string">'same'</span>),</span><br><span class="line">    Activation(<span class="string">'relu'</span>),</span><br><span class="line">    MaxPooling2D(pool_size=(<span class="number">2</span>,<span class="number">2</span>)),</span><br><span class="line">    Dropout(<span class="number">.25</span>),</span><br><span class="line">    Flatten()</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">classification_layers = [</span><br><span class="line">    Dense(<span class="number">128</span>),</span><br><span class="line">    Activation(<span class="string">'relu'</span>),</span><br><span class="line">    Dropout(<span class="number">.50</span>),</span><br><span class="line">    Dense(NUM_CLASSES),</span><br><span class="line">    Activation(<span class="string">'softmax'</span>)</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">model = Sequential(feature_layers + classification_layers)</span><br><span class="line">model.compile( loss=<span class="string">'categorical_crossentropy'</span>, optimizer=<span class="string">'adam'</span>, metrics=[<span class="string">'accuracy'</span>])</span><br><span class="line">model.fit(x_train, y_train, epochs=<span class="number">1</span>, batch_size=<span class="number">32</span>, verbose=<span class="number">1</span>, validation_data=(x_test, y_test))</span><br></pre></td></tr></table></figure></p>
+<p>基本的想法是首先让图像通过一组特征层（feature layer），将输入图像的原始像素转换为和我们的分类任务更相关的抽象属性。接着通过一组分类层（classification layer）组合这些属性，以生成可能数字的概率分布。最终输出通常直接是概率最高的数字。使用Keras的优势是我们可以快速地在未加密数据上进行试验。</p>
+<p><strong>基于SPDZ的安全计算</strong><br>CNN就绪后，我们接着来看MPC。我们将使用当前最先进的SPDZ协议，因为它允许我们只使用两个服务器，也允许我们通过将特定计算转移到离线阶段以改善在线表现。<br>和其他典型的安全计算协议一样，所有计算在一个域中进行，此处的域由一个<strong>质数Q</strong>表示。这意味着我们需要编码CNN使用的浮点数为以一个质数为模的整数，这给Q带来一些限制，进而对性能有所影响。<br>此外，在SPDZ协议这样的交互计算中，在典型的时间复杂度之外，同时还要考虑通讯和回合复杂度。通讯复杂度衡量在网络中发送的字节数，一个相对较慢的过程。回合复杂度衡量两个服务器之间的同步点数目，同步点可能阻塞其中一个服务器，使其无所事事，直到另一个服务器赶上来为止。因而两者均对总执行时间有很大的影响。<br>然而更重要的是，这些协议的“原生”操作只有加法和乘法。除法、比较等可以完成，但就它们的三项复杂度而言，要更昂贵。之后我们将看下如何缓解这引起的其中一些问题，而这里我们首先讨论基本的SPDZ协议。</p>
+<p><strong>张量操作</strong><br>下面的代码为SPDZ协议实现$PublicTensor$和$PrivateTensor$两个类，分别代表两个服务器知道明文的张量和仅仅知道其秘密分享形式的加密值。</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PrivateTensor</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, values, shares0=None, shares1=None)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> values <span class="keyword">is</span> <span class="keyword">None</span>:</span><br><span class="line">            shares0, shares1 = share(values)</span><br><span class="line">        self.shares0 = shares0</span><br><span class="line">        self.shares1 = shares1</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">reconstruct</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> PublicTensor(reconstruct(self.shares0, self.shares1))</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(x, y)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> type(y) <span class="keyword">is</span> PublicTensor:</span><br><span class="line">            shares0 = (x.values + y.shares0) % Q</span><br><span class="line">            shares1 =             y.shares1</span><br><span class="line">            <span class="keyword">return</span> PrivateTensor(<span class="keyword">None</span>, shares0, shares1)</span><br><span class="line">        <span class="keyword">if</span> type(y) <span class="keyword">is</span> PrivateTensor:</span><br><span class="line">            shares0 = (x.shares0 + y.shares0) % Q</span><br><span class="line">            shares1 = (x.shares1 + y.shares1) % Q</span><br><span class="line">            <span class="keyword">return</span> PrivateTensor(<span class="keyword">None</span>, shares0, shares1)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">mul</span><span class="params">(x, y)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> type(y) <span class="keyword">is</span> PublicTensor:</span><br><span class="line">            shares0 = (x.shares0 * y.values) % Q</span><br><span class="line">            shares1 = (x.shares1 * y.values) % Q</span><br><span class="line">            <span class="keyword">return</span> PrivateTensor(<span class="keyword">None</span>, shares0, shares1)</span><br><span class="line">        <span class="keyword">if</span> type(y) <span class="keyword">is</span> PrivateTensor:</span><br><span class="line">            a, b, a_mul_b = generate_mul_triple(x.shape, y.shape)</span><br><span class="line">            alpha = (x - a).reconstruct()</span><br><span class="line">            beta  = (y - b).reconstruct()</span><br><span class="line">            <span class="keyword">return</span> alpha.mul(beta) + \</span><br><span class="line">                   alpha.mul(b) + \</span><br><span class="line">                   a.mul(beta) + \</span><br><span class="line">                   a_mul_b</span><br></pre></td></tr></table></figure>
+<p>以上代码用到的工具函数<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">share</span><span class="params">(secrets)</span>:</span></span><br><span class="line">    shares0 = sample_random_tensor(secrets.shape)</span><br><span class="line">    shares1 = (secrets - shares0) % Q</span><br><span class="line">    <span class="keyword">return</span> shares0, shares1</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">reconstruct</span><span class="params">(shares0, shares1)</span>:</span></span><br><span class="line">    secrets = (shares0 + shares1) % Q</span><br><span class="line">    <span class="keyword">return</span> secrets</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_mul_triple</span><span class="params">(x_shape, y_shape)</span>:</span></span><br><span class="line">    a = sample_random_tensor(x_shape)</span><br><span class="line">    b = sample_random_tensor(y_shape)</span><br><span class="line">    c = np.multiply(a, b) % Q</span><br><span class="line">    <span class="keyword">return</span> PrivateTensor(a), PrivateTensor(b), PrivateTensor(c)</span><br></pre></td></tr></table></figure></p>
+<p><strong>适配模型</strong><br>虽然原则上基于我们现有的模型安全地计算任何函数是可能的，实践中需要做的是先考虑对MPC更友好的模型变体，以及对模型更友好的加密协议。用稍微形象一点的话说，我们经常需要打开两个黑箱，让两个技术更好地适配彼此。<br>这一做法的根源在于，加密操作下，有一些操作惊人地昂贵。我们之前提到过，加法和乘法相对廉价，而比较和基于私密分母的除法则不然。基于这一原因，我们对模型做了一些改动，以避免这一问题（代价过高）。</p>
+<p><strong>优化器</strong><br>首先涉及的是优化器：尽管许多实现基于Adam的高效而选择了它，Adam涉及对私密值取平方根，以及在除法中使用私密值作分母。尽管理论上安全地进行这些计算是可能的，在实践中它会是性能的显著瓶颈，因此需要避免使用Adam。<br>一个简单的补救方案是转而使用动量SGD（momentum SGD）优化器，它可能意味着较长的训练时间，但只使用简单的操作。<br>改为：<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">model.compile( loss=<span class="string">'categorical_crossentropy'</span>, optimizer=SGD(clipnorm=<span class="number">10000</span>, clipvalue=<span class="number">10000</span>), metrics=[<span class="string">'accuracy'</span>])</span><br></pre></td></tr></table></figure></p>
+<p><strong>网络层</strong><br>ReLU和最大池化层有“比较”操作的问题，使用了高阶sigmoid激活函数和平均池化层代替。<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Activation('relu')</span></span><br><span class="line">Activation(<span class="string">'sigmoid'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#MaxPooling2D(pool_size=(2,2))</span></span><br><span class="line">AveragePooling2D(pool_size=(<span class="number">2</span>,<span class="number">2</span>))</span><br></pre></td></tr></table></figure></p>
+<p>另外就是要提高epoch数量，epochs=15。剩下的层很好处理。dropout和平层（flatten）不在乎是加密设定还是非加密设定，密集层和卷积层是矩阵点积，只需要基本操作。&gt; 来自奥胡斯大学密码学PhD、Datadog机器学习工程师Morten Dahl介绍了如何实现基于加密数据进行训练和预测的卷积神经网络。本文进行概括和总结</p>
+<p><strong>工作</strong><br>使用一个经典CNN模型，使其能够用于基于加密数据进行训练和预测。</p>
+<p><strong>动机</strong><br>CNN目前可以用于很多分析图像的领域。如果能够让实际使用的用户在应用场景下提供更多的数据，那么模型的性能肯定可以提高。但是这涉及很多用户的隐私问题，如果用户可以明确自己提交的数据是确保隐私安全的，那么将可以吸引更多用户使用这些工具，提交更多数据。<br>基于<a href="(https://mp.weixin.qq.com/s?__biz=MzI3ODkxODU3Mg==&amp;mid=2247485858&amp;idx=1&amp;sn=16767a8f029ba847ad48845a280211eb&amp;chksm=eb4eed61dc396477926f5d12265c1c3daf6f1c68fd4f82d340ea0692b7337e2feaa07b362406&amp;scene=21#wechat_redirect">MPC</a>)我们可以潜在地降低暴露信息的风险，从而增强参与的动机。更具体地说，通过转而在加密数据上训练，我们不仅可以防止任何人查看个人数据，还可以防止泄露学习到的模型参数。</p>
+<p><strong>使用简单的CNN模型</strong><br>用例是经典的MNIST手写数字识别，模型是Keras示例中的CNN模型<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#keras</span></span><br><span class="line">feature_layers = [</span><br><span class="line">    Conv2D(<span class="number">32</span>, (<span class="number">3</span>, <span class="number">3</span>), padding=<span class="string">'same'</span>, input_shape=(<span class="number">28</span>, <span class="number">28</span>, <span class="number">1</span>)),</span><br><span class="line">    Activation(<span class="string">'relu'</span>),</span><br><span class="line">    Conv2D(<span class="number">32</span>, (<span class="number">3</span>, <span class="number">3</span>), padding=<span class="string">'same'</span>),</span><br><span class="line">    Activation(<span class="string">'relu'</span>),</span><br><span class="line">    MaxPooling2D(pool_size=(<span class="number">2</span>,<span class="number">2</span>)),</span><br><span class="line">    Dropout(<span class="number">.25</span>),</span><br><span class="line">    Flatten()</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">classification_layers = [</span><br><span class="line">    Dense(<span class="number">128</span>),</span><br><span class="line">    Activation(<span class="string">'relu'</span>),</span><br><span class="line">    Dropout(<span class="number">.50</span>),</span><br><span class="line">    Dense(NUM_CLASSES),</span><br><span class="line">    Activation(<span class="string">'softmax'</span>)</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">model = Sequential(feature_layers + classification_layers)</span><br><span class="line">model.compile( loss=<span class="string">'categorical_crossentropy'</span>, optimizer=<span class="string">'adam'</span>, metrics=[<span class="string">'accuracy'</span>])</span><br><span class="line">model.fit(x_train, y_train, epochs=<span class="number">1</span>, batch_size=<span class="number">32</span>, verbose=<span class="number">1</span>, validation_data=(x_test, y_test))</span><br></pre></td></tr></table></figure></p>
+<p>基本的想法是首先让图像通过一组特征层（feature layer），将输入图像的原始像素转换为和我们的分类任务更相关的抽象属性。接着通过一组分类层（classification layer）组合这些属性，以生成可能数字的概率分布。最终输出通常直接是概率最高的数字。使用Keras的优势是我们可以快速地在未加密数据上进行试验。</p>
+<p><strong>基于SPDZ的安全计算</strong><br>CNN就绪后，我们接着来看MPC。我们将使用当前最先进的SPDZ协议，因为它允许我们只使用两个服务器，也允许我们通过将特定计算转移到离线阶段以改善在线表现。<br>和其他典型的安全计算协议一样，所有计算在一个域中进行，此处的域由一个<strong>质数Q</strong>表示。这意味着我们需要编码CNN使用的浮点数为以一个质数为模的整数，这给Q带来一些限制，进而对性能有所影响。<br>此外，在SPDZ协议这样的交互计算中，在典型的时间复杂度之外，同时还要考虑通讯和回合复杂度。通讯复杂度衡量在网络中发送的字节数，一个相对较慢的过程。回合复杂度衡量两个服务器之间的同步点数目，同步点可能阻塞其中一个服务器，使其无所事事，直到另一个服务器赶上来为止。因而两者均对总执行时间有很大的影响。<br>然而更重要的是，这些协议的“原生”操作只有加法和乘法。除法、比较等可以完成，但就它们的三项复杂度而言，要更昂贵。之后我们将看下如何缓解这引起的其中一些问题，而这里我们首先讨论基本的SPDZ协议。</p>
+<p><strong>张量操作</strong><br>下面的代码为SPDZ协议实现$PublicTensor$和$PrivateTensor$两个类，分别代表两个服务器知道明文的张量和仅仅知道其秘密分享形式的加密值。</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PrivateTensor</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, values, shares0=None, shares1=None)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> values <span class="keyword">is</span> <span class="keyword">None</span>:</span><br><span class="line">            shares0, shares1 = share(values)</span><br><span class="line">        self.shares0 = shares0</span><br><span class="line">        self.shares1 = shares1</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">reconstruct</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> PublicTensor(reconstruct(self.shares0, self.shares1))</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(x, y)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> type(y) <span class="keyword">is</span> PublicTensor:</span><br><span class="line">            shares0 = (x.values + y.shares0) % Q</span><br><span class="line">            shares1 =             y.shares1</span><br><span class="line">            <span class="keyword">return</span> PrivateTensor(<span class="keyword">None</span>, shares0, shares1)</span><br><span class="line">        <span class="keyword">if</span> type(y) <span class="keyword">is</span> PrivateTensor:</span><br><span class="line">            shares0 = (x.shares0 + y.shares0) % Q</span><br><span class="line">            shares1 = (x.shares1 + y.shares1) % Q</span><br><span class="line">            <span class="keyword">return</span> PrivateTensor(<span class="keyword">None</span>, shares0, shares1)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">mul</span><span class="params">(x, y)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> type(y) <span class="keyword">is</span> PublicTensor:</span><br><span class="line">            shares0 = (x.shares0 * y.values) % Q</span><br><span class="line">            shares1 = (x.shares1 * y.values) % Q</span><br><span class="line">            <span class="keyword">return</span> PrivateTensor(<span class="keyword">None</span>, shares0, shares1)</span><br><span class="line">        <span class="keyword">if</span> type(y) <span class="keyword">is</span> PrivateTensor:</span><br><span class="line">            a, b, a_mul_b = generate_mul_triple(x.shape, y.shape)</span><br><span class="line">            alpha = (x - a).reconstruct()</span><br><span class="line">            beta  = (y - b).reconstruct()</span><br><span class="line">            <span class="keyword">return</span> alpha.mul(beta) + \</span><br><span class="line">                   alpha.mul(b) + \</span><br><span class="line">                   a.mul(beta) + \</span><br><span class="line">                   a_mul_b</span><br></pre></td></tr></table></figure>
+<p>以上代码用到的工具函数<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">share</span><span class="params">(secrets)</span>:</span></span><br><span class="line">    shares0 = sample_random_tensor(secrets.shape)</span><br><span class="line">    shares1 = (secrets - shares0) % Q</span><br><span class="line">    <span class="keyword">return</span> shares0, shares1</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">reconstruct</span><span class="params">(shares0, shares1)</span>:</span></span><br><span class="line">    secrets = (shares0 + shares1) % Q</span><br><span class="line">    <span class="keyword">return</span> secrets</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_mul_triple</span><span class="params">(x_shape, y_shape)</span>:</span></span><br><span class="line">    a = sample_random_tensor(x_shape)</span><br><span class="line">    b = sample_random_tensor(y_shape)</span><br><span class="line">    c = np.multiply(a, b) % Q</span><br><span class="line">    <span class="keyword">return</span> PrivateTensor(a), PrivateTensor(b), PrivateTensor(c)</span><br></pre></td></tr></table></figure></p>
+<p><strong>适配模型</strong><br>虽然原则上基于我们现有的模型安全地计算任何函数是可能的，实践中需要做的是先考虑对MPC更友好的模型变体，以及对模型更友好的加密协议。用稍微形象一点的话说，我们经常需要打开两个黑箱，让两个技术更好地适配彼此。<br>这一做法的根源在于，加密操作下，有一些操作惊人地昂贵。我们之前提到过，加法和乘法相对廉价，而比较和基于私密分母的除法则不然。基于这一原因，我们对模型做了一些改动，以避免这一问题（代价过高）。</p>
+<p><strong>优化器</strong><br>首先涉及的是优化器：尽管许多实现基于Adam的高效而选择了它，Adam涉及对私密值取平方根，以及在除法中使用私密值作分母。尽管理论上安全地进行这些计算是可能的，在实践中它会是性能的显著瓶颈，因此需要避免使用Adam。<br>一个简单的补救方案是转而使用动量SGD（momentum SGD）优化器，它可能意味着较长的训练时间，但只使用简单的操作。<br>改为：<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">model.compile( loss=<span class="string">'categorical_crossentropy'</span>, optimizer=SGD(clipnorm=<span class="number">10000</span>, clipvalue=<span class="number">10000</span>), metrics=[<span class="string">'accuracy'</span>])</span><br></pre></td></tr></table></figure></p>
+<p><strong>网络层</strong><br>ReLU和最大池化层有“比较”操作的问题，使用了高阶sigmoid激活函数和平均池化层代替。<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Activation('relu')</span></span><br><span class="line">Activation(<span class="string">'sigmoid'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#MaxPooling2D(pool_size=(2,2))</span></span><br><span class="line">AveragePooling2D(pool_size=(<span class="number">2</span>,<span class="number">2</span>))</span><br></pre></td></tr></table></figure></p>
+<p>另外就是要提高epoch数量，epochs=15。剩下的层很好处理。dropout和平层（flatten）不在乎是加密设定还是非加密设定，密集层和卷积层是矩阵点积，只需要基本操作。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Machine-Learning-Cryptography/" rel="tag"><i class="fa fa-tag"></i> Machine Learning, Cryptography</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/29/通往真理的最短路径-复数/" rel="next" title="通往真理的最短路径 - 复数">
+                <i class="fa fa-chevron-left"></i> 通往真理的最短路径 - 复数
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/30/同态加密Homomorphic-Encryption简介/" rel="prev" title="同态加密Homomorphic Encryption简介">
+                同态加密Homomorphic Encryption简介 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Loy Fan</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Loy Fan</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">28.1k words in this blog site.</span>
+</div>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
