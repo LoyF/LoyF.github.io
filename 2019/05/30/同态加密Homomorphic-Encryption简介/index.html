@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="首先，同态加密不是某种特定的加密算法，而是一种加密形式。">
+<meta name="description" content="首先，同态加密不是某种特定的加密算法，而是一种加密形式。 同态加密允许人们对密文进行特定形式的代数运算得到仍然是加密的结果，将其解密所得到的结果与对明文进行同样的运算结果一样。 换言之，这项技术令人们可以在加密的数据中进行诸如检索、比较等操作，得出正确的结果，而在整个处理过程中无需对数据进行解密。其意义在于，真正从根本上解决将数据及其操作委托给第三方时的保密问题，例如对于各种云计算的应用。这一直">
 <meta name="keywords" content="Cryptography">
 <meta property="og:type" content="article">
 <meta property="og:title" content="同态加密Homomorphic Encryption简介">
 <meta property="og:url" content="https://loyf.github.io/2019/05/30/同态加密Homomorphic-Encryption简介/index.html">
 <meta property="og:site_name" content="Loy With No Title">
-<meta property="og:description" content="首先，同态加密不是某种特定的加密算法，而是一种加密形式。">
+<meta property="og:description" content="首先，同态加密不是某种特定的加密算法，而是一种加密形式。 同态加密允许人们对密文进行特定形式的代数运算得到仍然是加密的结果，将其解密所得到的结果与对明文进行同样的运算结果一样。 换言之，这项技术令人们可以在加密的数据中进行诸如检索、比较等操作，得出正确的结果，而在整个处理过程中无需对数据进行解密。其意义在于，真正从根本上解决将数据及其操作委托给第三方时的保密问题，例如对于各种云计算的应用。这一直">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-05-30T07:57:07.292Z">
+<meta property="og:updated_time" content="2019-05-30T08:09:06.830Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="同态加密Homomorphic Encryption简介">
-<meta name="twitter:description" content="首先，同态加密不是某种特定的加密算法，而是一种加密形式。">
+<meta name="twitter:description" content="首先，同态加密不是某种特定的加密算法，而是一种加密形式。 同态加密允许人们对密文进行特定形式的代数运算得到仍然是加密的结果，将其解密所得到的结果与对明文进行同样的运算结果一样。 换言之，这项技术令人们可以在加密的数据中进行诸如检索、比较等操作，得出正确的结果，而在整个处理过程中无需对数据进行解密。其意义在于，真正从根本上解决将数据及其操作委托给第三方时的保密问题，例如对于各种云计算的应用。这一直">
 
 
 
@@ -342,8 +342,8 @@
       
 
       
-        <p>首先，同态加密不是某种特定的加密算法，而是一种加密形式。</p>
-<a id="more"></a>
+        <a id="more"></a>
+<p>首先，同态加密不是某种特定的加密算法，而是一种加密形式。</p>
 <p><strong>同态加密允许人们对密文进行特定形式的代数运算得到仍然是加密的结果，将其解密所得到的结果与对明文进行同样的运算结果一样。</strong></p>
 <p>换言之，这项技术令人们可以在加密的数据中进行诸如检索、比较等操作，得出正确的结果，而在整个处理过程中无需对数据进行解密。其意义在于，真正从根本上解决将数据及其操作委托给第三方时的保密问题，例如对于各种云计算的应用。这一直是密码学领域的一个重要课题。</p>
 <p><strong>同态分类</strong><br>a) 如果满足 f(A)+f(B)=f(A+B)， 我们将这种加密函数叫做加法同态<br>b) 如果满足 f(A)×f(B)=f(A×B)， 我们将这种加密函数叫做乘法同态。<br>如果一个加密函数f只满足加法同态，就只能进行加减法运算；<br>如果一个加密函数f只满足乘法同态，就只能进行乘除法运算;</p>

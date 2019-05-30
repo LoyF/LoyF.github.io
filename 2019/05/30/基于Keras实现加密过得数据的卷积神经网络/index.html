@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="来自奥胡斯大学密码学PhD、Datadog机器学习工程师Morten Dahl介绍了如何实现基于加密数据进行训练和预测的卷积神经网络。本文进行概括和总结  工作使用一个经典CNN模型，使其能够用于基于加密数据进行训练和预测。">
+<meta name="description" content="来自奥胡斯大学密码学PhD、Datadog机器学习工程师Morten Dahl介绍了如何实现基于加密数据进行训练和预测的卷积神经网络。本文进行概括和总结  工作使用一个经典CNN模型，使其能够用于基于加密数据进行训练和预测。 动机CNN目前可以用于很多分析图像的领域。如果能够让实际使用的用户在应用场景下提供更多的数据，那么模型的性能肯定可以提高。但是这涉及很多用户的隐私问题，如果用户可以明确自">
 <meta name="keywords" content="Machine Learning, Cryptography">
 <meta property="og:type" content="article">
 <meta property="og:title" content="基于Keras实现加密过得数据的卷积神经网络">
 <meta property="og:url" content="https://loyf.github.io/2019/05/30/基于Keras实现加密过得数据的卷积神经网络/index.html">
 <meta property="og:site_name" content="Loy With No Title">
-<meta property="og:description" content="来自奥胡斯大学密码学PhD、Datadog机器学习工程师Morten Dahl介绍了如何实现基于加密数据进行训练和预测的卷积神经网络。本文进行概括和总结  工作使用一个经典CNN模型，使其能够用于基于加密数据进行训练和预测。">
+<meta property="og:description" content="来自奥胡斯大学密码学PhD、Datadog机器学习工程师Morten Dahl介绍了如何实现基于加密数据进行训练和预测的卷积神经网络。本文进行概括和总结  工作使用一个经典CNN模型，使其能够用于基于加密数据进行训练和预测。 动机CNN目前可以用于很多分析图像的领域。如果能够让实际使用的用户在应用场景下提供更多的数据，那么模型的性能肯定可以提高。但是这涉及很多用户的隐私问题，如果用户可以明确自">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-05-30T07:43:50.320Z">
+<meta property="og:updated_time" content="2019-05-30T08:08:20.679Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于Keras实现加密过得数据的卷积神经网络">
-<meta name="twitter:description" content="来自奥胡斯大学密码学PhD、Datadog机器学习工程师Morten Dahl介绍了如何实现基于加密数据进行训练和预测的卷积神经网络。本文进行概括和总结  工作使用一个经典CNN模型，使其能够用于基于加密数据进行训练和预测。">
+<meta name="twitter:description" content="来自奥胡斯大学密码学PhD、Datadog机器学习工程师Morten Dahl介绍了如何实现基于加密数据进行训练和预测的卷积神经网络。本文进行概括和总结  工作使用一个经典CNN模型，使其能够用于基于加密数据进行训练和预测。 动机CNN目前可以用于很多分析图像的领域。如果能够让实际使用的用户在应用场景下提供更多的数据，那么模型的性能肯定可以提高。但是这涉及很多用户的隐私问题，如果用户可以明确自">
 
 
 
@@ -342,11 +342,11 @@
       
 
       
-        <blockquote>
+        <a id="more"></a>
+<blockquote>
 <p>来自奥胡斯大学密码学PhD、Datadog机器学习工程师Morten Dahl介绍了如何实现基于加密数据进行训练和预测的卷积神经网络。本文进行概括和总结</p>
 </blockquote>
 <p><strong>工作</strong><br>使用一个经典CNN模型，使其能够用于基于加密数据进行训练和预测。</p>
-<a id="more"></a>
 <p><strong>动机</strong><br>CNN目前可以用于很多分析图像的领域。如果能够让实际使用的用户在应用场景下提供更多的数据，那么模型的性能肯定可以提高。但是这涉及很多用户的隐私问题，如果用户可以明确自己提交的数据是确保隐私安全的，那么将可以吸引更多用户使用这些工具，提交更多数据。<br>基于<a href="(https://mp.weixin.qq.com/s?__biz=MzI3ODkxODU3Mg==&amp;mid=2247485858&amp;idx=1&amp;sn=16767a8f029ba847ad48845a280211eb&amp;chksm=eb4eed61dc396477926f5d12265c1c3daf6f1c68fd4f82d340ea0692b7337e2feaa07b362406&amp;scene=21#wechat_redirect">MPC</a>)我们可以潜在地降低暴露信息的风险，从而增强参与的动机。更具体地说，通过转而在加密数据上训练，我们不仅可以防止任何人查看个人数据，还可以防止泄露学习到的模型参数。</p>
 <p><strong>使用简单的CNN模型</strong><br>用例是经典的MNIST手写数字识别，模型是Keras示例中的CNN模型<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#keras</span></span><br><span class="line">feature_layers = [</span><br><span class="line">    Conv2D(<span class="number">32</span>, (<span class="number">3</span>, <span class="number">3</span>), padding=<span class="string">'same'</span>, input_shape=(<span class="number">28</span>, <span class="number">28</span>, <span class="number">1</span>)),</span><br><span class="line">    Activation(<span class="string">'relu'</span>),</span><br><span class="line">    Conv2D(<span class="number">32</span>, (<span class="number">3</span>, <span class="number">3</span>), padding=<span class="string">'same'</span>),</span><br><span class="line">    Activation(<span class="string">'relu'</span>),</span><br><span class="line">    MaxPooling2D(pool_size=(<span class="number">2</span>,<span class="number">2</span>)),</span><br><span class="line">    Dropout(<span class="number">.25</span>),</span><br><span class="line">    Flatten()</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">classification_layers = [</span><br><span class="line">    Dense(<span class="number">128</span>),</span><br><span class="line">    Activation(<span class="string">'relu'</span>),</span><br><span class="line">    Dropout(<span class="number">.50</span>),</span><br><span class="line">    Dense(NUM_CLASSES),</span><br><span class="line">    Activation(<span class="string">'softmax'</span>)</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">model = Sequential(feature_layers + classification_layers)</span><br><span class="line">model.compile( loss=<span class="string">'categorical_crossentropy'</span>, optimizer=<span class="string">'adam'</span>, metrics=[<span class="string">'accuracy'</span>])</span><br><span class="line">model.fit(x_train, y_train, epochs=<span class="number">1</span>, batch_size=<span class="number">32</span>, verbose=<span class="number">1</span>, validation_data=(x_test, y_test))</span><br></pre></td></tr></table></figure></p>
 <p>基本的想法是首先让图像通过一组特征层（feature layer），将输入图像的原始像素转换为和我们的分类任务更相关的抽象属性。接着通过一组分类层（classification layer）组合这些属性，以生成可能数字的概率分布。最终输出通常直接是概率最高的数字。使用Keras的优势是我们可以快速地在未加密数据上进行试验。</p>
