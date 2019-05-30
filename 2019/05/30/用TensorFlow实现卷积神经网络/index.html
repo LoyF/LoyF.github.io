@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Machine Learning, TensorFlow,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="@LoyFan">
+<meta name="keywords" content="Machine Learning, TensorFlow">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用TensorFlow实现卷积神经网络">
+<meta property="og:url" content="https://loyf.github.io/2019/05/30/用TensorFlow实现卷积神经网络/index.html">
+<meta property="og:site_name" content="Loy Fan">
+<meta property="og:description" content="@LoyFan">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190426112208580.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzMxODYyNg==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2019042611222867.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzMxODYyNg==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190426213713572.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzMxODYyNg==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190426214206432.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190426214430667.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzMxODYyNg==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190427100115295.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzMxODYyNg==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190427100135451.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzMxODYyNg==,size_16,color_FFFFFF,t_70">
+<meta property="og:updated_time" content="2019-05-30T11:16:30.510Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="用TensorFlow实现卷积神经网络">
+<meta name="twitter:description" content="@LoyFan">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190426112208580.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzMxODYyNg==,size_16,color_FFFFFF,t_70">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://loyf.github.io/2019/05/30/用TensorFlow实现卷积神经网络/">
+
+
+
+
+
+  <title>用TensorFlow实现卷积神经网络 | Loy Fan</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Loy Fan</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Life can not be planned</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://loyf.github.io/2019/05/30/用TensorFlow实现卷积神经网络/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Loy Fan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Loy Fan">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">用TensorFlow实现卷积神经网络</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-30T19:15:41+08:00">
+                2019-05-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Machine-Learning-TensorFlow/" itemprop="url" rel="index">
+                    <span itemprop="name">Machine Learning, TensorFlow</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>@<a href="https://loyf.github.io/">LoyFan</a><br><a id="more"></a></p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ReadMe.md</span><br><span class="line"><span class="comment"># 这是一篇“从无到有”的使用TensorFlow搭建一个卷积神经网络并使用流行的入门数据集进行训练测试的教程。</span></span><br><span class="line"><span class="comment"># 包括了从开始到完成每一行代码的讲解，参照教程提供的代码可直接运行测试，可以说是入门学习TensorFlow架构非常合适的教程了。</span></span><br><span class="line"><span class="comment"># 本来想翻译的，但是篇幅有点长，太费时间，就放英文原版吧，语言很通俗，看着其实不费力。</span></span><br><span class="line"><span class="comment"># 修改了部分引起读者困惑的文字/代码。</span></span><br></pre></td></tr></table></figure>
+<p><a href="https://www.datacamp.com/community/tutorials/cnn-tensorflow-python" target="_blank" rel="noopener">教程链接</a><br>作者：Aditya Sharma<br>发表日期：March 10th, 2018</p>
+<blockquote>
+<p>In this tutorial, you’ll learn how to construct and implement Convolutional Neural Networks (CNNs) in Python with the TensorFlow framework.<br>TensorFlow is a famous deep learning framework. In this blog post, you will learn the basics of this extremely popular Python library and understand how to implement these deep, feed-forward artificial neural networks with it.</p>
+</blockquote>
+<p>To be precise, you’ll will be introduced to the following topics in today’s tutorial:</p>
+<ul>
+<li>You’ll be first introduced to tensors and how they differ from matrices; Once you understand what tensors are then you’ll be introduced to the Tensorflow Framework, within this you will also see that how even a single line of code is implemented via a computational graph in TensorFlow, then you will learn about some of the the package’s concepts that play a major role in you to do deep learning like constants, variables and placeholders,</li>
+<li>Then, you’ll will be headed to the most interesting part of this tutorial. That is, the implementation of Convolutional Neural Network: first you will try to understand the data. You’ll use Python and its libraries to load, explore and analyze your data. You’ll also preprocess your data: you’ll learn how to visualize your images as a matrix, reshape your data and rescale the images between 0 and 1 if required.</li>
+<li>With all of this done, you are ready to construct the deep neural network model: you’ll start off by defining the network parameters, then learn how to create wrappers to increase the simplicity of your code, define weights and biases, model the network, define loss and optimizer nodes. Once you have all this in place you are ready for training and testing your model;</li>
+<li>After your model’s evaluation, you’ll learn more about overfitting and how you can overcome it by adding a dropout layer. You will then again train the model with dropout layers inserted in the network, evaluate the model on test set and compare the results of both the models; Next, you’ll make predictions on the test data, convert the probabilities into class labels and plot few test samples that your model correctly classified and incorrectly classified. You will visualize the classification report which will have precision, recall, f-1 score of all classes present in the test dataset.</li>
+</ul>
+<h1 id="Tensors"><a href="#Tensors" class="headerlink" title="Tensors"></a>Tensors</h1><p>In layman’s terms, a tensor is a way of representing the data in deep learning. A tensor can be a 1-dimensional, a 2-dimensional, a 3-dimensional array, etc. You can think of a tensor as a multidimensional array. In machine learning and deep learning you have datasets which are high dimensional, in which each dimension represents a different feature of that dataset.</p>
+<p>Consider the following example of a dog versus cat classification problem, where the dataset you’re working with has multiple variety of both cats and dogs images. Now, in order to correctly classify a dog or a cat when given an image, the network has to learn discriminative features like color, face structure, ears, eyes, shape of the tail etc.</p>
+<p>These features are incorporated by the tensors.</p>
+<p><img src="https://img-blog.csdnimg.cn/20190426112208580.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzMxODYyNg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>Tip: if you want to get to know more about tensors, check out DataCamp’s TensorFlow Tutorial for Beginners.</p>
+<p>But how are tensors then any different from matrices? You’ll find out in the next section!</p>
+<p><strong>Tensors versus Matrices: Differences</strong><br>A matrix is a two-dimensional grid of size n×m that contains numbers: you can add and subtract matrices of the same size, multiply one matrix with another as long as the sizes are compatible ((n×m)×(m×p)=n×p), and multiply an entire matrix by a constant.</p>
+<p>A vector is a matrix with just one row or column (but see below).</p>
+<p>A tensor is often thought of as a generalized matrix. That is, it could be</p>
+<ul>
+<li>a 1-D matrix, like a vector, which is actually such a tensor,</li>
+<li>a 3-D matrix (something like a cube of numbers),</li>
+<li>a 0-D matrix (a single number), or</li>
+<li>a higher dimensional structure that is harder to visualize.<br>The dimension of the tensor is called its rank.</li>
+</ul>
+<p>Any rank-2 tensor can be represented as a matrix, but not every matrix is really a rank-2 tensor. The numerical values of a tensor’s matrix representation depend on what transformation rules have been applied to the entire system.</p>
+<h1 id="TensorFlow-Constants-Variables-and-Placeholders"><a href="#TensorFlow-Constants-Variables-and-Placeholders" class="headerlink" title="TensorFlow: Constants, Variables and Placeholders"></a>TensorFlow: Constants, Variables and Placeholders</h1><p>TensorFlow is a framework developed by Google on 9th November 2015. It is written in Python, C++ and Cuda. It supports platforms like Linux, Microsoft Windows, macOS, and Android. TensorFlow provides multiple API’s in Python, C++, Java etc. The most widely used API is Python and you will implementing a convolutional neural network using Python API in this tutorial.</p>
+<p>The name TensorFlow is derived from the operations, such as adding or multiplying, that artificial neural networks perform on multidimensional data arrays. These arrays are called tensors in this framework, which is slightly different from what you saw earlier.</p>
+<p>So why is there a mention of a flow when you’re talking about operations?</p>
+<p>Let’s consider a simple equation and its diagram, represented as a computational graph. Note: don’t worry if you don’t get this equation straight away, this is just to help you to understand how the flow takes place while using the TensorFlow framework.<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">prediction = tf.nn.softmax(tf.matmul(W,x) + b)</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://img-blog.csdnimg.cn/2019042611222867.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzMxODYyNg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>In TensorFlow, every line of code that you write has to go through a computational graph. As in the above figure, you can see that first W and x get multiplied and then comes b which is added to the output of W and x. After adding the output of W and x with b, a softmax function is applied and a final output is generated.</p>
+<p>You’ll find that, when you’re working with TensorFlow, constants, variables and placeholders come handy to define the input data, class labels, weights and biases.</p>
+<ul>
+<li><strong>Constants</strong> takes no input, you use them to store constant values. They produce a constant output that it stores.<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line">a = tf.constant(<span class="number">2.0</span>)</span><br><span class="line">b = tf.constant(<span class="number">3.0</span>)</span><br><span class="line">c = a * b</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>Here, nodes <strong>a</strong> and <strong>b</strong> are constants that store values <strong>2.0</strong> and <strong>3.0</strong>. Node <strong>c</strong> stores the operation that multiplies the nodes <strong>a</strong> and <strong>b</strong>, respectively. When you initialize a session and run <strong>c</strong>, you’ll see that the output that you get back is <strong>6.0</strong>:<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sess = tf.Session()</span><br><span class="line">sess.run(c)</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">6.0</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>Placeholders</strong> allow you to feed input on the run. Because of this flexibility, placeholders are used which allows your computational graph to take inputs as parameters. Defining a node as a placeholder assures that node, that it is expected to receive a value later or during runtime. Here, “runtime” means that the input is fed to the placeholder when you run your computational graph.<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Creating placeholders</span></span><br><span class="line">a = tf.placeholder(tf.float32)</span><br><span class="line">b = tf.placeholder(tf.float32)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Assigning addition operation w.r.t. a and b to node add</span></span><br><span class="line">add = a + b</span><br><span class="line"></span><br><span class="line"><span class="comment"># Create session object</span></span><br><span class="line">sess = tf.Session()</span><br><span class="line"></span><br><span class="line"><span class="comment"># Executing add by passing the values [1, 3] [2, 4] for a and b respectively</span></span><br><span class="line">output = sess.run(add, &#123;a: [<span class="number">1</span>,<span class="number">3</span>], b: [<span class="number">2</span>, <span class="number">4</span>]&#125;)</span><br><span class="line">print(<span class="string">'Adding a and b:'</span>, output)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="string">'Adding a and b:'</span>, array([ <span class="number">3.</span>,  <span class="number">7.</span>], dtype=float32))</span><br></pre></td></tr></table></figure>
+<p>In this case, you have explicitly provided the data type with <strong>tf.float32</strong>. Note that this data type is therefore a single precision, which is stored in 32 bits form. However, in cases where you do not do this, just like in the first example, TensorFlow will infer the type of the constant/variable from the initialized value.</p>
+<p><img src="https://img-blog.csdnimg.cn/20190426213713572.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzMxODYyNg==,size_16,color_FFFFFF,t_70" alt="Python Deep Learning"></p>
+<ul>
+<li><strong>Variables</strong> allow you to modify the graph such that it can produce new outputs with respect to the same inputs. A variable allows you to add such parameters or node to the graph that are trainable. That is, the value can be modified over the period of a time.<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Variables are defined by providing their initial value and type</span></span><br><span class="line">variable = tf.Variable([<span class="number">0.9</span>,<span class="number">0.7</span>], dtype = tf.float32)</span><br><span class="line"></span><br><span class="line"><span class="comment">#variable must be initialized before a graph is used for the first time. </span></span><br><span class="line">init = tf.global_variables_initializer()</span><br><span class="line">sess.run(init)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>Constants are initialized when you call <strong>tf.constant</strong>, and their value can never change. But, variables are not initialized when you call <strong>tf.Variable</strong>. To initialize all the variables in TensorFlow, you need to explicitly call the global variable intializer <strong>global_variables_initializer()</strong>, which initializes all the existing variables in your TensorFlow code, as you can see in the above code chunk.</p>
+<p>Variables survive across multiple executions of a graph unlike normal tensors that are only instantiated when a graph is run and are immediately deleted afterwards.</p>
+<p>In this section, you have seen that placeholders are used for holding the input data and class labels, whereas variables are used for the purpose of weights and biases. Don’t worry if you have still not been able to develop proper intuition about how a computational graph works, for what placeholders and variables are usually used for in deep learning. You will be address all these topics later on in this tutorial.</p>
+<h1 id="Convolutional-Neural-Network-CNN-in-TensorFlow"><a href="#Convolutional-Neural-Network-CNN-in-TensorFlow" class="headerlink" title="Convolutional Neural Network (CNN) in TensorFlow"></a>Convolutional Neural Network (CNN) in TensorFlow</h1><h2 id="Fashion-MNIST-Dataset"><a href="#Fashion-MNIST-Dataset" class="headerlink" title="Fashion-MNIST Dataset"></a>Fashion-MNIST Dataset</h2><p>Before you go ahead and load in the data, it’s good to take a look at what you’ll exactly be working with! The Fashion-MNIST dataset contains Zalando’s article images, with 28x28 grayscale images of 65,000 fashion products from 10 categories, and 6,500 images per category. The training set has 55,000 images, and the test set has 10,000 images. You can double check this later when you have loaded in your data! ;)</p>
+<p>Fashion-MNIST is similar to the MNIST dataset that you might already know, which you use to classify handwritten digits. That means that the image dimensions, training and test splits are similar.</p>
+<p>Tip: if you want to learn how to implement an Multi-Layer Perceptron (MLP) for classification tasks with this latter dataset, go to this tutorial, or if you want to learn about convolutional neural networks and its implementation in a Keras framework, check out this tutorial.</p>
+<p>You can find the Fashion-MNIST dataset here. Unlike the Keras or Scikit-Learn packages, TensorFlow has no predefined module to load the Fashion MNIST dataset, though by default it has MNIST dataset. To load the data, you first need to download the data from the above link and then structure the data in a particular folder format as shown below to be able to work with it. Otherwise, Tensorflow will download and use the original MNIST.</p>
+<h1 id="Load-the-data"><a href="#Load-the-data" class="headerlink" title="Load the data"></a>Load the data</h1><p>You first start with importing all the required modules like numpy, matplotlib and most importantly Tensorflow.<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Import libraries</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">from</span> tensorflow.examples.tutorials.mnist <span class="keyword">import</span> input_data</span><br><span class="line"><span class="comment"># matplotlib inline</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line">os.environ[<span class="string">"CUDA_VISIBLE_DEVICES"</span>]=<span class="string">"0"</span> <span class="comment">#for training on gpu</span></span><br></pre></td></tr></table></figure></p>
+<p>After importing all the modules you will now learn how you can load data in TensorFlow, which should be pretty straightforward. The only thing that you should take into account is the <strong>one_hot=True</strong> argument, which you’ll also find in the line of code below: it converts the categorical class labels to binary vectors.</p>
+<p>In one-hot encoding, you convert the categorical data into a vector of numbers. You do this because machine learning algorithms can’t work with categorical data directly. Instead, you generate one boolean column for each category or class. Only one of these columns could take on the value 1 for each sample. That explains the term “one-hot encoding”.</p>
+<p>But what does such a one-hot encoded data column look like?</p>
+<p>For your problem statement, the one hot encoding will be a row vector, and for each image, it will have a dimension of 1 x 10. It’s important to note here that the vector consists of all zeros except for the class that it represents. There, you’ll find a 1. For example, the ankle boot image that you plotted above has a label of 9, so for all the ankle boot images, the one hot encoding vector would be [0 0 0 0 0 0 0 0 0 1].</p>
+<p>Now that all of this is clear, it’s time to import the data!<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data = input_data.read_data_sets(<span class="string">'data/fashion'</span>,one_hot=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Extracting data/fashion/train-images-idx3-ubyte.gz</span><br><span class="line">Extracting data/fashion/train-labels-idx1-ubyte.gz</span><br><span class="line">Extracting data/fashion/t10k-images-idx3-ubyte.gz</span><br><span class="line">Extracting data/fashion/t10k-labels-idx1-ubyte.gz</span><br></pre></td></tr></table></figure>
+<p>Once you have the training and testing data loaded, you’re all set to analyze the data in order to get some intuition about the dataset that you are going to work with for this tutorial!</p>
+<h1 id="Analyze-the-Data"><a href="#Analyze-the-Data" class="headerlink" title="Analyze the Data"></a>Analyze the Data</h1><p>Before you start any heavy lifting, it’s always a good idea to check out what the images in the dataset look like. First, you can take a programmatical approach and check out their dimensions. Also, take into account that if you want to explore your images, these have already been rescaled between 0 and 1. That means that you would not need to rescale the image pixels again!<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Shapes of training set</span></span><br><span class="line">print(<span class="string">"Training set (images) shape: &#123;shape&#125;"</span>.format(shape=data.train.images.shape))</span><br><span class="line">print(<span class="string">"Training set (labels) shape: &#123;shape&#125;"</span>.format(shape=data.train.labels.shape))</span><br><span class="line"></span><br><span class="line"><span class="comment"># Shapes of test set</span></span><br><span class="line">print(<span class="string">"Test set (images) shape: &#123;shape&#125;"</span>.format(shape=data.test.images.shape))</span><br><span class="line">print(<span class="string">"Test set (labels) shape: &#123;shape&#125;"</span>.format(shape=data.test.labels.shape))</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Training set (images) shape: (<span class="number">55000</span>, <span class="number">784</span>)</span><br><span class="line">Training set (labels) shape: (<span class="number">55000</span>, <span class="number">10</span>)</span><br><span class="line">Test set (images) shape: (<span class="number">10000</span>, <span class="number">784</span>)</span><br><span class="line">Test set (labels) shape: (<span class="number">10000</span>, <span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+<p>From the above output, you can see that the training data has a shape of 55000 x 784: there are 55,000 training samples each of 784-dimensional vector. Similarly, the test data has a shape of 10000 x 784, since there are 10,000 testing samples.</p>
+<p>The 784 dimensional vector is nothing but a 28 x 28 dimensional matrix. That’s why you will be reshaping each training and testing sample from a 784 dimensional vector to a 28 x 28 x 1 dimensional matrix in order to feed the samples in to the CNN model.</p>
+<p>For simplicity, let’s create a dictionary that will have class names with their corresponding categorical class labels.<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Create dictionary of target classes</span></span><br><span class="line">label_dict = &#123;</span><br><span class="line"> <span class="number">0</span>: <span class="string">'T-shirt/top'</span>,</span><br><span class="line"> <span class="number">1</span>: <span class="string">'Trouser'</span>,</span><br><span class="line"> <span class="number">2</span>: <span class="string">'Pullover'</span>,</span><br><span class="line"> <span class="number">3</span>: <span class="string">'Dress'</span>,</span><br><span class="line"> <span class="number">4</span>: <span class="string">'Coat'</span>,</span><br><span class="line"> <span class="number">5</span>: <span class="string">'Sandal'</span>,</span><br><span class="line"> <span class="number">6</span>: <span class="string">'Shirt'</span>,</span><br><span class="line"> <span class="number">7</span>: <span class="string">'Sneaker'</span>,</span><br><span class="line"> <span class="number">8</span>: <span class="string">'Bag'</span>,</span><br><span class="line"> <span class="number">9</span>: <span class="string">'Ankle boot'</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Also, let’s take a look at the images in your dataset:<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">plt.figure(figsize=[<span class="number">5</span>,<span class="number">5</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># Display the first image in training data</span></span><br><span class="line">plt.subplot(<span class="number">121</span>)</span><br><span class="line">curr_img = np.reshape(data.train.images[<span class="number">0</span>], (<span class="number">28</span>,<span class="number">28</span>))</span><br><span class="line">curr_lbl = np.argmax(data.train.labels[<span class="number">0</span>,:])</span><br><span class="line">plt.imshow(curr_img, cmap=<span class="string">'gray'</span>)</span><br><span class="line">plt.title(<span class="string">"(Label: "</span> + str(label_dict[curr_lbl]) + <span class="string">")"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Display the first image in testing data</span></span><br><span class="line">plt.subplot(<span class="number">122</span>)</span><br><span class="line">curr_img = np.reshape(data.test.images[<span class="number">0</span>], (<span class="number">28</span>,<span class="number">28</span>))</span><br><span class="line">curr_lbl = np.argmax(data.test.labels[<span class="number">0</span>,:])</span><br><span class="line">plt.imshow(curr_img, cmap=<span class="string">'gray'</span>)</span><br><span class="line">plt.title(<span class="string">"(Label: "</span> + str(label_dict[curr_lbl]) + <span class="string">")"</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;matplotlib.text.Text at <span class="number">0x7f3d17e38cd0</span>&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/20190426214206432.png" alt="在这里插入图片描述"></p>
+<p>The output of above two plots are one of the sample images from both training and testing data, and these images are assigned a class label of 4 (Coat) and 9 (Ankle boot). Similarly, other fashion products will have different labels, but similar products will have same labels. This means that all the 6,500 ankle boot images will have a class label of 9.</p>
+<h1 id="Data-Preprocessing"><a href="#Data-Preprocessing" class="headerlink" title="Data Preprocessing"></a>Data Preprocessing</h1><p>The images are of size 28 x 28 (or a 784-dimensional vector).</p>
+<p>The images are already rescaled between 0 and 1 so you don’t need to rescale them again, but to be sure let’s visualize an image from training dataset as a matrix. Along with that let’s also print the maximum and minimum value of the matrix.<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">print</span> (data.train.images[<span class="number">0</span>])</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br></pre></td><td class="code"><pre><span class="line">array([<span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.00784314</span>, <span class="number">0.0509804</span> ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.00784314</span>, <span class="number">0.00392157</span>, <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.5137255</span> , <span class="number">0.92549026</span>, <span class="number">0.909804</span>  , <span class="number">0.87843144</span>, <span class="number">0.2901961</span> ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.00392157</span>, <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.00392157</span>, <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.41960788</span>, <span class="number">0.9176471</span> , <span class="number">0.87843144</span>,</span><br><span class="line">       <span class="number">0.8470589</span> , <span class="number">0.8980393</span> , <span class="number">0.8980393</span> , <span class="number">0.21568629</span>, <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.00784314</span>, <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.36078432</span>, <span class="number">0.8000001</span> ,</span><br><span class="line">       <span class="number">0.8352942</span> , <span class="number">0.8431373</span> , <span class="number">0.882353</span>  , <span class="number">0.8470589</span> , <span class="number">0.9215687</span> ,</span><br><span class="line">       <span class="number">0.80392164</span>, <span class="number">0.8941177</span> , <span class="number">0.7019608</span> , <span class="number">0.2509804</span> , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.00784314</span>, <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.00392157</span>, <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.75294125</span>, <span class="number">0.8980393</span> , <span class="number">0.854902</span>  , <span class="number">0.8470589</span> , <span class="number">0.78823537</span>,</span><br><span class="line">       <span class="number">0.90196085</span>, <span class="number">1.</span>        , <span class="number">0.882353</span>  , <span class="number">0.8196079</span> , <span class="number">0.8352942</span> ,</span><br><span class="line">       <span class="number">0.8431373</span> , <span class="number">0.89019614</span>, <span class="number">0.4901961</span> , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.01568628</span>, <span class="number">0.</span>        , <span class="number">0.09411766</span>, <span class="number">0.909804</span>  , <span class="number">0.8078432</span> ,</span><br><span class="line">       <span class="number">0.8313726</span> , <span class="number">0.8941177</span> , <span class="number">0.8235295</span> , <span class="number">0.8000001</span> , <span class="number">0.86666673</span>,</span><br><span class="line">       <span class="number">0.76470596</span>, <span class="number">0.85098046</span>, <span class="number">0.8470589</span> , <span class="number">0.8078432</span> , <span class="number">0.8470589</span> ,</span><br><span class="line">       <span class="number">0.8000001</span> , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.00784314</span>, <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.01176471</span>, <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.3921569</span> , <span class="number">0.93725497</span>, <span class="number">0.85098046</span>, <span class="number">0.8117648</span> , <span class="number">0.86274517</span>,</span><br><span class="line">       <span class="number">0.87843144</span>, <span class="number">0.83921576</span>, <span class="number">0.8431373</span> , <span class="number">0.8313726</span> , <span class="number">0.8588236</span> ,</span><br><span class="line">       <span class="number">0.8196079</span> , <span class="number">0.8352942</span> , <span class="number">0.8313726</span> , <span class="number">0.90196085</span>, <span class="number">0.15686275</span>,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.01176471</span>, <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.6745098</span> , <span class="number">0.9333334</span> ,</span><br><span class="line">       <span class="number">0.86666673</span>, <span class="number">0.882353</span>  , <span class="number">0.854902</span>  , <span class="number">0.86274517</span>, <span class="number">0.86666673</span>,</span><br><span class="line">       <span class="number">0.91372555</span>, <span class="number">0.87843144</span>, <span class="number">0.8235295</span> , <span class="number">0.8431373</span> , <span class="number">0.86666673</span>,</span><br><span class="line">       <span class="number">0.83921576</span>, <span class="number">0.92549026</span>, <span class="number">0.40784317</span>, <span class="number">0.</span>        , <span class="number">0.00784314</span>,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.86274517</span>, <span class="number">0.9215687</span> , <span class="number">0.87843144</span>, <span class="number">0.882353</span>  ,</span><br><span class="line">       <span class="number">0.8705883</span> , <span class="number">0.854902</span>  , <span class="number">0.85098046</span>, <span class="number">0.7843138</span> , <span class="number">0.8745099</span> ,</span><br><span class="line">       <span class="number">0.8431373</span> , <span class="number">0.8588236</span> , <span class="number">0.8705883</span> , <span class="number">0.85098046</span>, <span class="number">0.91372555</span>,</span><br><span class="line">       <span class="number">0.6</span>       , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.82745105</span>,</span><br><span class="line">       <span class="number">0.90196085</span>, <span class="number">0.8941177</span> , <span class="number">0.8862746</span> , <span class="number">0.882353</span>  , <span class="number">0.86666673</span>,</span><br><span class="line">       <span class="number">0.8705883</span> , <span class="number">0.85098046</span>, <span class="number">0.83921576</span>, <span class="number">0.86274517</span>, <span class="number">0.8588236</span> ,</span><br><span class="line">       <span class="number">0.8470589</span> , <span class="number">0.8588236</span> , <span class="number">0.8980393</span> , <span class="number">0.7843138</span> , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.01568628</span>, <span class="number">0.8941177</span> , <span class="number">0.8862746</span> , <span class="number">0.90196085</span>,</span><br><span class="line">       <span class="number">0.882353</span>  , <span class="number">0.87843144</span>, <span class="number">0.882353</span>  , <span class="number">0.8745099</span> , <span class="number">0.8352942</span> ,</span><br><span class="line">       <span class="number">0.8588236</span> , <span class="number">0.86666673</span>, <span class="number">0.8588236</span> , <span class="number">0.854902</span>  , <span class="number">0.8705883</span> ,</span><br><span class="line">       <span class="number">0.8862746</span> , <span class="number">0.9176471</span> , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.227451</span>  ,</span><br><span class="line">       <span class="number">0.93725497</span>, <span class="number">0.87843144</span>, <span class="number">0.91372555</span>, <span class="number">0.882353</span>  , <span class="number">0.8745099</span> ,</span><br><span class="line">       <span class="number">0.8745099</span> , <span class="number">0.86666673</span>, <span class="number">0.83921576</span>, <span class="number">0.8745099</span> , <span class="number">0.8588236</span> ,</span><br><span class="line">       <span class="number">0.85098046</span>, <span class="number">0.854902</span>  , <span class="number">0.86274517</span>, <span class="number">0.86666673</span>, <span class="number">0.8431373</span> ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.37254903</span>, <span class="number">0.9568628</span> , <span class="number">0.8705883</span> ,</span><br><span class="line">       <span class="number">0.9058824</span> , <span class="number">0.8862746</span> , <span class="number">0.8745099</span> , <span class="number">0.87843144</span>, <span class="number">0.87843144</span>,</span><br><span class="line">       <span class="number">0.85098046</span>, <span class="number">0.86274517</span>, <span class="number">0.854902</span>  , <span class="number">0.8588236</span> , <span class="number">0.86666673</span>,</span><br><span class="line">       <span class="number">0.8588236</span> , <span class="number">0.85098046</span>, <span class="number">0.89019614</span>, <span class="number">0.14901961</span>, <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.52156866</span>, <span class="number">0.9490197</span> , <span class="number">0.8705883</span> , <span class="number">0.9490197</span> , <span class="number">0.89019614</span>,</span><br><span class="line">       <span class="number">0.87843144</span>, <span class="number">0.8862746</span> , <span class="number">0.89019614</span>, <span class="number">0.83921576</span>, <span class="number">0.86666673</span>,</span><br><span class="line">       <span class="number">0.86274517</span>, <span class="number">0.8588236</span> , <span class="number">0.8705883</span> , <span class="number">0.909804</span>  , <span class="number">0.83921576</span>,</span><br><span class="line">       <span class="number">0.9215687</span> , <span class="number">0.27450982</span>, <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.70980394</span>, <span class="number">0.9294118</span> ,</span><br><span class="line">       <span class="number">0.87843144</span>, <span class="number">0.8745099</span> , <span class="number">0.909804</span>  , <span class="number">0.8745099</span> , <span class="number">0.882353</span>  ,</span><br><span class="line">       <span class="number">0.89019614</span>, <span class="number">0.85098046</span>, <span class="number">0.8745099</span> , <span class="number">0.8588236</span> , <span class="number">0.8588236</span> ,</span><br><span class="line">       <span class="number">0.86666673</span>, <span class="number">0.8431373</span> , <span class="number">0.8431373</span> , <span class="number">0.92549026</span>, <span class="number">0.42352945</span>,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.854902</span>  , <span class="number">0.91372555</span>, <span class="number">0.90196085</span>, <span class="number">0.6431373</span> ,</span><br><span class="line">       <span class="number">0.94117653</span>, <span class="number">0.8745099</span> , <span class="number">0.882353</span>  , <span class="number">0.8862746</span> , <span class="number">0.854902</span>  ,</span><br><span class="line">       <span class="number">0.8745099</span> , <span class="number">0.8470589</span> , <span class="number">0.86666673</span>, <span class="number">0.86274517</span>, <span class="number">0.61960787</span>,</span><br><span class="line">       <span class="number">0.86274517</span>, <span class="number">0.8980393</span> , <span class="number">0.62352943</span>, <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.95294124</span>,</span><br><span class="line">       <span class="number">0.909804</span>  , <span class="number">0.8941177</span> , <span class="number">0.49411768</span>, <span class="number">0.9843138</span> , <span class="number">0.87843144</span>,</span><br><span class="line">       <span class="number">0.882353</span>  , <span class="number">0.90196085</span>, <span class="number">0.8862746</span> , <span class="number">0.8745099</span> , <span class="number">0.854902</span>  ,</span><br><span class="line">       <span class="number">0.86274517</span>, <span class="number">0.8980393</span> , <span class="number">0.47450984</span>, <span class="number">0.91372555</span>, <span class="number">0.8941177</span> ,</span><br><span class="line">       <span class="number">0.7607844</span> , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.8588236</span> , <span class="number">0.9058824</span> , <span class="number">0.8000001</span> ,</span><br><span class="line">       <span class="number">0.427451</span>  , <span class="number">1.</span>        , <span class="number">0.8588236</span> , <span class="number">0.89019614</span>, <span class="number">0.8862746</span> ,</span><br><span class="line">       <span class="number">0.7803922</span> , <span class="number">0.882353</span>  , <span class="number">0.8745099</span> , <span class="number">0.8431373</span> , <span class="number">0.9450981</span> ,</span><br><span class="line">       <span class="number">0.36078432</span>, <span class="number">0.8980393</span> , <span class="number">0.882353</span>  , <span class="number">0.8352942</span> , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.01960784</span>,</span><br><span class="line">       <span class="number">0.8941177</span> , <span class="number">0.90196085</span>, <span class="number">0.7372549</span> , <span class="number">0.4901961</span> , <span class="number">1.</span>        ,</span><br><span class="line">       <span class="number">0.85098046</span>, <span class="number">0.8862746</span> , <span class="number">0.90196085</span>, <span class="number">0.8352942</span> , <span class="number">0.882353</span>  ,</span><br><span class="line">       <span class="number">0.8705883</span> , <span class="number">0.83921576</span>, <span class="number">0.9921569</span> , <span class="number">0.36862746</span>, <span class="number">0.8588236</span> ,</span><br><span class="line">       <span class="number">0.87843144</span>, <span class="number">0.9294118</span> , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.12156864</span>, <span class="number">0.91372555</span>, <span class="number">0.91372555</span>,</span><br><span class="line">       <span class="number">0.68235296</span>, <span class="number">0.5647059</span> , <span class="number">1.</span>        , <span class="number">0.8470589</span> , <span class="number">0.87843144</span>,</span><br><span class="line">       <span class="number">0.91372555</span>, <span class="number">0.8705883</span> , <span class="number">0.882353</span>  , <span class="number">0.87843144</span>, <span class="number">0.8431373</span> ,</span><br><span class="line">       <span class="number">0.9960785</span> , <span class="number">0.41960788</span>, <span class="number">0.8196079</span> , <span class="number">0.8705883</span> , <span class="number">0.8431373</span> ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.3529412</span> , <span class="number">0.9058824</span> , <span class="number">0.909804</span>  , <span class="number">0.63529414</span>, <span class="number">0.59607846</span>,</span><br><span class="line">       <span class="number">1.</span>        , <span class="number">0.854902</span>  , <span class="number">0.882353</span>  , <span class="number">0.91372555</span>, <span class="number">0.854902</span>  ,</span><br><span class="line">       <span class="number">0.8745099</span> , <span class="number">0.87843144</span>, <span class="number">0.8352942</span> , <span class="number">1.</span>        , <span class="number">0.43529415</span>,</span><br><span class="line">       <span class="number">0.7568628</span> , <span class="number">0.87843144</span>, <span class="number">0.86666673</span>, <span class="number">0.19607845</span>, <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.6784314</span> , <span class="number">0.9450981</span> ,</span><br><span class="line">       <span class="number">0.93725497</span>, <span class="number">0.6431373</span> , <span class="number">0.61960787</span>, <span class="number">0.9960785</span> , <span class="number">0.86274517</span>,</span><br><span class="line">       <span class="number">0.882353</span>  , <span class="number">0.9176471</span> , <span class="number">0.85098046</span>, <span class="number">0.8705883</span> , <span class="number">0.8705883</span> ,</span><br><span class="line">       <span class="number">0.8352942</span> , <span class="number">0.9960785</span> , <span class="number">0.45882356</span>, <span class="number">0.7843138</span> , <span class="number">0.8941177</span> ,</span><br><span class="line">       <span class="number">0.91372555</span>, <span class="number">0.65882355</span>, <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.4431373</span> , <span class="number">0.82745105</span>, <span class="number">1.</span>        , <span class="number">0.6313726</span> ,</span><br><span class="line">       <span class="number">0.6862745</span> , <span class="number">0.9960785</span> , <span class="number">0.8588236</span> , <span class="number">0.8941177</span> , <span class="number">0.9176471</span> ,</span><br><span class="line">       <span class="number">0.86666673</span>, <span class="number">0.8745099</span> , <span class="number">0.87843144</span>, <span class="number">0.8352942</span> , <span class="number">0.9960785</span> ,</span><br><span class="line">       <span class="number">0.5137255</span> , <span class="number">0.7960785</span> , <span class="number">0.82745105</span>, <span class="number">0.8000001</span> , <span class="number">0.18431373</span>,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.8196079</span> , <span class="number">0.9215687</span> ,</span><br><span class="line">       <span class="number">0.8588236</span> , <span class="number">0.8941177</span> , <span class="number">0.9176471</span> , <span class="number">0.86666673</span>, <span class="number">0.87843144</span>,</span><br><span class="line">       <span class="number">0.8745099</span> , <span class="number">0.8470589</span> , <span class="number">0.9960785</span> , <span class="number">0.5882353</span> , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.87843144</span>, <span class="number">0.9176471</span> , <span class="number">0.86666673</span>, <span class="number">0.8941177</span> ,</span><br><span class="line">       <span class="number">0.9176471</span> , <span class="number">0.86666673</span>, <span class="number">0.8705883</span> , <span class="number">0.8745099</span> , <span class="number">0.86274517</span>,</span><br><span class="line">       <span class="number">0.9333334</span> , <span class="number">0.6862745</span> , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.00784314</span>, <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.91372555</span>,</span><br><span class="line">       <span class="number">0.90196085</span>, <span class="number">0.8745099</span> , <span class="number">0.882353</span>  , <span class="number">0.909804</span>  , <span class="number">0.86274517</span>,</span><br><span class="line">       <span class="number">0.8705883</span> , <span class="number">0.87843144</span>, <span class="number">0.86274517</span>, <span class="number">0.9215687</span> , <span class="number">0.72156864</span>,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.00392157</span>,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">1.</span>        , <span class="number">0.9450981</span> , <span class="number">0.8980393</span> ,</span><br><span class="line">       <span class="number">0.9333334</span> , <span class="number">0.93725497</span>, <span class="number">0.882353</span>  , <span class="number">0.9058824</span> , <span class="number">0.92549026</span>,</span><br><span class="line">       <span class="number">0.8941177</span> , <span class="number">0.9725491</span> , <span class="number">0.86666673</span>, <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.37647063</span>, <span class="number">0.6745098</span> , <span class="number">0.7686275</span> , <span class="number">0.81568635</span>, <span class="number">0.8705883</span> ,</span><br><span class="line">       <span class="number">0.85098046</span>, <span class="number">0.8196079</span> , <span class="number">0.7843138</span> , <span class="number">0.75294125</span>, <span class="number">0.64705884</span>,</span><br><span class="line">       <span class="number">0.26666668</span>, <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ,</span><br><span class="line">       <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        , <span class="number">0.</span>        ], dtype=float32)</span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">print</span> (np.max(data.train.images[<span class="number">0</span>]))</span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.0</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">print</span> (np.min(data.train.images[<span class="number">0</span>]))</span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0.0</span></span><br></pre></td></tr></table></figure>
+<p>Let us reshape the images so that it’s of size 28 x 28 x 1, and feed this as an input to the network.<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Reshape training and testing image</span></span><br><span class="line">train_X = data.train.images.reshape(<span class="number">-1</span>, <span class="number">28</span>, <span class="number">28</span>, <span class="number">1</span>)</span><br><span class="line">test_X = data.test.images.reshape(<span class="number">-1</span>,<span class="number">28</span>,<span class="number">28</span>,<span class="number">1</span>)</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">print</span> (train_X.shape, test_X.shape)</span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">((<span class="number">55000</span>, <span class="number">28</span>, <span class="number">28</span>, <span class="number">1</span>), (<span class="number">10000</span>, <span class="number">28</span>, <span class="number">28</span>, <span class="number">1</span>))</span><br></pre></td></tr></table></figure>
+<p>You need not reshape the labels since they already have the correct dimensions, but let us put the training and testing labels in separate variables and also print their respective shapes just be on the safer side.<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">train_y = data.train.labels</span><br><span class="line">test_y = data.test.labels</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">print</span> (train_y.shape, test_y.shape)</span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">((<span class="number">55000</span>, <span class="number">10</span>), (<span class="number">10000</span>, <span class="number">10</span>))</span><br></pre></td></tr></table></figure>
+<h1 id="The-Deep-Neural-Network"><a href="#The-Deep-Neural-Network" class="headerlink" title="The Deep Neural Network"></a>The Deep Neural Network</h1><p>You’ll use three convolutional layers:</p>
+<ul>
+<li>The first layer will have 32-3 x 3 filters,</li>
+<li>The second layer will have 64-3 x 3 filters and</li>
+<li>The third layer will have 128-3 x 3 filters.<br>In addition, there are three max-pooling layers each of size 2 x 2.</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20190426214430667.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzMxODYyNg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>You start off with defining the training iterations <strong>training_iters</strong>, the learning rate <strong>learning_rate</strong> and the batch size <strong>batch_size</strong>. Keep in mind that all these are hyperparameters and that these don’t have fixed values, as these differ for every problem statement.</p>
+<p>Nevertheless, here’s what you usually can expect:</p>
+<ul>
+<li>Training iterations indicate the number of times you train your network,</li>
+<li>It is a good practice to use a learning rate of 1e-3, learning rate is a factor that is multiplied with the weights based on which the weights get updated and this indeed helps in reducing the cost/loss/cross entropy and ultimately in converging or reaching the local optima. The learning rate should neither be too high or too low it should be a balanced rate and</li>
+<li>The batch size means that your training images will be divided in a fixed batch size and at every batch it will take a fixed number of images and train them. It’s recommended to use a batch size in the power of 2, since the number of physical processor is often a power of 2, using a number of virtual processor different from a power of 2 leads to poor performance. Also, taking a very large batch size can lead to memory errors so you have to make sure that the machine you run your code on has sufficient RAM to handle specified batch size.<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">training_iters = <span class="number">20</span></span><br><span class="line">learning_rate = <span class="number">0.001</span> </span><br><span class="line">batch_size = <span class="number">128</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="Network-Parameters"><a href="#Network-Parameters" class="headerlink" title="Network Parameters"></a>Network Parameters</h1><p>Next, you need to define the network parameters. Firstly, you define the number of inputs. This is 784 since the image is initially loaded as a 784-dimensional vector. Later, you will see that how you will reshape the 784-dimensional vector to a 28 x 28 x 1 matrix. Secondly, you’ll also define the number of classes, which is nothing else than the number of class labels.<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># MNIST data input (img shape: 28*28)</span></span><br><span class="line">n_input = <span class="number">28</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># MNIST total classes (0-9 digits)</span></span><br><span class="line">n_classes = <span class="number">10</span></span><br></pre></td></tr></table></figure></p>
+<p>Now is the time to use those placeholders, about which you read previously in this tutorial. You will define an input placeholder <strong>x</strong>, which will have a dimension of <strong>None x 784</strong> and the output placeholder with a dimension of <strong>None x 10</strong>. To reiterate, placeholders allow you to do operations and build your computation graph without feeding in data. </p>
+<p>Similarly, <strong>y</strong> will hold the label of the training images in form matrix which will be a <strong>None*10</strong> matrix.</p>
+<p>The row dimension is <strong>None</strong>. That’s because you have defined <strong>batch_size</strong>, which tells placeholders that they will receive this dimension at the time when you will feed in the data to them. Since you set the batch size to 128, this will be the row dimension of the placeholders.<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#both placeholders are of type float</span></span><br><span class="line">x = tf.placeholder(<span class="string">"float"</span>, [<span class="keyword">None</span>, <span class="number">28</span>,<span class="number">28</span>,<span class="number">1</span>])</span><br><span class="line">y = tf.placeholder(<span class="string">"float"</span>, [<span class="keyword">None</span>, n_classes])</span><br></pre></td></tr></table></figure></p>
+<h2 id="Creating-wrappers-for-simplicity"><a href="#Creating-wrappers-for-simplicity" class="headerlink" title="Creating wrappers for simplicity"></a>Creating wrappers for simplicity</h2><p>In your network architecture model, you will have multiple convolution and max-pooling layers. In such cases, it’s always a better idea to define convolution and max-pooling functions, so that you can call them as many times you want to use them in your network.</p>
+<ul>
+<li>In the <strong>conv2d()</strong> function you pass 4 arguments: input <strong>x</strong>, weights <strong>W</strong>, bias <strong>b</strong> and <strong>strides</strong>. This last argument is by default set to 1, but you can always play with it to see how the network performs. The first and last stride must always be 1, because the first is for the image-number and the last is for the input-channel (since the image is a gray-scale image which has only one channel). After applying the convolution, you will add bias and apply an activation function that is called Rectified Linear Unit (ReLU).</li>
+<li>The max-pooling function is simple: it has the input <strong>x</strong> and a kernel size <strong>k</strong>, which is set to be 2. This means that the max-pooling filter will be a square matrix with dimensions 2 x 2 and the stride by which the filter will move in is also 2.</li>
+</ul>
+<p>You will padding equal to same which ensures that while performing the convolution operations, the boundary pixels of the image are not left out, so padding equal to same will basically adds zeros at the boundaries of the input and allow the convolution filter to access the boundary pixels as well.</p>
+<p>Similarly, in max-pooling operation padding equal to same will add zeros. Later, when you will define the weights and the biases you will notice that an input of size 28 x 28 is downsampled to 4 x 4 after applying three max-pooling layers.<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">conv2d</span><span class="params">(x, W, b, strides=<span class="number">1</span>)</span>:</span></span><br><span class="line">    <span class="comment"># Conv2D wrapper, with bias and relu activation</span></span><br><span class="line">    x = tf.nn.conv2d(x, W, strides=[<span class="number">1</span>, strides, strides, <span class="number">1</span>], padding=<span class="string">'SAME'</span>)</span><br><span class="line">    x = tf.nn.bias_add(x, b)</span><br><span class="line">    <span class="keyword">return</span> tf.nn.relu(x) </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">maxpool2d</span><span class="params">(x, k=<span class="number">2</span>)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> tf.nn.max_pool(x, ksize=[<span class="number">1</span>, k, k, <span class="number">1</span>], strides=[<span class="number">1</span>, k, k, <span class="number">1</span>],padding=<span class="string">'SAME'</span>)</span><br></pre></td></tr></table></figure></p>
+<p>After you have defined the <strong>conv2d</strong> and <strong>maxpool2d</strong> wrappers, now you can now define your weights and biases variables. So, let’s get started!</p>
+<p>But first, let’s understand each weight and bias parameter step by step. You will create two dictionaries, one for weight and the second for the bias parameter.</p>
+<ul>
+<li><p>If you can recall from the above figure that the first convolution layer has 32-3x3 filters, so the first key (<strong>wc1</strong>) in the weight dictionary has an argument <strong>shape</strong> that takes a tuple with 4 values: the first and are the filter size, while the third is the number of channels in the input image and the last represents the number of convolution filters you want in the first convolution layer. The first key in <strong>biases</strong> dictionary, <strong>bc1</strong>, will have 32 bias parameters.</p>
+</li>
+<li><p>Similarly, the second key (<strong>wc2</strong>) of the weight dictionary has a <strong>shape</strong> parameter that will take a tuple with 4 values: the first and second again refer to the filter size, and the third represents the number of channels from the previous output. Since you pass 32 convolution filters on the input image, you will have 32 channels as an output from the first convolution layer operation. The last represents the number of filters you want in the second convolution filter. Note that the second key in <strong>biases</strong> dictionary, <strong>bc2</strong>, will have 64 parameters.</p>
+</li>
+</ul>
+<p>You will do the same for the third convolution layer.</p>
+<ul>
+<li>Now, it’s important to understand the fourth key (<strong>wd1</strong>). After applying 3 convolution and max-pooling operations, you are downsampling the input image from 28 x 28 x 1 to 4 x 4 x 1 and now you need to flatten this downsampled output to feed this as input to the fully connected layer. That’s why you do the multiplication operation $44128$, which is the output of the previous layer or number of channels that are outputted by the convolution layer 3. The second element of the tuple that you pass to <strong>shape</strong> has number of neurons that you want in the fully connected layer. Similarly, in <strong>biases</strong> dictionary, the fourth key <strong>bd1</strong> has 128 parameters.<br>You will follow the same logic for the last fully connected layer, in which the number of neurons will be equivalent to the number of classes.<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">weights = &#123;</span><br><span class="line">    <span class="string">'wc1'</span>: tf.get_variable(<span class="string">'W0'</span>, shape=(<span class="number">3</span>,<span class="number">3</span>,<span class="number">1</span>,<span class="number">32</span>), initializer=tf.contrib.layers.xavier_initializer()), </span><br><span class="line">    <span class="string">'wc2'</span>: tf.get_variable(<span class="string">'W1'</span>, shape=(<span class="number">3</span>,<span class="number">3</span>,<span class="number">32</span>,<span class="number">64</span>), initializer=tf.contrib.layers.xavier_initializer()), </span><br><span class="line">    <span class="string">'wc3'</span>: tf.get_variable(<span class="string">'W2'</span>, shape=(<span class="number">3</span>,<span class="number">3</span>,<span class="number">64</span>,<span class="number">128</span>), initializer=tf.contrib.layers.xavier_initializer()), </span><br><span class="line">    <span class="string">'wd1'</span>: tf.get_variable(<span class="string">'W3'</span>, shape=(<span class="number">4</span>*<span class="number">4</span>*<span class="number">128</span>,<span class="number">128</span>), initializer=tf.contrib.layers.xavier_initializer()), </span><br><span class="line">    <span class="string">'out'</span>: tf.get_variable(<span class="string">'W6'</span>, shape=(<span class="number">128</span>,n_classes), initializer=tf.contrib.layers.xavier_initializer()), </span><br><span class="line">&#125;</span><br><span class="line">biases = &#123;</span><br><span class="line">    <span class="string">'bc1'</span>: tf.get_variable(<span class="string">'B0'</span>, shape=(<span class="number">32</span>), initializer=tf.contrib.layers.xavier_initializer()),</span><br><span class="line">    <span class="string">'bc2'</span>: tf.get_variable(<span class="string">'B1'</span>, shape=(<span class="number">64</span>), initializer=tf.contrib.layers.xavier_initializer()),</span><br><span class="line">    <span class="string">'bc3'</span>: tf.get_variable(<span class="string">'B2'</span>, shape=(<span class="number">128</span>), initializer=tf.contrib.layers.xavier_initializer()),</span><br><span class="line">    <span class="string">'bd1'</span>: tf.get_variable(<span class="string">'B3'</span>, shape=(<span class="number">128</span>), initializer=tf.contrib.layers.xavier_initializer()),</span><br><span class="line">    <span class="string">'out'</span>: tf.get_variable(<span class="string">'B4'</span>, shape=(<span class="number">10</span>), initializer=tf.contrib.layers.xavier_initializer()),</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>Now, it’s time to define the network architecture! Unfortunately, this is not as simple as you do it in the Keras framework!</p>
+<p>The <strong>conv_net()</strong> function takes 3 arguments as an input: the input <strong>x</strong> and the <strong>weights</strong> and <strong>biases</strong> dictionaries. Again, let’s go through the construction of the network step by step:</p>
+<ul>
+<li>Firstly, you reshape the 784-dimensional input vector to a 28 x 28 x 1 matrix. As you had seen earlier, the images are loaded as a 784-dimensional vector but you will feed the input to your model as a matrix of size 28 x 28 x 1. The <strong>-1</strong> in the <strong>reshape</strong>() function means that it will infer the first dimension on its own but the rest of the dimension are fixed, that is, 28 x 28 x 1.</li>
+<li>Next, as shown in the figure of the architecture of the model, you will define <strong>conv1</strong> which takes input as an image, weights <strong>wc1</strong> and biases <strong>bc1</strong>. Next, you apply max-pooling on the output of <strong>conv1</strong> and you will basically perform a process analogous to this until <strong>conv3</strong>.</li>
+<li>Since your task is to classify, given an image it belongs to which class label. So, after you pass through all the convolution and max-pooling layers, you will flatten the output of <strong>conv3</strong>. Next, you’ll connect the flattened <strong>conv3</strong> neurons with each and every neuron in the next layer. Then you will apply activation function on the output of the fully connected layer <strong>fc1</strong>.</li>
+<li>Finally, in the last layer, you will have 10 neurons since you have to classify 10 labels. That means that you will connect all the neurons of <strong>fc1</strong> in the output layer with 10 neurons in the last layer.<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">conv_net</span><span class="params">(x, weights, biases)</span>:</span>  </span><br><span class="line"></span><br><span class="line">    <span class="comment"># here we call the conv2d function we had defined above and pass the input image x, weights wc1 and bias bc1.</span></span><br><span class="line">    conv1 = conv2d(x, weights[<span class="string">'wc1'</span>], biases[<span class="string">'bc1'</span>])</span><br><span class="line">    <span class="comment"># Max Pooling (down-sampling), this chooses the max value from a 2*2 matrix window and outputs a 14*14 matrix.</span></span><br><span class="line">    conv1 = maxpool2d(conv1, k=<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Convolution Layer</span></span><br><span class="line">    <span class="comment"># here we call the conv2d function we had defined above and pass the input image x, weights wc2 and bias bc2.</span></span><br><span class="line">    conv2 = conv2d(conv1, weights[<span class="string">'wc2'</span>], biases[<span class="string">'bc2'</span>])</span><br><span class="line">    <span class="comment"># Max Pooling (down-sampling), this chooses the max value from a 2*2 matrix window and outputs a 7*7 matrix.</span></span><br><span class="line">    conv2 = maxpool2d(conv2, k=<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">    conv3 = conv2d(conv2, weights[<span class="string">'wc3'</span>], biases[<span class="string">'bc3'</span>])</span><br><span class="line">    <span class="comment"># Max Pooling (down-sampling), this chooses the max value from a 2*2 matrix window and outputs a 4*4.</span></span><br><span class="line">    conv3 = maxpool2d(conv3, k=<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Fully connected layer</span></span><br><span class="line">    <span class="comment"># Reshape conv2 output to fit fully connected layer input</span></span><br><span class="line">    fc1 = tf.reshape(conv3, [<span class="number">-1</span>, weights[<span class="string">'wd1'</span>].get_shape().as_list()[<span class="number">0</span>]])</span><br><span class="line">    fc1 = tf.add(tf.matmul(fc1, weights[<span class="string">'wd1'</span>]), biases[<span class="string">'bd1'</span>])</span><br><span class="line">    fc1 = tf.nn.relu(fc1)</span><br><span class="line">    <span class="comment"># Output, class prediction</span></span><br><span class="line">    <span class="comment"># finally we multiply the fully connected layer with the weights and add a bias term. </span></span><br><span class="line">    out = tf.add(tf.matmul(fc1, weights[<span class="string">'out'</span>]), biases[<span class="string">'out'</span>])</span><br><span class="line">    <span class="keyword">return</span> out</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="Loss-and-Optimizer-Nodes"><a href="#Loss-and-Optimizer-Nodes" class="headerlink" title="Loss and Optimizer Nodes"></a>Loss and Optimizer Nodes</h2><p>You will start with constructing a model and call the <strong>conv_net</strong>() function by passing in input <strong>x</strong>, weights and <strong>biases</strong>. Since this is a multi-class classification problem, you will use softmax activation on the output layer. This will give you probabilities for each class label. The loss function you use is cross entropy.</p>
+<p>The reason you use cross entropy as a loss function is because the cross-entropy function’s value is always positive, and tends toward zero as the neuron gets better at computing the desired output, y, for all training inputs, x. These are both properties you would intuitively expect for a cost function. It avoids the problem of learning slowing down which means that if the weights and biases are initialized in a wrong fashion even then it helps in recovering faster and does not hamper much the training phase.</p>
+<p>In TensorFlow, you define both the activation and the cross entropy loss functions in one line. You pass two parameters which are the predicted output and the ground truth label <strong>y</strong>. You will then take the mean (<strong>reduce_mean</strong>) over all the batches to get a single loss/cost value.</p>
+<p>Next, you define one of the most popular optimization algorithms: the Adam optimizer. You can read more about the optimizer from here and you specify the learning rate with explicitly stating minimize cost that you had calculated in the previous step.<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">pred = conv_net(x, weights, biases)</span><br><span class="line"></span><br><span class="line">cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=pred, labels=y))</span><br><span class="line"></span><br><span class="line">optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(cost)</span><br></pre></td></tr></table></figure></p>
+<h2 id="Evaluate-Model-Node"><a href="#Evaluate-Model-Node" class="headerlink" title="Evaluate Model Node"></a>Evaluate Model Node</h2><p>To test your model, let’s define two more nodes: <strong>correct_prediction</strong> and <strong>accuracy</strong>. It will evaluate your model after every training iteration which will help you to keep track of the performance of your model. Since after every iteration the model is tested on the 10,000 testing images, it will not have seen in the training phase.</p>
+<p>You can always save the graph and run the testing part later as well. But for now, you will test within the session.<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Here you check whether the index of the maximum value of the predicted image is equal to the actual labelled image. and both will be a column vector.</span></span><br><span class="line">correct_prediction = tf.equal(tf.argmax(pred, <span class="number">1</span>), tf.argmax(y, <span class="number">1</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">#calculate accuracy across all the given images and average them out. </span></span><br><span class="line">accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))</span><br></pre></td></tr></table></figure></p>
+<p>Remember that your weights and biases are variables and that you have to initialize them before you can make use of them. So let’s do that with the following line of code:<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Initializing the variables</span></span><br><span class="line">init = tf.global_variables_initializer()</span><br></pre></td></tr></table></figure></p>
+<h2 id="Training-and-Testing-the-Model"><a href="#Training-and-Testing-the-Model" class="headerlink" title="Training and Testing the Model"></a>Training and Testing the Model</h2><p>When you train and test your model in TensorFlow, you go through the following steps:</p>
+<ul>
+<li>You start off with launching the graph. This is a class that runs all the TensorFlow operations and launches the graph in a session. All the operations have to be within the indentation.</li>
+<li>Then, you run the session, which will execute the variables that were initialized in the previous step and evaluates the tensor.</li>
+<li>Next, you define a for loop that runs for the number of training iterations you had specified in the beginning. Right after that, you’ll initiate a second for loop, which is for the number of batches that you will have based on the batch size you chose, so you divide the total number of images by the batch size.</li>
+<li>You will then input the images based on the batch size you pass in batch_x and their respective labels in batch_y.</li>
+<li>Now is the most important step. Just like you ran the initializer after creating the graph, now you feed the placeholders x and y the actual data in a dictionary and run the session by passing the cost and the accuracy that you had defined earlier. It returns the loss (cost) and accuracy.</li>
+<li>You can print the loss and training accuracy after each epoch (training iteration) is completed.</li>
+</ul>
+<p>After each training iteration is completed, you run only the accuracy by passing all the 10000 test images and labels. This will give you an idea of how accurately your model is performing while it is training.</p>
+<p>It’s usually recommended to do the testing once your model is trained completely and validate only while it is in training phase after each epoch. However, let’s stick with this approach for now.<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">    sess.run(init) </span><br><span class="line">    train_loss = []</span><br><span class="line">    test_loss = []</span><br><span class="line">    train_accuracy = []</span><br><span class="line">    test_accuracy = []</span><br><span class="line">    summary_writer = tf.summary.FileWriter(<span class="string">'./Output'</span>, sess.graph)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(training_iters):</span><br><span class="line">        <span class="keyword">for</span> batch <span class="keyword">in</span> range(len(train_X)//batch_size):</span><br><span class="line">            batch_x = train_X[batch*batch_size:min((batch+<span class="number">1</span>)*batch_size,len(train_X))]</span><br><span class="line">            batch_y = train_y[batch*batch_size:min((batch+<span class="number">1</span>)*batch_size,len(train_y))]    </span><br><span class="line">            <span class="comment"># Run optimization op (backprop).</span></span><br><span class="line">                <span class="comment"># Calculate batch loss and accuracy</span></span><br><span class="line">            opt = sess.run(optimizer, feed_dict=&#123;x: batch_x,</span><br><span class="line">                                                              y: batch_y&#125;)</span><br><span class="line">            loss, acc = sess.run([cost, accuracy], feed_dict=&#123;x: batch_x,</span><br><span class="line">                                                              y: batch_y&#125;)</span><br><span class="line">        print(<span class="string">"Iter "</span> + str(i) + <span class="string">", Loss= "</span> + \</span><br><span class="line">                      <span class="string">"&#123;:.6f&#125;"</span>.format(loss) + <span class="string">", Training Accuracy= "</span> + \</span><br><span class="line">                      <span class="string">"&#123;:.5f&#125;"</span>.format(acc))</span><br><span class="line">        print(<span class="string">"Optimization Finished!"</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Calculate accuracy for all 10000 mnist test images</span></span><br><span class="line">        test_acc,valid_loss = sess.run([accuracy,cost], feed_dict=&#123;x: test_X, y: test_y&#125;)</span><br><span class="line">        train_loss.append(loss)</span><br><span class="line">        test_loss.append(valid_loss)</span><br><span class="line">        train_accuracy.append(acc)</span><br><span class="line">        test_accuracy.append(test_acc)</span><br><span class="line">        print(<span class="string">"Testing Accuracy:"</span>,<span class="string">"&#123;:.5f&#125;"</span>.format(test_acc))</span><br><span class="line">    summary_writer.close()</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">Iter <span class="number">0</span>, Loss= <span class="number">0.338081</span>, Training Accuracy= <span class="number">0.87500</span></span><br><span class="line">Optimization Finished!</span><br><span class="line">(<span class="string">'Testing Accuracy:'</span>, <span class="string">'0.83890'</span>)</span><br><span class="line">Iter <span class="number">1</span>, Loss= <span class="number">0.210727</span>, Training Accuracy= <span class="number">0.91406</span></span><br><span class="line">Optimization Finished!</span><br><span class="line">(<span class="string">'Testing Accuracy:'</span>, <span class="string">'0.87810'</span>)</span><br><span class="line">Iter <span class="number">2</span>, Loss= <span class="number">0.169724</span>, Training Accuracy= <span class="number">0.95312</span></span><br><span class="line">Optimization Finished!</span><br><span class="line">(<span class="string">'Testing Accuracy:'</span>, <span class="string">'0.89260'</span>)</span><br><span class="line">Iter <span class="number">3</span>, Loss= <span class="number">0.154453</span>, Training Accuracy= <span class="number">0.93750</span></span><br><span class="line">Optimization Finished!</span><br><span class="line">(<span class="string">'Testing Accuracy:'</span>, <span class="string">'0.89600'</span>)</span><br><span class="line">Iter <span class="number">4</span>, Loss= <span class="number">0.143760</span>, Training Accuracy= <span class="number">0.93750</span></span><br><span class="line">Optimization Finished!</span><br><span class="line">(<span class="string">'Testing Accuracy:'</span>, <span class="string">'0.89610'</span>)</span><br><span class="line">Iter <span class="number">5</span>, Loss= <span class="number">0.142700</span>, Training Accuracy= <span class="number">0.93750</span></span><br><span class="line">Optimization Finished!</span><br><span class="line">(<span class="string">'Testing Accuracy:'</span>, <span class="string">'0.89680'</span>)</span><br><span class="line">Iter <span class="number">6</span>, Loss= <span class="number">0.114542</span>, Training Accuracy= <span class="number">0.94531</span></span><br><span class="line">Optimization Finished!</span><br><span class="line">(<span class="string">'Testing Accuracy:'</span>, <span class="string">'0.90190'</span>)</span><br><span class="line">Iter <span class="number">7</span>, Loss= <span class="number">0.104471</span>, Training Accuracy= <span class="number">0.94531</span></span><br><span class="line">Optimization Finished!</span><br><span class="line">(<span class="string">'Testing Accuracy:'</span>, <span class="string">'0.90100'</span>)</span><br><span class="line">Iter <span class="number">8</span>, Loss= <span class="number">0.089115</span>, Training Accuracy= <span class="number">0.96094</span></span><br><span class="line">Optimization Finished!</span><br><span class="line">(<span class="string">'Testing Accuracy:'</span>, <span class="string">'0.90360'</span>)</span><br><span class="line">Iter <span class="number">9</span>, Loss= <span class="number">0.090392</span>, Training Accuracy= <span class="number">0.96094</span></span><br><span class="line">Optimization Finished!</span><br><span class="line">(<span class="string">'Testing Accuracy:'</span>, <span class="string">'0.90420'</span>)</span><br><span class="line">Iter <span class="number">10</span>, Loss= <span class="number">0.066802</span>, Training Accuracy= <span class="number">0.98438</span></span><br><span class="line">Optimization Finished!</span><br><span class="line">(<span class="string">'Testing Accuracy:'</span>, <span class="string">'0.89960'</span>)</span><br><span class="line">Iter <span class="number">11</span>, Loss= <span class="number">0.062734</span>, Training Accuracy= <span class="number">0.98438</span></span><br><span class="line">Optimization Finished!</span><br><span class="line">(<span class="string">'Testing Accuracy:'</span>, <span class="string">'0.89870'</span>)</span><br><span class="line"></span><br><span class="line">......</span><br><span class="line"></span><br><span class="line">Iter <span class="number">196</span>, Loss= <span class="number">0.000044</span>, Training Accuracy= <span class="number">1.00000</span></span><br><span class="line">Optimization Finished!</span><br><span class="line">(<span class="string">'Testing Accuracy:'</span>, <span class="string">'0.91750'</span>)</span><br><span class="line">Iter <span class="number">197</span>, Loss= <span class="number">0.000633</span>, Training Accuracy= <span class="number">1.00000</span></span><br><span class="line">Optimization Finished!</span><br><span class="line">(<span class="string">'Testing Accuracy:'</span>, <span class="string">'0.91110'</span>)</span><br><span class="line">Iter <span class="number">198</span>, Loss= <span class="number">0.000028</span>, Training Accuracy= <span class="number">1.00000</span></span><br><span class="line">Optimization Finished!</span><br><span class="line">(<span class="string">'Testing Accuracy:'</span>, <span class="string">'0.91830'</span>)</span><br><span class="line">Iter <span class="number">199</span>, Loss= <span class="number">0.000206</span>, Training Accuracy= <span class="number">1.00000</span></span><br><span class="line">Optimization Finished!</span><br><span class="line">(<span class="string">'Testing Accuracy:'</span>, <span class="string">'0.91870'</span>)</span><br></pre></td></tr></table></figure>
+<p>The test accuracy looks impressive. It turns out that your classifier does better than the benchmark that was reported here, which is an SVM classifier with mean accuracy of 0.897. Also, the model does well compared to some of the deep learning models mentioned on the GitHub profile of the creators of fashion-MNIST dataset.</p>
+<p>However, you saw that the model looked like it was overfitting since the training accuracy is more than the testing accuracy. Are these results really all that good?</p>
+<p>Let’s put your model evaluation into perspective and plot the accuracy and loss plots between training and validation data:<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">plt.plot(range(len(train_loss)), train_loss, <span class="string">'b'</span>, label=<span class="string">'Training loss'</span>)</span><br><span class="line">plt.plot(range(len(train_loss)), test_loss, <span class="string">'r'</span>, label=<span class="string">'Test loss'</span>)</span><br><span class="line">plt.title(<span class="string">'Training and Test loss'</span>)</span><br><span class="line">plt.xlabel(<span class="string">'Epochs '</span>,fontsize=<span class="number">16</span>)</span><br><span class="line">plt.ylabel(<span class="string">'Loss'</span>,fontsize=<span class="number">16</span>)</span><br><span class="line">plt.legend()</span><br><span class="line">plt.figure()</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;matplotlib.figure.Figure at <span class="number">0x7feac8194250</span>&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/20190427100115295.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzMxODYyNg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">plt.plot(range(len(train_loss)), train_accuracy, <span class="string">'b'</span>, label=<span class="string">'Training Accuracy'</span>)</span><br><span class="line">plt.plot(range(len(train_loss)), test_accuracy, <span class="string">'r'</span>, label=<span class="string">'Test Accuracy'</span>)</span><br><span class="line">plt.title(<span class="string">'Training and Test Accuracy'</span>)</span><br><span class="line">plt.xlabel(<span class="string">'Epochs '</span>,fontsize=<span class="number">16</span>)</span><br><span class="line">plt.ylabel(<span class="string">'Loss'</span>,fontsize=<span class="number">16</span>)</span><br><span class="line">plt.legend()</span><br><span class="line">plt.figure()</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;matplotlib.figure.Figure at <span class="number">0x7feac80419d0</span>&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/20190427100135451.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzMxODYyNg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>From the above two plots, you can see that the test accuracy almost became stagnant after 50-60 epochs and rarely increased at certain epochs. In the beginning, the validation accuracy was linearly increasing with loss, but then it did not increase much.</p>
+<p>The validation loss shows that this is the sign of overfitting, similar to test accuracy it linearly decreased but after 25-30 epochs, it started to increase. This means that the model tried to memorize the data and succeeded.</p>
+<p>This was it for this tutorial, but there is a task for you all:</p>
+<ul>
+<li>Your task is to reduce the overfitting of the above model, by introducing dropout technique. For simplicity, you may like to follow along with the tutorial Convolutional Neural Networks in Python with Keras, even though it is in keras, but still the accuracy and loss heuristics are pretty much the same. So, following along with this tutorial will help you to add dropout layers in your current model. Since, both of the tutorial have exactly similar architecture.</li>
+<li>Secondly, try to improve the testing accuracy, may be by deepening the network a bit, or adding learning rate decay for faster convergence, or try playing with the optimizer and so on!<h1 id="Go-Further-and-Master-Deep-Learning-with-TensorFlow"><a href="#Go-Further-and-Master-Deep-Learning-with-TensorFlow" class="headerlink" title="Go Further and Master Deep Learning with TensorFlow!"></a>Go Further and Master Deep Learning with TensorFlow!</h1>This tutorial was good start to understanding how tensorFlow works underneath the hood along with an implementation of convolutional neural networks in Python. If you were able to follow along easily or even with little more efforts, well done! Try doing some experiments maybe with same model architecture but using different types of public datasets available. You could also try playing with different weight intializers, may be deepen the network architecture, change learning rate etc. and see how your network performs by changing these parameters. But try changing them one at a time only then you will get more intuition about these parameters.</li>
+</ul>
+<p>There is still a lot to cover, so why not take DataCamp’s Deep Learning in Python course? In the meantime, also make sure to check out the TensorFlow documentation, if you haven’t done so already. You will find more examples and information on all functions, arguments, more layers, etc. It will undoubtedly be an indispensable resource when you’re learning how to work with neural networks in Python!</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Machine-Learning-TensorFlow/" rel="tag"><i class="fa fa-tag"></i> Machine Learning, TensorFlow</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/30/Docker命令-仓库镜像标签等等踩坑疑问/" rel="next" title="Docker命令+仓库镜像标签等等踩坑疑问">
+                <i class="fa fa-chevron-left"></i> Docker命令+仓库镜像标签等等踩坑疑问
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/30/在HEXO博客中使用LaTeX公式的简单方法/" rel="prev" title="在HEXO博客中使用LaTeX公式的简单方法">
+                在HEXO博客中使用LaTeX公式的简单方法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Loy Fan</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Tensors"><span class="nav-number">1.</span> <span class="nav-text">Tensors</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TensorFlow-Constants-Variables-and-Placeholders"><span class="nav-number">2.</span> <span class="nav-text">TensorFlow: Constants, Variables and Placeholders</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Convolutional-Neural-Network-CNN-in-TensorFlow"><span class="nav-number">3.</span> <span class="nav-text">Convolutional Neural Network (CNN) in TensorFlow</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Fashion-MNIST-Dataset"><span class="nav-number">3.1.</span> <span class="nav-text">Fashion-MNIST Dataset</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Load-the-data"><span class="nav-number">4.</span> <span class="nav-text">Load the data</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Analyze-the-Data"><span class="nav-number">5.</span> <span class="nav-text">Analyze the Data</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Data-Preprocessing"><span class="nav-number">6.</span> <span class="nav-text">Data Preprocessing</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#The-Deep-Neural-Network"><span class="nav-number">7.</span> <span class="nav-text">The Deep Neural Network</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Network-Parameters"><span class="nav-number">8.</span> <span class="nav-text">Network Parameters</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Creating-wrappers-for-simplicity"><span class="nav-number">8.1.</span> <span class="nav-text">Creating wrappers for simplicity</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Loss-and-Optimizer-Nodes"><span class="nav-number">8.2.</span> <span class="nav-text">Loss and Optimizer Nodes</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Evaluate-Model-Node"><span class="nav-number">8.3.</span> <span class="nav-text">Evaluate Model Node</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Training-and-Testing-the-Model"><span class="nav-number">8.4.</span> <span class="nav-text">Training and Testing the Model</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Go-Further-and-Master-Deep-Learning-with-TensorFlow"><span class="nav-number">9.</span> <span class="nav-text">Go Further and Master Deep Learning with TensorFlow!</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Loy Fan</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">38.3k words in this blog site.</span>
+</div>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
