@@ -83,7 +83,7 @@
 <meta name="keywords" content="Machine Learning">
 <meta property="og:type" content="article">
 <meta property="og:title" content="DeepLearning Chapter 5">
-<meta property="og:url" content="https://loyf.github.io/2019/10/12/DeepLearning-Chapter-1/index.html">
+<meta property="og:url" content="https://loyf.github.io/2019/10/12/DeepLearning-Chapter-5/index.html">
 <meta property="og:site_name" content="Loy Fan">
 <meta property="og:description" content="@LoyFan">
 <meta property="og:locale" content="default">
@@ -93,7 +93,7 @@
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20191013155113689.png">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20191013164557863.png">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20191014102102932.png?">
-<meta property="og:updated_time" content="2019-10-14T04:53:16.179Z">
+<meta property="og:updated_time" content="2019-10-14T05:02:39.975Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DeepLearning Chapter 5">
 <meta name="twitter:description" content="@LoyFan">
@@ -127,7 +127,7 @@
 
 
 
-  <link rel="canonical" href="https://loyf.github.io/2019/10/12/DeepLearning-Chapter-1/">
+  <link rel="canonical" href="https://loyf.github.io/2019/10/12/DeepLearning-Chapter-5/">
 
 
 
@@ -260,7 +260,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://loyf.github.io/2019/10/12/DeepLearning-Chapter-1/">
+    <link itemprop="mainEntityOfPage" href="https://loyf.github.io/2019/10/12/DeepLearning-Chapter-5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Loy Fan">
@@ -367,7 +367,8 @@
 </ul>
 <p><strong>欠拟合underfitting</strong><br>模型不能在训练集上获得足够低的误差。<br><strong>过拟合overfitting</strong><br>训练误差和测试误差之间的差距太大。<br><img src="https://img-blog.csdnimg.cn/2019101220463224.png" alt="在这里插入图片描述"><br><strong>容量</strong><br>模型的容量是指其拟合各种函数的能力，容量低的模型很难拟合复杂训练集，但容量高于任务所需，模型可能出现过拟合。<br>上图中我们用三个模型拟合了这个训练集的样本。(左) 用一个线性函数拟合数据会导致欠拟合——它无法捕捉数据中的曲率信息。(中) 用二次函数拟合数据在未观察到的点上泛化得很好。这并不会导致明显的欠拟合或者过拟合。(右) 一个 9 阶的多项式拟合数据会导致过拟合。</p>
 <p>我们必须记住虽然更简单的函数更可能泛化(训练误差和测试误差的差距小)， 但我们仍然需要选择一个充分复杂的假设以达到低的训练误差。通常，当模型容量上升时，训练误差会下降，直到其渐近最小可能误差(假设误差度量有最小值)。通常，泛化误差是一个关于模型容量的 U 形曲线函数。如下图所示。<br><img src="https://img-blog.csdnimg.cn/20191012205601827.png" alt="在这里插入图片描述"></p>
-<h3 id="2-1-没有免费午餐定理"><a href="#2-1-没有免费午餐定理" class="headerlink" title="2.1 没有免费午餐定理"></a>2.1 没有免费午餐定理</h3><p>机器学习的没有免费午餐定理(no free lunch theorem)表明 (Wolpert, 1996)，在所有可能的数据生成分布上平均之后，每一个分类算法在未事先观测的点上都有相同的错误率。换言之，在某种意义上，没有一个机器学习算法总是比其他的要好。我们能够设想的最先进的算法和简单地将 所有点归为同一类的简单算法有着相同的平均性能(在所有可能的任务上)。<br>幸运的是，这些结论仅在我们考虑所有可能的数据生成分布时才成立。在真实世界应用中，如果我们对遇到的概率分布进行假设的话，那么我们可以设计在这些分布上效果良好的学习算法。<br><img src="https://img-blog.csdnimg.cn/20191013155113689.png" alt="在这里插入图片描述"></p>
+<h3 id="2-1-没有免费午餐定理"><a href="#2-1-没有免费午餐定理" class="headerlink" title="2.1 没有免费午餐定理"></a>2.1 没有免费午餐定理</h3><p>机器学习的没有免费午餐定理(no free lunch theorem)表明 (Wolpert, 1996)，在所有可能的数据生成分布上平均之后，每一个分类算法在未事先观测的点上都有相同的错误率。换言之，在某种意义上，没有一个机器学习算法总是比其他的要好。我们能够设想的最先进的算法和简单地将 所有点归为同一类的简单算法有着相同的平均性能(在所有可能的任务上)。<br>幸运的是，这些结论仅在我们考虑所有可能的数据生成分布时才成立。在真实世界应用中，如果我们对遇到的概率分布进行假设的话，那么我们可以设计在这些分布上效果良好的学习算法。</p>
+<p><strong>训练样本数量级对训练误差，测试误差以及最佳容量的影响</strong><br>一个是二次模型，另一个模型的阶数通过最小化测试误差来选择。<br><img src="https://img-blog.csdnimg.cn/20191013155113689.png" alt="在这里插入图片描述"></p>
 <h3 id="2-2-正则化"><a href="#2-2-正则化" class="headerlink" title="2.2 正则化"></a>2.2 正则化</h3><p>正则化一个学习函数 f(x;θ) 的模型，我们可以给代价函数添加被称为正则化项(regularizer)的惩罚。通过这个惩罚，我们可以选择对函数的特定偏好，只有当非偏好函数比偏好函数的训练效果好很多时，才会选择非偏好函数。<br>例如：偏好权重$L^2$范数较小的函数。</p>
 <script type="math/tex; mode=display">
 J(\boldsymbol{w})=\mathrm{MSE}_{\mathrm{train}}+\lambda \boldsymbol{w}^{\top} \boldsymbol{w}</script><p>通过改变λ来避免高阶模型过拟合（使用 9 阶多项式）：<br><img src="https://img-blog.csdnimg.cn/20191013164557863.png" alt="在这里插入图片描述"><br>有很多其他方法隐式或显式地表示对不同解的偏好。总而言之，这些不同的方法都被称为正则化(regularization)。正则化是指我们修改学习算法，使其降低泛化误差而非训练误差。</p>
@@ -530,7 +531,7 @@ SE(\hat\theta)</script><p><strong>均值的标准差</strong></p>
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
@@ -601,7 +602,7 @@ SE(\hat\theta)</script><p><strong>均值的标准差</strong></p>
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">43.8k words in this blog site.</span>
+  <span class="post-count">43.9k words in this blog site.</span>
 </div>
 
         
