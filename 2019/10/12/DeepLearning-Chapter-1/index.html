@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Machine Learning,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="@LoyFan">
+<meta name="keywords" content="Machine Learning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DeepLearning Chapter 1">
+<meta property="og:url" content="https://loyf.github.io/2019/10/12/DeepLearning-Chapter-1/index.html">
+<meta property="og:site_name" content="Loy Fan">
+<meta property="og:description" content="@LoyFan">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20191012170739704.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2019101220463224.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20191012205601827.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20191013155113689.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20191013164557863.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20191014102102932.png?">
+<meta property="og:updated_time" content="2019-10-14T04:50:52.030Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DeepLearning Chapter 1">
+<meta name="twitter:description" content="@LoyFan">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20191012170739704.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://loyf.github.io/2019/10/12/DeepLearning-Chapter-1/">
+
+
+
+
+
+  <title>DeepLearning Chapter 1 | Loy Fan</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Loy Fan</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Life can not be planned</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://loyf.github.io/2019/10/12/DeepLearning-Chapter-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Loy Fan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Loy Fan">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">DeepLearning Chapter 1</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-10-12T15:55:46+08:00">
+                2019-10-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Machine-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">Machine Learning</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>@<a href="https://loyf.github.io/">LoyFan</a><br><a id="more"></a><br>mathjax:true<br>@<a href="https://loyf.github.io/">LoyFan</a></p>
+<p>@<a href="Deep Learning - Chapter 5">TOC</a></p>
+<h1 id="机器学习基础"><a href="#机器学习基础" class="headerlink" title="机器学习基础"></a>机器学习基础</h1><h2 id="1-学习算法"><a href="#1-学习算法" class="headerlink" title="1 学习算法"></a>1 学习算法</h2><p>机器学习中所谓的“学习”是指：<br>对于某类任务T和性能度量P，一个计算机程序被认为可以从经验E中学习——通过经验E改进后，它能在任务T上由性能度量P衡量的性能有所提升。</p>
+<h3 id="1-1-任务T"><a href="#1-1-任务T" class="headerlink" title="1.1 任务T"></a>1.1 任务T</h3><p>一般使用机器学习解决的任务是“确定性程序”很难解决的问题。<br>常见的机器学习任务：分类、回归、图像处理、目标检测、自然语言处理等等</p>
+<h3 id="1-2-性能度量P"><a href="#1-2-性能度量P" class="headerlink" title="1.2 性能度量P"></a>1.2 性能度量P</h3><p>定量评估机器学习算法的能力。<br>比如:<br>准确率Accuracy<br>查准率Precision<br>查全率（召回率）Recall<br><a href="https://blog.csdn.net/weixin_43318626/article/details/96563744" target="_blank" rel="noopener">mAP链接</a><br>通常，我们会更加关注机器学习算法在未观测数据上的性能如何，因为这将决定其在实际应用中的性能。因此，我们使用<strong>测试集</strong>数据来评估系统的性能，将其与训练机器学习系统的<strong>训练集</strong>数据分开。</p>
+<h3 id="1-3-经验E"><a href="#1-3-经验E" class="headerlink" title="1.3 经验E"></a>1.3 经验E</h3><p>经验在给定的数据集中获取。<br>机器学习算法可以分为监督（supervised）算法和无监督（unsupervised）算法。<br><strong>监督学习</strong><br>训练数据集中的每一样本都有一个<strong>标签</strong>（label），比如目标分类中每一个样本所属的分类即为标签。<br>比如：<br><img src="https://img-blog.csdnimg.cn/20191012170739704.png" alt><br><strong>无监督学习</strong><br>训练数据不带标签，通常要学习生成整个数据集的概率分布，或者是分布上一些有意思的性质，再或者将数据聚类，提取公共特征，将数据集分成相似样本的集合。</p>
+<blockquote>
+<p>监督学习和无监督学习并没有严格的界限，很多机器学习任务是监督和无监督交织在一起的，并且存在“半监督”学习。</p>
+</blockquote>
+<h3 id="1-4-示例：线性回归"><a href="#1-4-示例：线性回归" class="headerlink" title="1.4 示例：线性回归"></a>1.4 示例：线性回归</h3><p>我们的目标是建立一个系统，将向量 $x ∈ R_n$ 作为输入，预测标量 $y ∈ R$ 作为输出。<br>线性回归的输出是其输入的线性函数。令 $\hat{y}$ 表示模型预测 ${y}$ 应该取的值。我们定义输出为</p>
+<script type="math/tex; mode=display">
+\hat{y}=\boldsymbol{w}^{\top} \boldsymbol{x}</script><p>其中 $w ∈ R_n$ 是 参数(parameter)向量。<br><a href="http://www.deeplearningbook.org/contents/ml.html" target="_blank" rel="noopener">Deep-Learning 5.1.4 page105</a><br><a href="https://blog.csdn.net/weixin_43318626/article/details/88947181" target="_blank" rel="noopener">线性回归实例</a></p>
+<h2 id="2-容量、过拟合和欠拟合"><a href="#2-容量、过拟合和欠拟合" class="headerlink" title="2 容量、过拟合和欠拟合"></a>2 容量、过拟合和欠拟合</h2><p><strong>泛化</strong><br>机器学习的主要挑战是我们的算法必须能够在先前未观测的新输入上表现良好，而不只是在训练集上表现良好。在先前未观测到的输入上表现良好的能力被称为泛化(generalization)。<br>通常，我们度量模型在训练集中分出来的测试集(test set)样本上的性能，来评估机器学习模型的泛化误差。而我们训练网络的时候目标都是使得训练数据上的误差尽量最小。</p>
+<ul>
+<li>当我们只能观测到训练集时，我们如何才能影响测试集的性能呢?<br>在数据集生成过程中，要考虑每个数据集中的样本都是彼此相互独立的(in- dependent)，并且训练集和测试集是 同分布的(identically distributed)，采样自相同的分布。这样训练集和数据集的期望将会相同，他们的区别仅仅是名字不同而已。</li>
+<li>两个决定算法效果的因素：<br>1.降低训练误差。    -》欠拟合<br>2.缩小训练误差和测试误差的差距。    -》过拟合</li>
+</ul>
+<p><strong>欠拟合underfitting</strong><br>模型不能在训练集上获得足够低的误差。<br><strong>过拟合overfitting</strong><br>训练误差和测试误差之间的差距太大。<br><img src="https://img-blog.csdnimg.cn/2019101220463224.png" alt="在这里插入图片描述"><br><strong>容量</strong><br>模型的容量是指其拟合各种函数的能力，容量低的模型很难拟合复杂训练集，但容量高于任务所需，模型可能出现过拟合。<br>上图中我们用三个模型拟合了这个训练集的样本。(左) 用一个线性函数拟合数据会导致欠拟合——它无法捕捉数据中的曲率信息。(中) 用二次函数拟合数据在未观察到的点上泛化得很好。这并不会导致明显的欠拟合或者过拟合。(右) 一个 9 阶的多项式拟合数据会导致过拟合。</p>
+<p>我们必须记住虽然更简单的函数更可能泛化(训练误差和测试误差的差距小)， 但我们仍然需要选择一个充分复杂的假设以达到低的训练误差。通常，当模型容量上升时，训练误差会下降，直到其渐近最小可能误差(假设误差度量有最小值)。通常，泛化误差是一个关于模型容量的 U 形曲线函数。如下图所示。<br><img src="https://img-blog.csdnimg.cn/20191012205601827.png" alt="在这里插入图片描述"></p>
+<h3 id="2-1-没有免费午餐定理"><a href="#2-1-没有免费午餐定理" class="headerlink" title="2.1 没有免费午餐定理"></a>2.1 没有免费午餐定理</h3><p>机器学习的没有免费午餐定理(no free lunch theorem)表明 (Wolpert, 1996)，在所有可能的数据生成分布上平均之后，每一个分类算法在未事先观测的点上都有相同的错误率。换言之，在某种意义上，没有一个机器学习算法总是比其他的要好。我们能够设想的最先进的算法和简单地将 所有点归为同一类的简单算法有着相同的平均性能(在所有可能的任务上)。<br>幸运的是，这些结论仅在我们考虑所有可能的数据生成分布时才成立。在真实世界应用中，如果我们对遇到的概率分布进行假设的话，那么我们可以设计在这些分布上效果良好的学习算法。<br><img src="https://img-blog.csdnimg.cn/20191013155113689.png" alt="在这里插入图片描述"></p>
+<h3 id="2-2-正则化"><a href="#2-2-正则化" class="headerlink" title="2.2 正则化"></a>2.2 正则化</h3><p>正则化一个学习函数 f(x;θ) 的模型，我们可以给代价函数添加被称为正则化项(regularizer)的惩罚。通过这个惩罚，我们可以选择对函数的特定偏好，只有当非偏好函数比偏好函数的训练效果好很多时，才会选择非偏好函数。<br>例如：偏好权重$L^2$范数较小的函数。</p>
+<script type="math/tex; mode=display">
+J(\boldsymbol{w})=\mathrm{MSE}_{\mathrm{train}}+\lambda \boldsymbol{w}^{\top} \boldsymbol{w}</script><p>通过改变λ来避免高阶模型过拟合（使用 9 阶多项式）：<br><img src="https://img-blog.csdnimg.cn/20191013164557863.png" alt="在这里插入图片描述"><br>有很多其他方法隐式或显式地表示对不同解的偏好。总而言之，这些不同的方法都被称为正则化(regularization)。正则化是指我们修改学习算法，使其降低泛化误差而非训练误差。</p>
+<h2 id="3-超参数和验证集"><a href="#3-超参数和验证集" class="headerlink" title="3 超参数和验证集"></a>3 超参数和验证集</h2><p><strong>超参数</strong><br>超参数是可以控制机器学习算法行为，但不是学习出来的参数。有时一个选项被设为学习算法不用学习的超参数，是因为它太难优化了。更多的情况是，该选项必须是超参数，因为它不适合在训练集上学习。这适用于控制模型容量的所有超参数。如果在训练集上学习超参数，这些超参数总是趋向于最大可能的模型容量，导致过拟合。<br><strong>验证集</strong><br>用于挑选超参数的数据子集被称为验证集(validation set)。通常，80% 的训练数据用于训练，20% 用于验证。由于验证集是用来 ‘‘训练’’ 超参数的，尽管验证集的误差通常会比训练集误差小，验证集会低估泛化误差。所有超参数优化完成之后，泛化误差可能会通过测试集来估计。</p>
+<h3 id="3-1-交叉验证"><a href="#3-1-交叉验证" class="headerlink" title="3.1 交叉验证"></a>3.1 交叉验证</h3><p>问题：将数据集分成固定的训练集和固定的测试集后，若测试集的误差很小，意味着平均测试误差估计的统计不确定性，使得很难判断算法 A 是否比算法 B 在给定的任务上做得更好。</p>
+<p><strong>k-折交叉验证</strong><br>将数据集分成 k 个不重合的子集。测试误差可以估计为 k 次计算后的平均测试误差。在第 i 次测试时， 数据的第 i 个子集用于测试集，其他的数据用于训练集。该算法返回 D 中每个示例的误差向量 e，其均值是估计的泛化误差。</p>
+<h2 id="4-估计、偏差和方差"><a href="#4-估计、偏差和方差" class="headerlink" title="4 估计、偏差和方差"></a>4 估计、偏差和方差</h2><h3 id="4-1-点估计"><a href="#4-1-点估计" class="headerlink" title="4.1 点估计"></a>4.1 点估计</h3><p>令 ${x(1), . . . , x(m)}$ 是 m 个独立同分布(i.i.d.)的数据点。 <strong>点估计</strong>(point estimator)或<strong>统计量</strong>(statistics)是这些数据的任意函数:</p>
+<script type="math/tex; mode=display">
+\hat\theta_m=g(x^{(1)},...,x^{(m)})</script><h3 id="4-2-偏差"><a href="#4-2-偏差" class="headerlink" title="4.2 偏差"></a>4.2 偏差</h3><p>估计的偏差被定义为:</p>
+<script type="math/tex; mode=display">
+\operatorname{bias}\left(\hat{\boldsymbol{\theta}}_{m}\right)=\mathbb{E}\left(\hat{\boldsymbol{\theta}}_{m}\right)-\boldsymbol{\theta}</script><p>其中期望作用在所有数据(看作是从随机变量采样得到的)上，$\theta$ 是用于定义数据生成分布的 $\theta$ 的真实值。<br>如果 $bias(\hat\theta_m) = 0$，那么估计量 $\hat\theta_m$ 被称为是<strong>无偏</strong>(unbiased)，这意味着$E(\hat\theta_m) = θ$。<br>如果 $lim_{m→∞} bias(\hat\theta_m) = 0$，那么估计量 $\hat\theta_m$ 被称为是<strong>渐近无偏</strong>(asymptotically unbiased)，这意味着 $lim_{m→∞} E(θm) = θ$。</p>
+<p><a href="http://www.deeplearningbook.org/contents/ml.html" target="_blank" rel="noopener">Deep-Learning 5.4.2 page122</a></p>
+<h3 id="4-3-方差和标准差"><a href="#4-3-方差和标准差" class="headerlink" title="4.3 方差和标准差"></a>4.3 方差和标准差</h3><p>我们有时会考虑估计量的另一个性质是它作为数据样本的函数，期望的变化程度是多少。正如我们可以计算估计量的期望来决定它的偏差，我们也可以计算它的方差。估计量的方差(variance)</p>
+<script type="math/tex; mode=display">
+Var(\hat\theta)</script><p>其中随机变量是训练集。另外，方差的平方根被称为标准差(standard error)，记作</p>
+<script type="math/tex; mode=display">
+SE(\hat\theta)</script><p><strong>均值的标准差</strong></p>
+<script type="math/tex; mode=display">
+\operatorname{SE}\left(\hat{\mu}_{m}\right)=\sqrt{\operatorname{Var}\left[\frac{1}{m} \sum_{i=1}^{m} x^{(i)}\right]}=\frac{\sigma}{\sqrt{m}}</script><p>其中 $\sigma^2$  是样本 $x^{(i)}$ 的真实方差。样本方差的平方根和方差无偏估计的平方根被用于实际中得到标准差。<br>均值的标准差在机器学习实验中非常有用，我们通常用测试集样本的误差均值 来估计泛化误差。</p>
+<h3 id="4-4-权衡偏差和方差以最小化均方误差"><a href="#4-4-权衡偏差和方差以最小化均方误差" class="headerlink" title="4.4 权衡偏差和方差以最小化均方误差"></a>4.4 权衡偏差和方差以最小化均方误差</h3><p>当我们可以在一个偏差更大的估计和一个方差更大的估计中进行选择时，该如何选择?<br>判断这种权衡最常用的方法是交叉验证。另外，我们也可以比较这些估计的均方误差(mean squared error, MSE):</p>
+<script type="math/tex; mode=display">
+\begin{aligned} \mathrm{MSE} &=\mathbb{E}\left[\left(\hat{\theta}_{m}-\theta\right)^{2}\right] \\ &=\operatorname{Bias}\left(\hat{\theta}_{m}\right)^{2}+\operatorname{Var}\left(\hat{\theta}_{m}\right) \end{aligned}</script><p>MSE 估计包含了偏差和方差。理想的估计具有较小的 MSE 或是在检查中会稍微约束它们的偏差和方差。偏差和方差的关系和机器学习容量、欠拟合和过拟合的概念紧密相联。用 MSE 度量泛化误差(偏差和方差对于泛化误差都是有意义的)时，增加容量会增加方差，降低偏差。如图 5.6 所示，我们再次在关于容量的函数中，看到泛化误差的 U 形曲线。<img src="https://img-blog.csdnimg.cn/20191014102102932.png?" alt="在这里插入图片描述"><br>图 5.6: 当容量增大(x 轴)时，偏差(用点表示)随之减小，而方差(虚线)随之增大，使得泛化误差(加粗曲线)产生了另一种 U 形。如果我们沿着轴改变容量，会发现最佳容量，当容量小于最佳容量会呈现欠拟合，大于时导致过拟合。这种关系与第 5.2 节中讨论的容量、欠拟合和过拟合之间的关系类似。</p>
+<h3 id="4-5-一致性"><a href="#4-5-一致性" class="headerlink" title="4.5 一致性"></a>4.5 一致性</h3><p>通常，我们也会关注训练数据增多后估计量的效果。特别地，我们希望当数据集中数据点的数量 m 增加时，点估计会收敛到对应参数的真实值。</p>
+<script type="math/tex; mode=display">
+\operatorname{plim}_{m \rightarrow \infty} \hat{\theta}_{m}=\theta</script><p>符号 plim 表示依概率收敛，即对于任意的 $ε &gt; 0$，当 $m → ∞$ 时，有 $P(|θm − θ| &gt;<br>ε) → 0$。上式表示的条件被称为<strong>一致性</strong>(consistency)。<br>一致性保证了估计量的偏差会随数据样本数目的增多而减少。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Machine-Learning/" rel="tag"><i class="fa fa-tag"></i> Machine Learning</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/30/比特币——点对点电子现金系统/" rel="next" title="比特币——点对点电子现金系统">
+                <i class="fa fa-chevron-left"></i> 比特币——点对点电子现金系统
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Loy Fan</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#机器学习基础"><span class="nav-number">1.</span> <span class="nav-text">机器学习基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-学习算法"><span class="nav-number">1.1.</span> <span class="nav-text">1 学习算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-任务T"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1 任务T</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-性能度量P"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2 性能度量P</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-经验E"><span class="nav-number">1.1.3.</span> <span class="nav-text">1.3 经验E</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-示例：线性回归"><span class="nav-number">1.1.4.</span> <span class="nav-text">1.4 示例：线性回归</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-容量、过拟合和欠拟合"><span class="nav-number">1.2.</span> <span class="nav-text">2 容量、过拟合和欠拟合</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-没有免费午餐定理"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 没有免费午餐定理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-正则化"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 正则化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-超参数和验证集"><span class="nav-number">1.3.</span> <span class="nav-text">3 超参数和验证集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-交叉验证"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 交叉验证</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-估计、偏差和方差"><span class="nav-number">1.4.</span> <span class="nav-text">4 估计、偏差和方差</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-点估计"><span class="nav-number">1.4.1.</span> <span class="nav-text">4.1 点估计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-偏差"><span class="nav-number">1.4.2.</span> <span class="nav-text">4.2 偏差</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-方差和标准差"><span class="nav-number">1.4.3.</span> <span class="nav-text">4.3 方差和标准差</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-权衡偏差和方差以最小化均方误差"><span class="nav-number">1.4.4.</span> <span class="nav-text">4.4 权衡偏差和方差以最小化均方误差</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5-一致性"><span class="nav-number">1.4.5.</span> <span class="nav-text">4.5 一致性</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Loy Fan</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">43.8k words in this blog site.</span>
+</div>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
