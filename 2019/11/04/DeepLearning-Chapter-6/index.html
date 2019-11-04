@@ -91,7 +91,7 @@
 <meta property="og:image" content="https://img-blog.csdnimg.cn/2019110320464335.png">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20191103205157560.png">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20191104113314736.png">
-<meta property="og:updated_time" content="2019-11-04T06:18:06.697Z">
+<meta property="og:updated_time" content="2019-11-04T06:42:02.938Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DeepLearning Chapter 6">
 <meta name="twitter:description" content="@LoyFan">
@@ -370,11 +370,11 @@ P(y=1 | x)=\max \left\{0, \min \left\{1, \boldsymbol{w}^{\top} \boldsymbol{h}+b\
 <script type="math/tex; mode=display">
 P(y) =\frac{\exp (y z)}{\sum_{y^{\prime}=0}^{1} \exp \left(y^{\prime} z\right)}</script><p>发现这服从 Bernoulli 分布，该分布受 z 的 sigmoid 变换控制</p>
 <script type="math/tex; mode=display">
-P(y) =\sigma((2 y-1) z)</script><p><strong>损失函数</strong><br>这种在对数空间里预测概率的方法可以很自然地使用最大似然学习。因为用于最大似然的代价函数是 $− log P (y | x)$，代价函数中的 log 抵消了 sigmoid 中的 exp。如果没有这个效果， sigmoid 的饱和性会阻止基于梯度的学习做出好的改进。我们使<br>用最大似然来学习一个由 sigmoid 参数化的 Bernoulli 分布，它的损失函数为：</p>
+P(y) =\sigma((2 y-1) z)</script><p><strong>损失函数</strong><br>这种在对数空间里预测概率的方法可以很自然地使用最大似然学习。因为用于最大似然的代价函数是 $− log P (y | x)$，代价函数中的 log 抵消了 sigmoid 中的 exp。如果没有这个效果， sigmoid 的饱和性会阻止基于梯度的学习做出好的改进。我们使用最大似然来学习一个由 sigmoid 参数化的 Bernoulli 分布，它的损失函数为：</p>
 <script type="math/tex; mode=display">
 \begin{aligned} J(\boldsymbol{\theta}) &=-\log P(y | \boldsymbol{x}) \\ &=-\log \sigma((2 y-1) z) \\ &=\zeta((1-2 y) z) \end{aligned}</script><p>$\zeta(x)=\log(1+\exp(x))$是<strong>softplus函数</strong>。</p>
 <p>我们可以看到它仅仅在 $(1 − 2y)z$ 取绝对值非常大的负值时才会饱和。因此饱和只会出现在模型已经得到正确答案时——当 $y = 1$ 且 $z$ 取非常大的正值时，或者$y = 0$ 且 $z$ 取非常小的负值时。当 $z$ 的符号错误时， 变量 $(1 − 2y)z$可以简化为 $|z|$。当 $|z|$ 变得很大并且 $z$ 的符号错误时， softplus 函数渐近地趋向于它的变量 $|z|$。对 $z$ 求导则渐近地趋向于$sign(z)$。所以基于梯度的学习可以很快修正错误的$z$。</p>
-<p><strong>其他损失</strong><br>当我们使用其他的损失函数，例如均方误差之类的，损失函数会在 $σ(z)$ 饱和时饱和。 sigmoid 激活函数在 $z$ 取非常小的负值时会饱和到 0，当 $z$ 取非常大的正值时会饱和到 1。这种情况一旦发生，梯度会变得非常小以至于不能用来学习，无论此时<br>模型给出的是正确还是错误的答案。</p>
+<p><strong>其他损失</strong><br>当我们使用其他的损失函数，例如均方误差之类的，损失函数会在 $σ(z)$ 饱和时饱和。 sigmoid 激活函数在 $z$ 取非常小的负值时会饱和到 0，当 $z$ 取非常大的正值时会饱和到 1。这种情况一旦发生，梯度会变得非常小以至于不能用来学习，无论此时模型给出的是正确还是错误的答案。</p>
 <h4 id="2-2-3-用于-Multinoulli-输出分布的-softmax-单元"><a href="#2-2-3-用于-Multinoulli-输出分布的-softmax-单元" class="headerlink" title="2.2.3 用于 Multinoulli 输出分布的 softmax 单元"></a>2.2.3 用于 Multinoulli 输出分布的 softmax 单元</h4><p>任何时候当我们想要表示一个具有 n 个可能取值的离散型随机变量的分布时，我们都可以使用 softmax 函数。它可以看作是 sigmoid 函数的扩展。softmax 函数最常用作分类器的输出，来表示 n 个不同类上的概率分布。</p>
 <p>为了推广到具有 n 个值的离散型变量的情况，我们现在需要创造一个向量 $\hat{y}$，它的每个元素是 $\hat{y_i} = P(y = i | x)$。我们不仅要求每个 $\hat{y_i}$元素介于 0 和 1 之间，还要使得整个向量的和为 1，使得它表示一个有效的概率分布。用于 Bernoulli 分布的方法同样可以推广到 Multinoulli 分布。<br>首先，线性层预测了未归一化的对数概率：</p>
 <script type="math/tex; mode=display">z=\boldsymbol{w}^{\top} \boldsymbol{h}+b</script><p>其中$z_{i}=\log \hat{P}(y=i | \boldsymbol{x})$。softmax 函数然后可以对 z 指数化和归一化来获得需要的 $\hat{y_i}$。最终， softmax 函数的形式为</p>
