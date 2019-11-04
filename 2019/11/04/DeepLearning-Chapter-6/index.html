@@ -91,7 +91,7 @@
 <meta property="og:image" content="https://img-blog.csdnimg.cn/2019110320464335.png">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20191103205157560.png">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20191104113314736.png">
-<meta property="og:updated_time" content="2019-11-04T06:42:02.938Z">
+<meta property="og:updated_time" content="2019-11-04T07:10:32.434Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DeepLearning Chapter 6">
 <meta name="twitter:description" content="@LoyFan">
@@ -389,7 +389,7 @@ P(y) =\sigma((2 y-1) z)</script><p><strong>损失函数</strong><br>这种在对
 <h4 id="2-2-4-其他的输出类型"><a href="#2-2-4-其他的输出类型" class="headerlink" title="2.2.4 其他的输出类型"></a>2.2.4 其他的输出类型</h4><p>之前描述的线性、 sigmoid 和 softmax 输出单元是最常见的。神经网络可以推广到我们希望的几乎任何种类的输出层。最大似然原则给如何为几乎任何种类的输出层设计一个好的代价函数提供了指导。</p>
 <p>一般的，如果我们定义了一个条件分布 $p(y | x; θ)$，最大似然原则建议我们使用$− \log p(y | x; θ)$ 作为代价函数。</p>
 <p>一般来说，我们可以认为神经网络表示函数 $f(x; θ)$。这个函数的输出不是对 y值的直接预测。相反， $f(x; θ) = \omega$ 提供了 y 分布的参数。我们的损失函数就可以表示成 $− \log p(y; \omega(x))$。</p>
-<p><strong>学习在给定 x 时， y 的条件高斯分布的方差</strong><br>例如，我们想要学习在给定 $x$ 时，$y$ 的条件高斯分布的方差。简单情况下，方差 σ2 是一个常数，此时有一个解析表达式，这是因为方差的最大似然估计量仅仅是观测值 y 与它们的期望值的差值的平方平均。一种计算上代价更加高但是不需要写特殊情况代码的方法是简单地将方差作为分布 $p(y | x)$ 的其中一个属性，这个分布由 ω = $f (x; θ)$ 控制。负对数似然 $− \log p(y; ω(x))$ 将为代价函数提供一个必要的合适项来使我们的优化过程可以逐渐地学到方差。在标准差不依赖于输入的简单情况下，我们可以在网络中创建一个直接复制到 ω 中的新参数。这个新参数可以是 $σ$ 本身，或者可以是表示 $σ^2$ 的参数 $v$，或者可以是表示 $1/(\sigma^2)$ 的参数 $β$，取决于我们怎样 $σ^2$对分布参数化。我们可能希望模型对不同的 $x$ 值预测出 $y$ 不同的方差。这被称为异方差(heteroscedastic)模型。</p>
+<p><strong>学习在给定 x 时， y 的条件高斯分布的方差</strong><br>例如，我们想要学习在给定 $x$ 时，$y$ 的条件高斯分布的方差。简单情况下，方差 $σ^2$ 是一个常数，此时有一个解析表达式，这是因为方差的最大似然估计量仅仅是观测值 y 与它们的期望值的差值的平方平均。一种计算上代价更加高但是不需要写特殊情况代码的方法是简单地将方差作为分布 $p(y | x)$ 的其中一个属性，这个分布由 ω = $f (x; θ)$ 控制。负对数似然 $− \log p(y; ω(x))$ 将为代价函数提供一个必要的合适项来使我们的优化过程可以逐渐地学到方差。在标准差不依赖于输入的简单情况下，我们可以在网络中创建一个直接复制到 ω 中的新参数。这个新参数可以是 $σ$ 本身，或者可以是表示 $σ^2$ 的参数 $v$，或者可以是表示 $1/(\sigma^2)$ 的参数 $β$，取决于我们怎样 $σ^2$对分布参数化。我们可能希望模型对不同的 $x$ 值预测出 $y$ 不同的方差。这被称为异方差(heteroscedastic)模型。</p>
 <p><strong>多峰回归</strong><br>即预测条件分布 $p(y | x)$的实值，该条件分布对于相同的 $x$ 值在 $y$ 空间中有多个不同的峰值。<br>在这种情况下，使用高斯混合输出，条件分布定义为：</p>
 <script type="math/tex; mode=display">
 p(\boldsymbol{y} | \boldsymbol{x})=\sum_{i=1}^{n} p(\mathrm{c}=i | \boldsymbol{x}) \mathcal{N}\left(\boldsymbol{y} ; \boldsymbol{\mu}^{(i)}(\boldsymbol{x}), \boldsymbol{\Sigma}^{(i)}(\boldsymbol{x})\right)</script><p>使用高斯混合输出的神经网络被称为<strong>混合密度网络</strong>。<br>从上式中看到，神经网络必须有三个输出：</p>
